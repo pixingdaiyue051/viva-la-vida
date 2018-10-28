@@ -1,9 +1,9 @@
-package com.tequeno.test;
+package com.tequeno.service;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 public interface OneTimeService extends Remote {
 
-    void sayHello(String name) throws RemoteException;
+    String sayHello(String name) throws RemoteException;
 }
