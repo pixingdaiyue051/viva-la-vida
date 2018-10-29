@@ -44,9 +44,6 @@
         <url-pattern>/*</url-pattern>
     </servlet-mapping>
 
-    <welcome-file-list>
-        <welcome-file>/index.html</welcome-file>
-    </welcome-file-list>
     <!-- 错误页面跳转 -->
     <error-page>
         <error-code>404</error-code>

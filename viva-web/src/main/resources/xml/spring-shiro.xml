@@ -10,6 +10,7 @@
         <property name="unauthorizedUrl" value="403.html"/>
         <property name="filterChainDefinitions">
             <value>
+                /index.html = anon
                 /login.html = anon
                 /doLogin = anon
                 /* = authc
