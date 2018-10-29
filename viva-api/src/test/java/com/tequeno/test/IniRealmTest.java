@@ -25,6 +25,7 @@ public class IniRealmTest {
         subject.login(token);
 //        subject.checkRole("admin2");
 //        subject.checkPermissions("user:query");
+
         Assert.assertTrue(subject.isAuthenticated());
 
         subject.logout();

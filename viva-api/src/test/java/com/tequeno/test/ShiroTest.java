@@ -28,9 +28,9 @@ public class ShiroTest {
         UsernamePasswordToken token = new UsernamePasswordToken("tequeno", "123456");
 
         subject.login(token);
+//        subject.checkRole("admin");
 
         Assert.assertTrue(subject.isAuthenticated());
-        subject.checkRole("admin");
 
         subject.logout();
 

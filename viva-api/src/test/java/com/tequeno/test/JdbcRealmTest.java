@@ -46,7 +46,6 @@ public class JdbcRealmTest {
 //        subject.checkRoles("admin","admin2");
 //        subject.checkPermissions("user:delete");
 
-
         Assert.assertTrue(subject.isAuthenticated());
 
         subject.logout();
