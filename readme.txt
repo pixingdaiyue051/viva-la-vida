@@ -4,3 +4,5 @@ old age should burn and rave at close of day,
 rem rage,rage against the dying of the light.
 
 though wise man at their end know dark is right,
+because their words had forked no lightning they,
+do not go gentle into that good night.
