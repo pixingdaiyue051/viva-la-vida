@@ -12,12 +12,20 @@
 		http://www.springframework.org/schema/aop/spring-aop.xsd
         http://www.springframework.org/schema/mvc
         http://www.springframework.org/schema/mvc/spring-mvc.xsd">
-    <context:component-scan base-package="com.tequeno.controller" use-default-filters="false">
+    <context:component-scan base-package="com.tequeno.controller,com.tequeno.utils" use-default-filters="false">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     </context:component-scan>
-
+    <!--开启注解式aop-->
     <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <!--<aop:config proxy-target-class="true"/>-->
+
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <bean id="authorizationAttributeSourceAdvisor" class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
 
     <mvc:resources mapping="/*" location="/"/>
 

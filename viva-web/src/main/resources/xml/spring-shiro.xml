@@ -4,6 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!--shiro过滤器-->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="login.html"/>
@@ -16,12 +17,14 @@
                 /* = authc
             </value>
         </property>
-
     </bean>
 
-    <!--创建shiro的seucurity环境-->
+    <!--创建shiro的web seucurity环境-->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!--添加自定义realm-->
         <property name="realm" ref="customRealm"/>
+        <!--添加自定义sessionManager-->
+        <property name="sessionManager" ref="sessionManager"/>
     </bean>
 
     <!--自定义realm-->
@@ -34,4 +37,12 @@
         <property name="hashAlgorithmName" value="md5"/>
         <property name="hashIterations" value="1"/>
     </bean>
+
+    <!--设置web环境下session-->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="sessionDAO" ref="redisSessionDao"/>
+    </bean>
+
+    <!--自定义sessionDao-->
+    <bean id="redisSessionDao" class="com.tequeno.utils.RedisSessionDao"/>
 </beans>
