@@ -12,12 +12,11 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-public class RedisSessionDao extends AbstractSessionDAO {
+public class RedisSessionDAO extends AbstractSessionDAO {
 
-    @Autowired
-    private JedisUtil jedisUtil;
+    protected JedisUtil jedisUtil;
 
-    private final String PREFIX = "TEQUENO:";
+    private final String PREFIX = "REDIS-SESSION:";
 
     private byte[] getKey(String sessionId) {
         return (PREFIX + sessionId).getBytes();
@@ -82,5 +81,13 @@ public class RedisSessionDao extends AbstractSessionDAO {
             sessions.add(session);
         }
         return sessions;
+    }
+
+    public JedisUtil getJedisUtil() {
+        return jedisUtil;
+    }
+
+    public void setJedisUtil(JedisUtil jedisUtil) {
+        this.jedisUtil = jedisUtil;
     }
 }

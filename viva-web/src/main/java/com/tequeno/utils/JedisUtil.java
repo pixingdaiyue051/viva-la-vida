@@ -1,17 +1,13 @@
 package com.tequeno.utils;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import java.util.Set;
 
-@Component
 public class JedisUtil {
 
-    @Autowired
-    private JedisPool jedisPool;
+    protected JedisPool jedisPool;
 
     private final ThreadLocal<Jedis> local = new ThreadLocal<>();
 
@@ -77,5 +73,13 @@ public class JedisUtil {
             resource.close();
         }
         return null;
+    }
+
+    public JedisPool getJedisPool() {
+        return jedisPool;
+    }
+
+    public void setJedisPool(JedisPool jedisPool) {
+        this.jedisPool = jedisPool;
     }
 }

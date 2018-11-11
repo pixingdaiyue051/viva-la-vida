@@ -24,7 +24,9 @@
         <!--添加自定义realm-->
         <property name="realm" ref="customRealm"/>
         <!--添加自定义sessionManager-->
-        <property name="sessionManager" ref="sessionManager"/>
+        <!--<property name="sessionManager" ref="sessionManager"/>-->
+        <!--添加自定义缓存-->
+        <property name="cacheManager" ref="redisCacheManager"/>
     </bean>
 
     <!--自定义realm-->
@@ -40,9 +42,21 @@
 
     <!--设置web环境下session-->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-        <property name="sessionDAO" ref="redisSessionDao"/>
+        <property name="sessionDAO" ref="redisSessionDAO"/>
     </bean>
 
     <!--自定义sessionDao-->
-    <bean id="redisSessionDao" class="com.tequeno.utils.RedisSessionDao"/>
+    <bean id="redisSessionDAO" class="com.tequeno.utils.RedisSessionDAO">
+        <property name="jedisUtil" ref="jedisUtil"/>
+    </bean>
+
+    <!--设置缓存管理-->
+    <bean id="redisCacheManager" class="com.tequeno.utils.RedisCacheManager">
+        <property name="redisCache" ref="redisCache"/>
+    </bean>
+
+    <!--自定义缓存-->
+    <bean id="redisCache" class="com.tequeno.utils.RedisCache">
+        <property name="jedisUtil" ref="jedisUtil"/>
+    </bean>
 </beans>
