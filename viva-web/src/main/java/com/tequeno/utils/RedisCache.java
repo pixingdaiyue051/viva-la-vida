@@ -11,7 +11,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
 
     protected JedisUtil jedisUtil;
 
-    private final String PREFIX = "REDIS-AUTH";
+    private final String PREFIX = "REDIS-AUTH:";
 
     private byte[] getKey(K k) {
         return (PREFIX + k).getBytes();

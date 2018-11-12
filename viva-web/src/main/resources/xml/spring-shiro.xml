@@ -24,7 +24,7 @@
         <!--添加自定义realm-->
         <property name="realm" ref="customRealm"/>
         <!--添加自定义sessionManager-->
-        <!--<property name="sessionManager" ref="sessionManager"/>-->
+        <property name="sessionManager" ref="sessionManager"/>
         <!--添加自定义缓存-->
         <property name="cacheManager" ref="redisCacheManager"/>
     </bean>
@@ -43,6 +43,8 @@
     <!--设置web环境下session-->
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <property name="sessionDAO" ref="redisSessionDAO"/>
+        <property name="sessionIdCookie" ref="simpleCookie"/>
+        <property name="sessionIdCookieEnabled" value="true"/>
     </bean>
 
     <!--自定义sessionDao-->
@@ -58,5 +60,11 @@
     <!--自定义缓存-->
     <bean id="redisCache" class="com.tequeno.utils.RedisCache">
         <property name="jedisUtil" ref="jedisUtil"/>
+    </bean>
+
+    <!--修改默认cookie名称,解决和容器冲突问题-->
+    <bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg name="name" value="shiro.sesssion"/>
+        <property name="path" value="/"/>
     </bean>
 </beans>
