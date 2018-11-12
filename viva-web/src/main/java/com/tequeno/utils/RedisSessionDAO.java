@@ -3,7 +3,6 @@ package com.tequeno.utils;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
 import org.apache.shiro.session.mgt.eis.AbstractSessionDAO;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.SerializationUtils;
 
@@ -26,7 +25,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
         if (session != null && session.getId() != null) {
             byte[] key = this.getKey(session.getId().toString());
             byte[] value = SerializationUtils.serialize(session);
-            jedisUtil.setOrUpdate(key, value);
+            jedisUtil.saveOrUpdate(key, value);
             jedisUtil.expire(key, 600);
             return session.getId();
         } else {

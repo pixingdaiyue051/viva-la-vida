@@ -18,7 +18,7 @@ public class JedisUtil {
         return local.get();
     }
 
-    public void setOrUpdate(byte[] key, byte[] value) {
+    public void saveOrUpdate(byte[] key, byte[] value) {
         Jedis resource = jedisPool.getResource();
         try {
             resource.set(key, value);
