@@ -4,6 +4,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
         http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <!--shiro过滤器-->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
         <property name="securityManager" ref="securityManager"/>
         <property name="loginUrl" value="login.html"/>
@@ -16,12 +17,16 @@
                 /* = authc
             </value>
         </property>
-
     </bean>
 
-    <!--创建shiro的seucurity环境-->
+    <!--创建shiro的web seucurity环境-->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!--添加自定义realm-->
         <property name="realm" ref="customRealm"/>
+        <!--添加自定义sessionManager-->
+        <!--<property name="sessionManager" ref="sessionManager"/>-->
+        <!--添加自定义缓存-->
+        <property name="cacheManager" ref="redisCacheManager"/>
     </bean>
 
     <!--自定义realm-->
@@ -33,5 +38,25 @@
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
         <property name="hashAlgorithmName" value="md5"/>
         <property name="hashIterations" value="1"/>
+    </bean>
+
+    <!--设置web环境下session-->
+    <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+        <property name="sessionDAO" ref="redisSessionDAO"/>
+    </bean>
+
+    <!--自定义sessionDao-->
+    <bean id="redisSessionDAO" class="com.tequeno.utils.RedisSessionDAO">
+        <property name="jedisUtil" ref="jedisUtil"/>
+    </bean>
+
+    <!--设置缓存管理-->
+    <bean id="redisCacheManager" class="com.tequeno.utils.RedisCacheManager">
+        <property name="redisCache" ref="redisCache"/>
+    </bean>
+
+    <!--自定义缓存-->
+    <bean id="redisCache" class="com.tequeno.utils.RedisCache">
+        <property name="jedisUtil" ref="jedisUtil"/>
     </bean>
 </beans>

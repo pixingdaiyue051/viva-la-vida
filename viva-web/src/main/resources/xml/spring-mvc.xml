@@ -16,8 +16,16 @@
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Component"/>
     </context:component-scan>
-
+    <!--开启注解式aop-->
     <aop:aspectj-autoproxy proxy-target-class="true"/>
+
+    <!--<aop:config proxy-target-class="true"/>-->
+
+    <bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+
+    <bean id="authorizationAttributeSourceAdvisor" class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+        <property name="securityManager" ref="securityManager"/>
+    </bean>
 
     <mvc:resources mapping="/*" location="/"/>
 
