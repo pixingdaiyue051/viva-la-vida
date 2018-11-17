@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.tequeno.mapper.dao.sys.UmUserInfoMapper">
+  <resultMap id="BaseResultMap" type="com.tequeno.dto.sys.UmUserInfo" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="true_name" property="trueName" jdbcType="VARCHAR" />
+    <result column="pwd" property="pwd" jdbcType="VARCHAR" />
+    <result column="enabled" property="enabled" jdbcType="INTEGER" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="phone_num" property="phoneNum" jdbcType="VARCHAR" />
+    <result column="contact_info" property="contactInfo" jdbcType="VARCHAR" />
+    <result column="create_by_id" property="createById" jdbcType="VARCHAR" />
+    <result column="modify_by_id" property="modifyById" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="modify_time" property="modifyTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, user_name, true_name, pwd, enabled, email, phone_num, contact_info, create_by_id, 
+    modify_by_id, create_time, modify_time
+  </sql>
+  <select id="selectByNamePwd" resultMap="BaseResultMap">
+  	SELECT
+		*
+	FROM
+		um_user_info
+	WHERE
+		user_name = #{userName,jdbcType=VARCHAR}
+	AND pwd = #{pwd,jdbcType=VARCHAR}
+  </select>
+</mapper>

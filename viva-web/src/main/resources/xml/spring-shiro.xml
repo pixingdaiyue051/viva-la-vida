@@ -64,7 +64,7 @@
 
     <!--修改默认cookie名称,解决和容器冲突问题-->
     <bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
-        <constructor-arg name="name" value="shiro.sesssion"/>
-        <property name="path" value="/"/>
+        <property name="name" value="SHIROSESSION"/>
+        <property name="maxAge" value="1800"/>
     </bean>
 </beans>
