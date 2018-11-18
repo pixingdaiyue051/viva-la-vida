@@ -1,4 +1,4 @@
-package com.tequeno.utils;
+package com.tequeno;
 
 import org.springframework.util.SerializationUtils;
 import redis.clients.jedis.Jedis;

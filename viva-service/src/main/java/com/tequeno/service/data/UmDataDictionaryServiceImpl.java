@@ -30,10 +30,10 @@ public class UmDataDictionaryServiceImpl extends BaseServiceImpl<UmDataDictionar
 	public Map<String, List<UmDataDictionary>> getDictMap() {
 		Map<String, List<UmDataDictionary>> result = new HashMap<String, List<UmDataDictionary>>();
 		try {
-			List<String> list = (List<String>) jedisUtil.load(ConstantsUtil.DICT_TYPES);
-			for (String typeCode : list) {
-				result.put(typeCode, dao.getDictMap(typeCode));
-			}
+//			List<String> list = (List<String>) jedisUtil.load(ConstantsUtil.DICT_TYPES);
+//			for (String typeCode : list) {
+//				result.put(typeCode, dao.getDictMap(typeCode));
+//			}
 		} catch (Exception e) {
 			e.printStackTrace();
 			result.clear();
@@ -44,18 +44,19 @@ public class UmDataDictionaryServiceImpl extends BaseServiceImpl<UmDataDictionar
 	@SuppressWarnings("unchecked")
 	@Override
 	public List<UmDataDictionary> getDetailDict(String typeCode) {
-		if (StringUtils.isBlank(typeCode)) {
-			return (List<UmDataDictionary>) jedisUtil.load(ConstantsUtil.DICT_ALL);
-		} else {
-			List<String> list = (List<String>) jedisUtil.load(ConstantsUtil.DICT_TYPES);
-			if (list.contains(typeCode)) {
-				Map<String, List<UmDataDictionary>> map = (Map<String, List<UmDataDictionary>>) jedisUtil
-						.load(ConstantsUtil.DICT_MAP);
-				return map.get(typeCode);
-			} else {
-				return null;
-			}
-		}
+//		if (StringUtils.isBlank(typeCode)) {
+////			return (List<UmDataDictionary>) jedisUtil.load(ConstantsUtil.DICT_ALL);
+//		} else {
+////			List<String> list = (List<String>) jedisUtil.load(ConstantsUtil.DICT_TYPES);
+//			if (list.contains(typeCode)) {
+//				Map<String, List<UmDataDictionary>> map = (Map<String, List<UmDataDictionary>>) jedisUtil
+//						.load(ConstantsUtil.DICT_MAP);
+//				return map.get(typeCode);
+//			} else {
+//				return null;
+//			}
+//		}
+		return null;
 	}
 
 }

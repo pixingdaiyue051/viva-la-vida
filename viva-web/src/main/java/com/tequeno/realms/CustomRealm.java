@@ -1,5 +1,6 @@
 package com.tequeno.realms;
 
+import com.tequeno.utils.JedisUtil;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
@@ -14,6 +15,8 @@ import java.util.Map;
 import java.util.Set;
 
 public class CustomRealm extends AuthorizingRealm {
+
+    protected JedisUtil jedisUtil;
 
     private Map<String, String> userMap = new HashMap<String, String>();
 
@@ -62,4 +65,11 @@ public class CustomRealm extends AuthorizingRealm {
         return permissions;
     }
 
+    public JedisUtil getJedisUtil() {
+        return jedisUtil;
+    }
+
+    public void setJedisUtil(JedisUtil jedisUtil) {
+        this.jedisUtil = jedisUtil;
+    }
 }

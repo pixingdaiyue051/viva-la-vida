@@ -23,15 +23,16 @@
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <!--添加自定义realm-->
         <property name="realm" ref="customRealm"/>
-        <!--添加自定义sessionManager-->
+        <!--&lt;!&ndash;添加自定义sessionManager&ndash;&gt;
         <property name="sessionManager" ref="sessionManager"/>
-        <!--添加自定义缓存-->
-        <property name="cacheManager" ref="redisCacheManager"/>
+        &lt;!&ndash;添加自定义缓存&ndash;&gt;
+        <property name="cacheManager" ref="redisCacheManager"/>-->
     </bean>
 
     <!--自定义realm-->
     <bean id="customRealm" class="com.tequeno.realms.CustomRealm">
         <property name="credentialsMatcher" ref="credentialsMatcher"/>
+        <property name="jedisUtil" ref="jedisUtil"/>
     </bean>
 
     <!--加密算法-->

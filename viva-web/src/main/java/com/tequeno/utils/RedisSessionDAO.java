@@ -17,15 +17,14 @@ public class RedisSessionDAO extends AbstractSessionDAO {
 
     private final String PREFIX = "REDIS-SESSION:";
 
-    private byte[] getKey(String sessionId) {
-        return (PREFIX + sessionId).getBytes();
+    private String getKey(String sessionId) {
+        return (PREFIX + sessionId);
     }
 
     private Serializable saveOrUpdateSession(Session session) {
         if (session != null && session.getId() != null) {
-            byte[] key = this.getKey(session.getId().toString());
-            byte[] value = SerializationUtils.serialize(session);
-            jedisUtil.saveOrUpdate(key, value);
+            String key = this.getKey(session.getId().toString());
+            jedisUtil.saveOrUpdate(key, session);
             jedisUtil.expire(key, 600);
             return session.getId();
         } else {
@@ -51,8 +50,8 @@ public class RedisSessionDAO extends AbstractSessionDAO {
             return null;
         }
         System.out.println("doReadSession11");
-        byte[] key = this.getKey(sessionId.toString());
-        return (Session) SerializationUtils.deserialize(jedisUtil.get(key));
+        String key = this.getKey(sessionId.toString());
+        return (Session) jedisUtil.get(key);
     }
 
     @Override
@@ -76,7 +75,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
             return sessions;
         }
         for (byte[] key : keys) {
-            Session session = (Session) SerializationUtils.deserialize(jedisUtil.get(key));
+            Session session = (Session) jedisUtil.get(SerializationUtils.deserialize(key).toString());
             sessions.add(session);
         }
         return sessions;

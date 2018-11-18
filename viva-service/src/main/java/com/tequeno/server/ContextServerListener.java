@@ -1,46 +1,55 @@
 package com.tequeno.server;
 
-import com.tequeno.service.OneTimeService;
-import com.tequeno.service.OneTimeServiceImpl;
+import com.tequeno.JedisUtil;
 import com.tequeno.utils.ConstantsUtil;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-import java.rmi.server.UnicastRemoteObject;
+import java.util.Map;
 
 public class ContextServerListener implements ServletContextListener {
+    private WebApplicationContext springContext;
+    private JedisUtil jedisUtil;
+    private final String PREFIX = "SERVICE:";
 
-//	@Value("${package.to.scan}")
-//	private String package;
+    // 系统启动的时候，加载基础的数据到系统中
+    @Override
+    public void contextInitialized(ServletContextEvent event) {
+        // 系统的根contextroot路径
+        ServletContext servletContext = event.getServletContext();
+        servletContext.setAttribute(ConstantsUtil.WEBROOT, servletContext.getContextPath());
+        // 获得spring定义上下文环境，用于获取所有单例的bean
+        springContext = WebApplicationContextUtils.getWebApplicationContext(servletContext);
+        // 所有已注册的bean
+//		String[] beanNames = springContext.getBeanDefinitionNames();
+        // 所有service注解的bean
+        Map<String, Object> beansWithAnnotation = springContext.getBeansWithAnnotation(Service.class);
+        jedisUtil = (JedisUtil) springContext.getBean("jedisUtil");
+        this.serviceCelled(beansWithAnnotation, jedisUtil);
+    }
 
-	// 系统启动的时候，加载基础的数据到系统中
-	@Override
-	public void contextInitialized(ServletContextEvent event) {
-		// 系统的根contextroot路径
-		ServletContext servletContext = event.getServletContext();
-		servletContext.setAttribute(ConstantsUtil.WEBROOT, servletContext.getContextPath());
-	}
+    public void serviceCelled(Map<String, Object> beansWithAnnotation, JedisUtil jedisUtil) {
+        try {
+            for (Map.Entry<String, Object> entry : beansWithAnnotation.entrySet()) {
+                String beanName = entry.getKey();
+                Object bean = entry.getValue();
+                jedisUtil.saveOrUpdate(this.getKey(beanName), bean);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
-	@SuppressWarnings("deprecation")
-	public void serviceCelled() {
-		try {
-			OneTimeService hello = new OneTimeServiceImpl();
-			OneTimeService stub = (OneTimeService) UnicastRemoteObject.exportObject(hello, 9999);
-			LocateRegistry.createRegistry(1099);
-			Registry registry = LocateRegistry.getRegistry();
-			registry.bind("OneTimeService", stub);
-			System.out.println("绑定成功!");
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+    @Override
+    public void contextDestroyed(ServletContextEvent sce) {
 
-	@Override
-	public void contextDestroyed(ServletContextEvent sce) {
+    }
 
-	}
+    private String getKey(String beanName) {
+        return (PREFIX + beanName);
+    }
 }

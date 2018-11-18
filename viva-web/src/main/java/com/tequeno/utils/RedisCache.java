@@ -2,7 +2,6 @@ package com.tequeno.utils;
 
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
-import org.springframework.util.SerializationUtils;
 
 import java.util.Collection;
 import java.util.Set;
@@ -13,28 +12,26 @@ public class RedisCache<K, V> implements Cache<K, V> {
 
     private final String PREFIX = "REDIS-AUTH:";
 
-    private byte[] getKey(K k) {
-        return (PREFIX + k).getBytes();
+    private String getKey(K k) {
+        return (PREFIX + k);
     }
 
     @Override
     public V get(K k) throws CacheException {
-        byte[] value = jedisUtil.get(this.getKey(k));
-        return (V) SerializationUtils.deserialize(value);
+        return (V) jedisUtil.get(this.getKey(k));
     }
 
     @Override
     public V put(K k, V v) throws CacheException {
-        byte[] key = this.getKey(k);
-        byte[] value = SerializationUtils.serialize(v);
-        jedisUtil.saveOrUpdate(key, value);
+        String key = this.getKey(k);
+        jedisUtil.saveOrUpdate(key, v);
         jedisUtil.expire(key, 600);
         return v;
     }
 
     @Override
     public V remove(K k) throws CacheException {
-        byte[] key = this.getKey(k);
+        String key = this.getKey(k);
         jedisUtil.del(key);
         return null;
     }

@@ -27,8 +27,6 @@
         <mysql.version>5.1.30</mysql.version>
         <druid.version>1.0.18</druid.version>
         <slf4j.version>1.7.7</slf4j.version>
-        <jackson.version>2.7.3</jackson.version>
-        <jstl.version>1.2</jstl.version>
         <mapper.version>3.3.6</mapper.version>
         <pagehelper.version>5.0.0</pagehelper.version>
     </properties>
@@ -140,12 +138,6 @@
         </dependency>
 
         <dependency>
-            <groupId>jstl</groupId>
-            <artifactId>jstl</artifactId>
-            <version>${jstl.version}</version>
-        </dependency>
-
-        <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
             <version>${spring.version}</version>
@@ -221,7 +213,7 @@
                 <directory>src/main/java</directory>
                 <filtering>false</filtering>
                 <includes>
-                    <include>com/ssm/mapper/xml/**/*.xml</include>
+                    <include>com/tequeno/mapper/xml/**/*.xml</include>
                 </includes>
             </resource>
         </resources>
