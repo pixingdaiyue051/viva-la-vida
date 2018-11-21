@@ -1,5 +1,6 @@
-package com.tequeno.utils;
+package com.tequeno.redis;
 
+import com.tequeno.utils.ConstantsUtil;
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;
 
@@ -10,7 +11,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
 
     protected JedisUtil jedisUtil;
 
-    private final String PREFIX = "REDIS-AUTH:";
+    private final String PREFIX = ConstantsUtil.REDIS_CHCHE_PREFIX;
 
     private String getKey(K k) {
         return (PREFIX + k);
@@ -32,7 +33,7 @@ public class RedisCache<K, V> implements Cache<K, V> {
     @Override
     public V remove(K k) throws CacheException {
         String key = this.getKey(k);
-        jedisUtil.del(key);
+        jedisUtil.delete(key);
         return null;
     }
 

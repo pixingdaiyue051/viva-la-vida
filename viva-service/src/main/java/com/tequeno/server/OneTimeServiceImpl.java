@@ -1,4 +1,6 @@
-package com.tequeno.service;
+package com.tequeno.server;
+
+import com.tequeno.service.OneTimeService;
 
 import java.rmi.RemoteException;
 

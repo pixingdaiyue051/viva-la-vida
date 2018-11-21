@@ -49,17 +49,17 @@
     </bean>
 
     <!--自定义sessionDao-->
-    <bean id="redisSessionDAO" class="com.tequeno.utils.RedisSessionDAO">
+    <bean id="redisSessionDAO" class="com.tequeno.redis.RedisSessionDAO">
         <property name="jedisUtil" ref="jedisUtil"/>
     </bean>
 
     <!--设置缓存管理-->
-    <bean id="redisCacheManager" class="com.tequeno.utils.RedisCacheManager">
+    <bean id="redisCacheManager" class="com.tequeno.redis.RedisCacheManager">
         <property name="redisCache" ref="redisCache"/>
     </bean>
 
     <!--自定义缓存-->
-    <bean id="redisCache" class="com.tequeno.utils.RedisCache">
+    <bean id="redisCache" class="com.tequeno.redis.RedisCache">
         <property name="jedisUtil" ref="jedisUtil"/>
     </bean>
 

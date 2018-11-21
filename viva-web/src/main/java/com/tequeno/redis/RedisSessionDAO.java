@@ -1,4 +1,4 @@
-package com.tequeno.utils;
+package com.tequeno.redis;
 
 import org.apache.shiro.session.Session;
 import org.apache.shiro.session.UnknownSessionException;
@@ -63,7 +63,7 @@ public class RedisSessionDAO extends AbstractSessionDAO {
     @Override
     public void delete(Session session) {
         System.out.println("delete");
-        jedisUtil.del(this.getKey(session.getId().toString()));
+        jedisUtil.delete(this.getKey(session.getId().toString()));
     }
 
     @Override

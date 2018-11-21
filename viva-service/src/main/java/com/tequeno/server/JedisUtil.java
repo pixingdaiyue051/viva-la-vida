@@ -1,4 +1,4 @@
-package com.tequeno;
+package com.tequeno.server;
 
 import org.springframework.util.SerializationUtils;
 import redis.clients.jedis.Jedis;
@@ -41,7 +41,7 @@ public class JedisUtil {
         }
     }
 
-    public void del(String key) {
+    public void delete(String key) {
         Jedis resource = jedisPool.getResource();
         try {
             resource.del(key.getBytes());

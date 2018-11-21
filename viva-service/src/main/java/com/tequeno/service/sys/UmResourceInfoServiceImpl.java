@@ -9,9 +9,15 @@ import com.tequeno.dto.sys.UmResourceInfo;
 import com.tequeno.service.base.BaseServiceImpl;
 import com.tequeno.service.UmResourceInfoService;
 
+import java.io.Serializable;
+
 @Service("umResourceInfoService")
 @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 public class UmResourceInfoServiceImpl extends BaseServiceImpl<UmResourceInfoMapper, UmResourceInfo>
-		implements UmResourceInfoService {
+		implements UmResourceInfoService, Serializable {
 
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -318492348234238432L;
 }

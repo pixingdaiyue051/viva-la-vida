@@ -1,6 +1,5 @@
 package com.tequeno.server;
 
-import com.tequeno.JedisUtil;
 import com.tequeno.utils.ConstantsUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.WebApplicationContext;
@@ -14,7 +13,7 @@ import java.util.Map;
 public class ContextServerListener implements ServletContextListener {
     private WebApplicationContext springContext;
     private JedisUtil jedisUtil;
-    private final String PREFIX = "SERVICE:";
+    private final String PREFIX = ConstantsUtil.SERVICE_PREFIX;
 
     // 系统启动的时候，加载基础的数据到系统中
     @Override
@@ -35,6 +34,7 @@ public class ContextServerListener implements ServletContextListener {
     public void serviceCelled(Map<String, Object> beansWithAnnotation, JedisUtil jedisUtil) {
         try {
             for (Map.Entry<String, Object> entry : beansWithAnnotation.entrySet()) {
+                // 获取service存入redis，尝试远程调用
                 String beanName = entry.getKey();
                 Object bean = entry.getValue();
                 jedisUtil.saveOrUpdate(this.getKey(beanName), bean);

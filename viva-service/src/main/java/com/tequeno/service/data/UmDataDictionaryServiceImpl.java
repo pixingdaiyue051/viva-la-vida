@@ -1,14 +1,13 @@
 package com.tequeno.service.data;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
-import com.tequeno.utils.ConstantsUtil;
 
 import com.tequeno.dto.data.UmDataDictionary;
 import com.tequeno.mapper.dao.data.UmDataDictionaryMapper;
@@ -18,7 +17,12 @@ import com.tequeno.service.UmDataDictionaryService;
 @Service("umDataDictionaryService")
 @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
 public class UmDataDictionaryServiceImpl extends BaseServiceImpl<UmDataDictionaryMapper, UmDataDictionary>
-		implements UmDataDictionaryService {
+		implements UmDataDictionaryService, Serializable {
+
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = -562928953523582534L;
 
 	@Override
 	public List<String> getAllTypes() {

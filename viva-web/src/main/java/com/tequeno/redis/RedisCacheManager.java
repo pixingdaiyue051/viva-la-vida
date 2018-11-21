@@ -1,4 +1,4 @@
-package com.tequeno.utils;
+package com.tequeno.redis;
 
 import org.apache.shiro.cache.Cache;
 import org.apache.shiro.cache.CacheException;

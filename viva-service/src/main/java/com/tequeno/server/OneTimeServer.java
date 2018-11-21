@@ -1,7 +1,6 @@
 package com.tequeno.server;
 
 import com.tequeno.service.OneTimeService;
-import com.tequeno.service.OneTimeServiceImpl;
 
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;

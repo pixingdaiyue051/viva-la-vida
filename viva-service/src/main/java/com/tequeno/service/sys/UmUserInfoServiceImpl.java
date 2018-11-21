@@ -9,18 +9,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.Serializable;
+
 @Service("umUserInfoService")
 @Transactional(rollbackFor = Exception.class, propagation = Propagation.REQUIRED)
-public class UmUserInfoServiceImpl extends BaseServiceImpl<UmUserInfoMapper, UmUserInfo> implements UmUserInfoService {
+public class UmUserInfoServiceImpl extends BaseServiceImpl<UmUserInfoMapper, UmUserInfo> implements UmUserInfoService, Serializable {
+
+    /**
+     *
+     */
+    private static final long serialVersionUID = -992954323489525830L;
 
     @Override
     public UmUserInfo selectByNamePwd(String userName, String pwd) {
-        UmUserInfo uc = dao.selectByNamePwd(userName, pwd);
-        if (null != uc) {
-            return uc;
-        } else {
-            return null;
-        }
+        return dao.selectByNamePwd(userName, pwd);
     }
 
     @Override
@@ -32,4 +34,5 @@ public class UmUserInfoServiceImpl extends BaseServiceImpl<UmUserInfoMapper, UmU
         dao.insertSelective(u);
         return dao.selectByPrimaryKey(u.getId());
     }
+
 }

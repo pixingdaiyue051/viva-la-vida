@@ -1,10 +1,12 @@
 package com.tequeno.realms;
 
-import com.tequeno.utils.JedisUtil;
+import com.tequeno.dto.sys.UmUserInfo;
+import com.tequeno.redis.JedisUtil;
+import com.tequeno.service.UmUserInfoService;
+import com.tequeno.utils.ConstantsUtil;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
-import org.apache.shiro.crypto.hash.Md5Hash;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
@@ -18,18 +20,11 @@ public class CustomRealm extends AuthorizingRealm {
 
     protected JedisUtil jedisUtil;
 
-    private Map<String, String> userMap = new HashMap<String, String>();
-
-    {
-        super.setName("customRealm");
-        userMap.put("tequeno", "3e434b93051412a71758756aa0cb7395");
-    }
-
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         String username = (String) principalCollection.getPrimaryPrincipal();
-        Set<String> roles = getRolesByUsername(username);
-        Set<String> permissions = getPermissionsByRoles();
+        Set<String> roles = this.getRolesByUsername(username);
+        Set<String> permissions = this.getPermissionsByRoles();
         SimpleAuthorizationInfo info = new SimpleAuthorizationInfo(roles);
         info.setStringPermissions(permissions);
         return info;
@@ -39,18 +34,20 @@ public class CustomRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
         UsernamePasswordToken token = (UsernamePasswordToken) authenticationToken;
         String username = token.getUsername();
-        String password = getPasswordByUsername(username);
-        if (password == null) {
+        UmUserInfo user = this.getUserByUsername(username);
+        if (user == null) {
             return null;
         }
-        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(username, password, "custonRealm");
+        SimpleAuthenticationInfo info = new SimpleAuthenticationInfo(username, user.getPwd(), "custonRealm");
         // 使用用户名作为盐加密
         info.setCredentialsSalt(ByteSource.Util.bytes(username));
         return info;
     }
 
-    private String getPasswordByUsername(String username) {
-        return userMap.get(username);
+    private UmUserInfo getUserByUsername(String username) {
+        UmUserInfoService umUserInfoService = (UmUserInfoService) jedisUtil.get(ConstantsUtil.SERVICE_PREFIX + "umUserInfoService");
+        UmUserInfo user = umUserInfoService.selectByNamePwd(username, null);
+        return user;
     }
 
     private Set<String> getRolesByUsername(String username) {

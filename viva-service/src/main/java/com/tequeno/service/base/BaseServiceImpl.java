@@ -3,6 +3,7 @@ package com.tequeno.service.base;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.tequeno.server.JedisUtil;
 import com.tequeno.service.BaseService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,19 +18,28 @@ public class BaseServiceImpl<D extends Mapper<T>, T> implements BaseService<T> {
     @Autowired
     protected D dao;
 
-//	@Autowired
-//	protected JedisUtil jedisUtil;
+    @Autowired
+    protected JedisUtil jedisUtil;
 
     @SuppressWarnings("unchecked")
     @Override
     public T selectByPrimaryKey(String id) {
-        T t = dao.selectByPrimaryKey(id);
-        return t;
+        Object o = jedisUtil.get(id);
+        if (null != o) {
+            return (T) o;
+        } else {
+            T t = dao.selectByPrimaryKey(id);
+            jedisUtil.saveOrUpdate(id, t);
+            return t;
+        }
     }
 
     @Override
     public int deleteByPrimaryKey(String id) throws Exception {
         int result = dao.deleteByPrimaryKey(id);
+        if (result > 0) {
+            jedisUtil.delete(id);
+        }
         return result;
     }
 
@@ -43,7 +53,7 @@ public class BaseServiceImpl<D extends Mapper<T>, T> implements BaseService<T> {
         int result = dao.insertSelective(entity);
         if (result > 0) {
             Method mGetId = entity.getClass().getMethod("getId");
-//			jedisUtil.addOrUpdate((String) mGetId.invoke(entity), entity);
+            jedisUtil.saveOrUpdate((String) mGetId.invoke(entity), entity);
         }
         return result;
     }
@@ -53,21 +63,9 @@ public class BaseServiceImpl<D extends Mapper<T>, T> implements BaseService<T> {
         int result = dao.updateByPrimaryKeySelective(entity);
         if (result > 0) {
             Method mGetId = entity.getClass().getMethod("getId");
-//			jedisUtil.addOrUpdate((String) mGetId.invoke(entity), entity);
+            jedisUtil.saveOrUpdate((String) mGetId.invoke(entity), entity);
         }
         return result;
-    }
-
-    @Override
-    public String insertSelectiveFetchId(T entity) throws Exception {
-        int result = dao.insertSelective(entity);
-        String id = "";
-        if (result > 0) {
-            Method mGetId = entity.getClass().getMethod("getId");
-            id = (String) mGetId.invoke(entity);
-//			jedisUtil.addOrUpdate(id, entity);
-        }
-        return id;
     }
 
     @SuppressWarnings("unchecked")

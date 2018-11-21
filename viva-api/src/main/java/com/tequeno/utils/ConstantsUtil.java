@@ -25,5 +25,7 @@ public class ConstantsUtil {
 	public static final String GRID_TOTAL = "total";
 	public static final String METHOD_NAME = "methodName";
 	public static final String METHOD_TIME = "methodTime";
+	public static final String REDIS_CHCHE_PREFIX = "REDIS-CACHE:";
+	public static final String SERVICE_PREFIX = "SERVICE:";
 
 }
