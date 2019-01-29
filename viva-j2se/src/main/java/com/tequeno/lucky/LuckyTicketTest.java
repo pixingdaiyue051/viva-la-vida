@@ -4,7 +4,7 @@ import java.io.*;
 
 public class LuckyTicketTest {
 
-    private final String PATH = System.getProperty("user.dir") + "\\viva-j2se\\doc\\luckyticket\\2\\ticket-";
+    private final String PATH = System.getProperty("user.dir") + "\\doc\\luckyticket\\2\\ticket-";
 
     private final String SUB = ".txt";
 
