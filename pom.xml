@@ -12,6 +12,10 @@
     <module>viva-api</module>
     <module>viva-service</module>
     <module>viva-web</module>
+    <module>viva-j2se</module>
+    <module>viva-solr-test</module>
+    <module>viva-spring-ocean</module>
+    <module>viva-ssm</module>
   </modules>
 
   <name>Maven</name>

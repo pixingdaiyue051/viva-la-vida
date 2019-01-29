@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration scan="true" scanPeriod="60000" debug="true">
+    <!-- 定义日志文件 输出位置以下是API内的默认位置 -->
+    <!-- <property name="log_dir" value="/home/hadmin/data/logs/src" /> -->
+    <property name="log_dir" value="../logs/viva-ssm" />
+    <!-- 日志最大的历史 30天 -->
+    <property name="maxHistory" value="30" />
+    <!-- 异步输出日志最大缓冲默认256 -->
+    <property name="queueSize" value="1024" />
+    <!-- 默认值为queueSize/5的即如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->  
+    <!-- 为了保留所有的events，可以将这个值设置为0 -->
+    <property name="discardingThreshold" value="10" />
+    <!-- 自定义日志输出格式 -->
+    <property name="pattern" value="%d{yyyy-MM-dd HH:mm:ss} %level %caller{1} - %msg%n"/>
+    <!-- 字符集编码格式 -->
+    <property name="charset" value="UTF-8" />
+
+	<!-- 控制输出 -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${pattern}</pattern>
+            <charset>${charset}</charset>
+        </encoder>
+    </appender>
+    <appender name="RollingInfoFile" class="ch.qos.logback.core.rolling.RollingFileAppender">  
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">   
+	        <fileNamePattern>${log_dir}/info-file-%d{yyyy-MM-dd}.log</fileNamePattern>   
+	        <maxHistory>${maxHistory}</maxHistory>    
+	    </rollingPolicy>   
+	    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">   
+	        <pattern>${pattern}</pattern>  
+	        <charset>${charset}</charset> 
+	    </encoder>
+	    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter> 
+	</appender>
+	<appender name ="AsyncInfo" class="ch.qos.logback.classic.AsyncAppender">  
+        <discardingThreshold>${discardingThreshold}</discardingThreshold>  
+        <queueSize>${queueSize}</queueSize>  
+        <!-- 添加附加的appender,最多只能添加一个 -->  
+        <appender-ref ref ="RollingInfoFile"/>  
+    </appender>
+	<appender name="RollingWarnFile" class="ch.qos.logback.core.rolling.RollingFileAppender">  
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">   
+	        <fileNamePattern>${log_dir}/warn-file-%d{yyyy-MM-dd}.log</fileNamePattern>   
+	        <maxHistory>${maxHistory}</maxHistory>    
+	    </rollingPolicy>   
+	    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">   
+	        <pattern>${pattern}</pattern>  
+	        <charset>${charset}</charset> 
+	    </encoder>
+	    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>WARN</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter> 
+	</appender>
+	<appender name ="AsyncWarn" class="ch.qos.logback.classic.AsyncAppender">  
+        <discardingThreshold>${discardingThreshold}</discardingThreshold>  
+        <queueSize>${queueSize}</queueSize>  
+        <!-- 添加附加的appender,最多只能添加一个 -->  
+        <appender-ref ref ="RollingWarnFile"/>  
+    </appender>
+	<appender name="RollingErrorFile" class="ch.qos.logback.core.rolling.RollingFileAppender"> 
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">   
+	        <fileNamePattern>${log_dir}/error-file-%d{yyyy-MM-dd}.log</fileNamePattern>   
+	        <maxHistory>${maxHistory}</maxHistory>    
+	    </rollingPolicy>   
+	    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">   
+	        <pattern>${pattern}</pattern>   
+	        <charset>${charset}</charset>
+	    </encoder>
+	    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>ERROR</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter> 
+	</appender>
+	<appender name ="AsyncError" class="ch.qos.logback.classic.AsyncAppender">  
+        <discardingThreshold>${discardingThreshold}</discardingThreshold>  
+        <queueSize>${queueSize}</queueSize>  
+        <!-- 添加附加的appender,最多只能添加一个 -->  
+        <appender-ref ref ="RollingErrorFile"/>  
+    </appender>
+	<appender name="RollingSqlFile" class="ch.qos.logback.core.rolling.RollingFileAppender"> 
+	    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">   
+	        <fileNamePattern>${log_dir}/sql-file-%d{yyyy-MM-dd}.log</fileNamePattern>   
+	        <maxHistory>${maxHistory}</maxHistory>    
+	    </rollingPolicy>   
+	    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">   
+	        <pattern>${pattern}</pattern>   
+	        <charset>${charset}</charset>
+	    </encoder>
+	    <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>DEBUG</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter> 
+	</appender>
+	<appender name ="AsyncSql" class="ch.qos.logback.classic.AsyncAppender">  
+        <discardingThreshold>${discardingThreshold}</discardingThreshold>  
+        <queueSize>${queueSize}</queueSize>  
+        <!-- 添加附加的appender,最多只能添加一个 -->  
+        <appender-ref ref ="RollingSqlFile"/>  
+    </appender>
+	
+    
+    <logger name="com.teuqueno"/>
+    <logger name="org.interceptor"/>
+    <logger name="org.util"/>
+    <logger name="org.component"/>
+    <logger name="java"/>
+    <logger name="org.apache.ibatis" level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="AsyncSql" />
+    </logger>
+    <logger name="java.sql" level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="AsyncSql" />
+    </logger>
+    <logger name="com.teuqueno.mapper" level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="AsyncSql" />
+    </logger>
+
+    
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="AsyncInfo" />
+        <appender-ref ref="AsyncWarn" />
+    	<appender-ref ref="AsyncError" />
+        <appender-ref ref="AsyncSql" />
+    </root>
+     
+</configuration>
