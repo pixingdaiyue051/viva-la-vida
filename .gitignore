@@ -74,3 +74,14 @@ viva-spring-ocean/*.iws
 viva-spring-ocean/*.iml
 viva-spring-ocean/*.ipr
 viva-spring-ocean/out/
+
+###×ÓÏîÄ¿viva-ssm###
+viva-ssm/target/
+viva-ssm/.classpath
+viva-ssm/.project
+viva-ssm/.settings
+viva-ssm/.idea/
+viva-ssm/*.iws
+viva-ssm/*.iml
+viva-ssm/*.ipr
+viva-ssm/out/
