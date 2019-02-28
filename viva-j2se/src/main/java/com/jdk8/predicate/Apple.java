@@ -1,4 +1,4 @@
-package com.jdk8.predicate.apple;
+package com.jdk8.predicate;
 
 public class Apple {
 
