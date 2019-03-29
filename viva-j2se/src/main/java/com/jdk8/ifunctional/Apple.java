@@ -1,10 +1,21 @@
-package com.jdk8.predicate;
+package com.jdk8.ifunctional;
 
 public class Apple {
 
     private String color;
 
     private double weight;
+
+    public Apple() {
+    }
+
+    public Apple(String color) {
+        this.color = color;
+    }
+
+    public Apple(double weight) {
+        this.weight = weight;
+    }
 
     public Apple(String color, double weight) {
         this.color = color;

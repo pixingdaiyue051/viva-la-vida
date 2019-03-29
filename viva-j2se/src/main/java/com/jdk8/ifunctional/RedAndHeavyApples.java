@@ -1,4 +1,4 @@
-package com.jdk8.predicate;
+package com.jdk8.ifunctional;
 
 public class RedAndHeavyApples implements ApplePredicate {
     @Override

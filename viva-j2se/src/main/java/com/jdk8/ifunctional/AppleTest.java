@@ -1,4 +1,4 @@
-package com.jdk8.predicate;
+package com.jdk8.ifunctional;
 
 import java.util.ArrayList;
 import java.util.Iterator;
