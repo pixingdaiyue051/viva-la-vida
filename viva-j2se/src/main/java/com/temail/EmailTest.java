@@ -10,14 +10,11 @@ import java.util.stream.Collectors;
 public class EmailTest {
 
     public static void main(String[] args) {
-        boolean sendOver;
-//        sendOver = EmailUtil.send("pixingdaiyue051@163.com", "test", "测试哦中文乱码");
-//        System.out.println(sendOver);
+//        EmailUtil.send("pixingdaiyue051@163.com", "test", "测试哦中文乱码");
 //
-//        sendOver = EmailUtil.sendHtmlMsg("pixingdaiyue051@163.com", "test", "测试发送文件", homeDirectory.getPath() + "/1984.txt", "1984");
-//        System.out.println(sendOver);
+//        EmailUtil.sendHtmlMsg("pixingdaiyue051@163.com", "test", "测试发送文件", homeDirectory.getPath() + "/1984.txt", "1984");
 
-        EmailWrapper wrapper = new EmailWrapper("test", "pixingdaiyue051@163.com", "", "测试wrapper的使用");
+        EmailWrapper wrapper = new EmailWrapper("test-plus", "pixingdaiyue051@163.com", "", "发送给我自己的邮件");
 
         FileSystemView fsv = FileSystemView.getFileSystemView();
         File homeDirectory = fsv.getHomeDirectory();
@@ -27,14 +24,15 @@ public class EmailTest {
 //        }
 
         wrapper.setAttachments(Arrays.stream(homeDirectory.listFiles()).filter(File::isFile)
-                .filter(f -> !f.getAbsolutePath().endsWith("lnk")).map(f -> {
+                .filter(f -> !f.getAbsolutePath().endsWith("lnk"))
+                .map(f -> {
                     EmailAttachment attachment = new EmailAttachment();
                     attachment.setName(f.getName());
                     attachment.setPath(f.getAbsolutePath());
                     return attachment;
-                }).limit(5).collect(Collectors.toList()));
-        sendOver = EmailUtil.send(wrapper);
-        System.out.println(sendOver);
-
+                })
+                .limit(5)
+                .collect(Collectors.toList()));
+        System.out.println(EmailUtil.send(wrapper).getMsg());
     }
 }
