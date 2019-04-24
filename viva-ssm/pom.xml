@@ -111,12 +111,24 @@
 	    <groupId>ch.qos.logback</groupId>
 	    <artifactId>logback-classic</artifactId>
 	    <version>${logback.version}</version>
+		<exclusions>
+			<exclusion>
+				<artifactId>slf4j-api</artifactId>
+				<groupId>org.slf4j</groupId>
+			</exclusion>
+		</exclusions>
 	</dependency>
 	<dependency>
          <groupId>org.logback-extensions</groupId>
          <artifactId>logback-ext-spring</artifactId>
          <version>${logback-spring}</version>
-    </dependency>
+		<exclusions>
+			<exclusion>
+				<artifactId>logback-classic</artifactId>
+				<groupId>ch.qos.logback</groupId>
+			</exclusion>
+		</exclusions>
+	</dependency>
     
 	<dependency>
 		<groupId>org.springframework.session</groupId>
@@ -128,6 +140,16 @@
 		<groupId>org.springframework.session</groupId>
 		<artifactId>spring-session-data-redis</artifactId>
 		<version>1.0.2.RELEASE</version>
+		<exclusions>
+			<exclusion>
+				<artifactId>spring-data-redis</artifactId>
+				<groupId>org.springframework.data</groupId>
+			</exclusion>
+			<exclusion>
+				<artifactId>jedis</artifactId>
+				<groupId>redis.clients</groupId>
+			</exclusion>
+		</exclusions>
 	</dependency>
 	
 	<dependency>
@@ -140,13 +162,25 @@
 		<groupId>redis.clients</groupId>
 		<artifactId>jedis</artifactId>
 		<version>2.9.0</version>
+		<exclusions>
+			<exclusion>
+				<artifactId>commons-pool2</artifactId>
+				<groupId>org.apache.commons</groupId>
+			</exclusion>
+		</exclusions>
 	</dependency>
 	
     <dependency>
         <groupId>com.github.pagehelper</groupId>
         <artifactId>pagehelper</artifactId>
         <version>${pagehelper.version}</version>
-    </dependency>
+		<exclusions>
+			<exclusion>
+				<artifactId>jsqlparser</artifactId>
+				<groupId>com.github.jsqlparser</groupId>
+			</exclusion>
+		</exclusions>
+	</dependency>
     
 	<dependency>
 		<groupId>com.github.jsqlparser</groupId>
@@ -266,13 +300,25 @@
 		<groupId>net.sourceforge.pjl-comp-filter</groupId>
 		<artifactId>pjl-comp-filter</artifactId>
 		<version>1.7</version>
+		<exclusions>
+			<exclusion>
+				<artifactId>commons-logging</artifactId>
+				<groupId>commons-logging</groupId>
+			</exclusion>
+		</exclusions>
 	</dependency>
 	
 	<dependency>    
 	    <groupId>net.sf.json-lib</groupId>    
 	    <artifactId>json-lib</artifactId>    
 	    <version>2.4</version>    
-	    <classifier>jdk15</classifier>    
+	    <classifier>jdk15</classifier>
+		<exclusions>
+			<exclusion>
+				<artifactId>commons-lang</artifactId>
+				<groupId>commons-lang</groupId>
+			</exclusion>
+		</exclusions>
 	</dependency>
 	
 	<dependency>
@@ -284,6 +330,16 @@
 	    <groupId>org.apache.solr</groupId>
 	    <artifactId>solr-solrj</artifactId>
 	    <version>${solr.version}</version>
+		<exclusions>
+			<exclusion>
+				<artifactId>commons-io</artifactId>
+				<groupId>commons-io</groupId>
+			</exclusion>
+			<exclusion>
+				<artifactId>slf4j-api</artifactId>
+				<groupId>org.slf4j</groupId>
+			</exclusion>
+		</exclusions>
 	</dependency> 
 	
 	<!-- https://mvnrepository.com/artifact/org.apache.axis/axis -->
@@ -297,6 +353,12 @@
 	    <groupId>commons-discovery</groupId>
 	    <artifactId>commons-discovery</artifactId>
 	    <version>0.4</version>
+		<exclusions>
+			<exclusion>
+				<artifactId>commons-logging</artifactId>
+				<groupId>commons-logging</groupId>
+			</exclusion>
+		</exclusions>
 	</dependency>
 	<!-- https://mvnrepository.com/artifact/javax.xml/jaxrpc -->
 	<dependency>
@@ -318,7 +380,17 @@
         <groupId>org.apache.cxf</groupId>
         <artifactId>cxf-rt-transports-http-jetty</artifactId>
         <version>${cxf.version}</version>
-    </dependency>
+		<exclusions>
+			<exclusion>
+				<artifactId>javax.servlet-api</artifactId>
+				<groupId>javax.servlet</groupId>
+			</exclusion>
+			<exclusion>
+				<artifactId>slf4j-api</artifactId>
+				<groupId>org.slf4j</groupId>
+			</exclusion>
+		</exclusions>
+	</dependency>
   </dependencies>
   <build>
   	<finalName>viva-ssm</finalName>
