@@ -34,5 +34,21 @@ public class Dish {
         return name;
     }
 
-    public enum Type {MEAT, FISH, OTHER}
+    /**
+     * 标记餐别
+     */
+    public enum Type {
+        /**
+         * 肉类
+         */
+        MEAT,
+        /**
+         * 鱼类
+         */
+        FISH,
+        /**
+         * 其他别
+         */
+        OTHER
+    }
 }
