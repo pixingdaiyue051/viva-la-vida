@@ -35,13 +35,11 @@ public class SharedDataDemo {
  */
 class CommonSharedData {
     private int[] nums = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
-
+    final private int MAX_NUMS_INDEX = nums.length - 1;
     private char[] alphabets = {
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
             'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
     };
-
-    final private int MAX_NUMS_INDEX = nums.length - 1;
     final private int MAX_BETS_INDEX = alphabets.length - 1;
 
     private int iNum = 0;

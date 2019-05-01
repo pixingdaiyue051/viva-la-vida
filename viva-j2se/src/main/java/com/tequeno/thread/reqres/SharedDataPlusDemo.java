@@ -38,38 +38,30 @@ public class SharedDataPlusDemo {
  * 共享数据基础类
  */
 class CommonSharedPlusData {
+    private final Lock lock = new ReentrantLock();
+    private final Condition cNum = lock.newCondition();
+    private final Condition cBet = lock.newCondition();
     private int[] nums = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
-
+    final private int MAX_NUMS_INDEX = nums.length - 1;
     private char[] alphabets = {
             'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
             'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
     };
-
-    final private int MAX_NUMS_INDEX = nums.length - 1;
     final private int MAX_BETS_INDEX = alphabets.length - 1;
-
     private int iNum = 0;
     private int iBet = 0;
-
     /**
      * 控制打印数字线程的运行状态
      * false-----表示线程正在运行
      * true------表示线程已经挂起，等待唤醒
      */
     private boolean bNum = false;
-
     /**
      * 控制打印字母线程的运行状态
      * false-----表示线程正在运行
      * true------表示线程已经挂起，等待唤醒
      */
     private boolean bBet = true;
-
-    private final Lock lock = new ReentrantLock();
-
-    private final Condition cNum = lock.newCondition();
-
-    private final Condition cBet = lock.newCondition();
 
     public void printNums() {
         lock.lock();
