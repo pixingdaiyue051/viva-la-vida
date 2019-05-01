@@ -30,7 +30,7 @@ public class TCPTransHandler {
 			String line = null;
 			while (true) {
 				line = scan.nextLine();
-				if (line.equalsIgnoreCase("over")) {
+				if ("over".equalsIgnoreCase(line)) {
 					break;
 				} else {
 					// 发送数据

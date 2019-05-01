@@ -20,23 +20,23 @@ public class PredicateTest {
         list.add("gray");
         list.add("orange");
         list.add("purple");
-        filterList(list, _str -> "ok".equals(_str) || _str.length() > 4);
+        filterList(list, strInLambda -> "ok".equals(strInLambda) || strInLambda.length() > 4);
 
-        filterPredicate("tequeno", _str -> "ok".equals(_str));
+        filterPredicate("tequeno", strInLambda -> "ok".equals(strInLambda));
 
-//        filterConsumer("ok", _str -> System.out.println(_str));
+//        filterConsumer("ok", strInLambda -> System.out.println(strInLambda));
         filterConsumer("ok", System.out::println);
 
-//        filterFunction("ok", _str -> _str.length());
+//        filterFunction("ok", strInLambda -> strInLambda.length());
         filterFunction("ok", String::length);
 
         filterSupplier(() -> "ok", () -> "tequeno".length());
 
-        filterIntBinaryOperator(4, 5, (_left, _right) -> _left + _right);
+        filterIntBinaryOperator(4, 5, (strInLeft, strInRight) -> strInLeft + strInRight);
 
-        filterBiFunction("ok", "tequeno", (_str1, _str2) -> _str1 + " " + _str2);
+        filterBiFunction("ok", "tequeno", (strInLambda1, strInLambda2) -> strInLambda1 + " " + strInLambda2);
 
-//        filterComparator("ik", "ok", (_t1, _t2) -> _t1.length() - _t2.length());
+//        filterComparator("ik", "ok", (lambdat1, lambdat2) -> lambdat1.length() - lambdat2.length());
         filterComparator("ok", "ok72fa", comparing(String::length));
 
         BiFunction<String, Double, Apple> f = Apple::new;

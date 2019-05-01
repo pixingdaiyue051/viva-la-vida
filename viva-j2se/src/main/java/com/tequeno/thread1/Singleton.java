@@ -3,23 +3,23 @@ package com.tequeno.thread1;
 // 适合非懒加载模式下，本身是线程安全的
 public class Singleton {
 
-	private final static Singleton s = new Singleton();
+	private final static Singleton INSTANCE = new Singleton();
 
 	private Singleton() {
 
 	}
 
 	public static Singleton getInstance() {
-		return s;
+		return INSTANCE;
 	}
 
 	// 静态内部类解决懒加载问题
 	private static class SingletonHolder {
-		private final static Singleton s = new Singleton();
+		private final static Singleton INSTANCE = new Singleton();
 	}
 
 	public static Singleton getInstance1() {
-		return SingletonHolder.s;
+		return SingletonHolder.INSTANCE;
 	}
 }
 

@@ -23,12 +23,12 @@ public class AppleTest {
             }
         });
 //        3
-        filterApples(appleList, $apple -> $apple.getWeight() > 100D);
+        filterApples(appleList, appleInLambda -> appleInLambda.getWeight() > 100D);
 
         //输出
-        appleList.forEach($apple -> {
-            System.out.print($apple.getColor() + "\t");
-            System.out.println($apple.getWeight());
+        appleList.forEach(appleInLambda -> {
+            System.out.print(appleInLambda.getColor() + "\t");
+            System.out.println(appleInLambda.getWeight());
         });
     }
 

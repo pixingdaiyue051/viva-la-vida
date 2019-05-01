@@ -7,7 +7,7 @@ import org.apache.commons.mail.HtmlEmail;
 
 public class EmailUtil {
 
-    private final static boolean ssl = true;
+    private final static boolean SSL = true;
     private final static String HOST_NAME = "smtp.163.com";
     private final static String SSL_PORT = "465";
     private final static String USER_NAME = "pixingdaiyue051@163.com";
@@ -23,7 +23,7 @@ public class EmailUtil {
             if (respone.getSuccess()) {
                 HtmlEmail email = new HtmlEmail();
                 email.setCharset(CHARSET);
-                email.setSSL(ssl);
+                email.setSSL(SSL);
                 email.setHostName(HOST_NAME);
                 email.setSslSmtpPort(SSL_PORT);
                 email.setAuthentication(USER_NAME, PASSWORD);
@@ -59,7 +59,7 @@ public class EmailUtil {
 //        try {
 //            SimpleEmail email = new SimpleEmail();
 //            email.setCharset(CHARSET);
-//            email.setSSL(ssl);
+//            email.setSSL(SSL);
 //            email.setHostName(HOST_NAME);
 //            email.setSslSmtpPort(SSL_PORT);
 //            email.setAuthentication(USER_NAME, PASSWORD);
@@ -79,7 +79,7 @@ public class EmailUtil {
 //        try {
 //            HtmlEmail email = new HtmlEmail();
 //            email.setCharset(CHARSET);
-//            email.setSSL(ssl);
+//            email.setSSL(SSL);
 //            email.setHostName(HOST_NAME);
 //            email.setSslSmtpPort(SSL_PORT);
 //            email.setAuthentication(USER_NAME, PASSWORD);
