@@ -27,5 +27,21 @@ public class FileTest {
 
         File f = new File(Paths.get(".", "doc/data.txt").normalize().toString());
         System.out.println(f.length());
+        f = new File(Paths.get("../", "viva-la-vida").normalize().toString());
+        recrusiveListFiles(f, 0);
+    }
+
+    public static void recrusiveListFiles(File file, int len) {
+        for (int i = 0; i < len; i++) {
+            System.out.print("\t");
+        }
+        System.out.println(file.getName());
+        if (file.isDirectory()) {
+            File[] files = file.listFiles(f -> !f.isHidden() && !f.getName().startsWith("."));
+            len++;
+            for (File f : files) {
+                recrusiveListFiles(f, len);
+            }
+        }
     }
 }
