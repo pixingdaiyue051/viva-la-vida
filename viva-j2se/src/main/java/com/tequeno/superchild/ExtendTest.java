@@ -1,38 +1,40 @@
 package com.tequeno.superchild;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 
 public class ExtendTest {
 
     public static void main(String[] args) {
-        AbstractPerson[] p = new AbstractPerson[2];
-        p[0] = new Employee();
-        p[0].write(10);
-        p[1] = new Student();
-        p[1].write("de");
-//		total(p);
-        List<AbstractPerson> list = new ArrayList<>();
-        list.add(p[0]);
-        totalC(list, 1);
-    }
+        try {
+            Employee employee = new Employee("e1","e2");
+            employee.seteArg1("e111");
+            employee.setArg1("111");
 
-    public static void total(AbstractPerson[] p) {
-        for (AbstractPerson person : p) {
-            System.out.println(person.getHashCode(person.read()));
-        }
-    }
+            // 反射获取方法
+            Class<?> superclass = employee.getClass().getSuperclass();
+            Object o = superclass.newInstance();
+            Method method = superclass.getDeclaredMethod("getArg1");
+            Object invoke = method.invoke(employee);
+            System.out.println(invoke);
+            // 反射获得字段
+            Field field = superclass.getDeclaredField("arg1");
+            field.setAccessible(true);
+            Object o2 = field.get(employee);
+            System.out.println(o2);
 
-    public static void totalC(Collection<AbstractPerson> p) {
-        for (AbstractPerson person : p) {
-            System.out.println(person.getHashCode(person.read()));
-        }
-    }
+            Class<? extends Employee> aClass = employee.getClass();
+            Employee o1 = aClass.newInstance();
+            Method method1 = aClass.getDeclaredMethod("geteArg1");
+            Object invoke1 = method1.invoke(employee);
+            System.out.println(invoke1);
 
-    public static void totalC(Collection<? extends AbstractPerson> p, int d) {
-        for (AbstractPerson person : p) {
-            System.out.println(person.getHashCode(person.read()));
+            Field field1 = aClass.getDeclaredField("eArg1");
+            field1.setAccessible(true);
+            Object o3 = field1.get(employee);
+            System.out.println(o3);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

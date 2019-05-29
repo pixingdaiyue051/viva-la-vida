@@ -1,30 +1,9 @@
-package com.tequeno.thread1;
+package com.pattern.singleton;
 
-// 适合非懒加载模式下，本身是线程安全的
-public class Singleton {
-
-    private final static Singleton INSTANCE = new Singleton();
-
-    private Singleton() {
-
-    }
-
-    public static Singleton getInstance() {
-        return INSTANCE;
-    }
-
-    public static Singleton getInstance1() {
-        return SingletonHolder.INSTANCE;
-    }
-
-    // 静态内部类解决懒加载问题
-    private static class SingletonHolder {
-        private final static Singleton INSTANCE = new Singleton();
-    }
-}
-
-// 可以适应懒加载模式
-class Singletonplus {
+/**
+ * 可以适应懒加载模式
+ */
+public class Singletonplus {
 
     private static Singletonplus s = null;
 

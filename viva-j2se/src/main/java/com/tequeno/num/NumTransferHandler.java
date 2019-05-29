@@ -13,10 +13,14 @@ public class NumTransferHandler {
      *
      * @param in   待转换的输入数值
      * @param from 输入值的进制
-     * @param to   输出值得进制
+     * @param to   输出值的进制
      * @return 转换值
      */
     public String transfer(String in, DecDispEnum from, DecDispEnum to) {
+        boolean matches = in.matches(from.getReg());
+        if(!matches){
+            return "数字格式不正确";
+        }
         if (from.equals(to)) {
             return in;
         }
@@ -72,8 +76,8 @@ public class NumTransferHandler {
         String[] split = key.split("");
         int result = 0;
         for (int i = 0; i < split.length; i++) {
-            int pow = (int) Math.pow(decDispEnum.getDec(), split.length - i - 1);
-            result += transfer2FromDataStr(split[i]) * pow;
+            int pow = decDispEnum.getDisp() * (split.length - i - 1);
+            result += transfer2FromDataStr(split[i]) * (1 << pow);
         }
         return result;
     }
@@ -104,28 +108,40 @@ public class NumTransferHandler {
         /**
          * 二进制
          */
-        BIN(2),
+        BIN(2, 1, "[01]+"),
         /**
          * 八进制
          */
-        OCT(8),
+        OCT(8, 3, "[0-7]+"),
         /**
          * 十六进制
          */
-        HEX(16),
+        HEX(16, 4, "[0-9a-f]+"),
         /**
          * 十进制
          */
-        DEC(10);
+        DEC(10, 0, "[0-9]+");
 
         private int dec;
+        private int disp;
+        private String reg;
 
-        DecDispEnum(int dec) {
+        DecDispEnum(int dec, int disp, String reg) {
             this.dec = dec;
+            this.disp = disp;
+            this.reg = reg;
         }
 
         public int getDec() {
             return dec;
+        }
+
+        public int getDisp() {
+            return disp;
+        }
+
+        public String getReg() {
+            return reg;
         }
     }
 }
