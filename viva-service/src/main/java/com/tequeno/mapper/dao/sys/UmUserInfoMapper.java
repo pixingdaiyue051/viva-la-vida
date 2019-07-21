@@ -8,5 +8,5 @@ import tk.mybatis.mapper.common.Mapper;
 
 public interface UmUserInfoMapper extends Mapper<UmUserInfo> {
 
-	UmUserInfo selectByNamePwd(@Param("userName") String userName, @Param("pwd") String pwd);
+	UmUserInfo selectByNamePwd(@Param("username") String username, @Param("pwd") String pwd);
 }

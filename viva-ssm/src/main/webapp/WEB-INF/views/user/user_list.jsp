@@ -8,7 +8,7 @@
   </head>
   <body>
   	<c:forEach var="u" items="${userList}">
-  		<p>${u.userName}&nbsp;&nbsp;&nbsp;&nbsp;${u.trueName}</p>
+  		<p>${u.username}&nbsp;&nbsp;&nbsp;&nbsp;${u.truename}</p>
   	</c:forEach>
   </body>
 </html>

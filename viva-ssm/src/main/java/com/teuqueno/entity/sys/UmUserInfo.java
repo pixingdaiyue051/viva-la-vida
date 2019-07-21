@@ -12,9 +12,9 @@ public class UmUserInfo extends BaseEntity {
 	 */
 	private static final long serialVersionUID = -403886687529880018L;
 
-	private String userName;
+	private String username;
 
-    private String trueName;
+    private String truename;
 
     private String pwd;
 
@@ -26,20 +26,20 @@ public class UmUserInfo extends BaseEntity {
 
     private String contactInfo;
 
-    public String getUserName() {
-        return userName;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
-    public String getTrueName() {
-        return trueName;
+    public String getTruename() {
+        return truename;
     }
 
-    public void setTrueName(String trueName) {
-        this.trueName = trueName;
+    public void setTruename(String truename) {
+        this.truename = truename;
     }
 
     public String getPwd() {

@@ -21,15 +21,15 @@ public class UmUserInfoServiceImpl extends BaseServiceImpl<UmUserInfoMapper, UmU
     private static final long serialVersionUID = -992954323489525830L;
 
     @Override
-    public UmUserInfo selectByNamePwd(String userName, String pwd) {
-        return dao.selectByNamePwd(userName, pwd);
+    public UmUserInfo selectByNamePwd(String username, String pwd) {
+        return dao.selectByNamePwd(username, pwd);
     }
 
     @Override
     public UmUserInfo testTransaction() {
         UmUserInfo u = new UmUserInfo();
         u.setEmail("1111");
-        u.setUserName("411111");
+        u.setUsername("411111");
 //        u.setPwd(Md5Util.encode("123456"));
         dao.insertSelective(u);
         return dao.selectByPrimaryKey(u.getId());

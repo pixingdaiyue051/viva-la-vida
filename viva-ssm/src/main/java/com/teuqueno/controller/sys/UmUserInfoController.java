@@ -40,8 +40,8 @@ public class UmUserInfoController extends BaseController {
 	public UmUserInfo add(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			UmUserInfo user = new UmUserInfo();
-//			user.setUserName("new1");
-//			user.setTrueName("new1");
+//			user.setUsername("new1");
+//			user.setTruename("new1");
 //			user.setPwd("new1");
 //			userService.insertSelectiveFetchId(user);
 			user = userService.testTransaction();
@@ -57,8 +57,8 @@ public class UmUserInfoController extends BaseController {
 	public int delete(HttpServletRequest request, HttpServletResponse response) {
 		try {
 			UmUserInfo user = new UmUserInfo();
-			user.setUserName("new1");
-			user.setTrueName("new1");
+			user.setUsername("new1");
+			user.setTruename("new1");
 			user.setPwd("new1");
 			userService.insertSelectiveFetchId(user);
 			return userService.deleteByPrimaryKey(user.getId());
@@ -76,7 +76,7 @@ public class UmUserInfoController extends BaseController {
 	@RequestMapping(value = "/login", method = RequestMethod.POST)
 	public String login(HttpServletRequest request, HttpServletResponse response, UmUserInfo user) {
 		try {
-			user = userService.selectByNamePwd(user.getUserName(), user.getPwd());
+			user = userService.selectByNamePwd(user.getUsername(), user.getPwd());
 			if (null != user) {
 				request.getSession().setAttribute(ConstantsUtil.USER_SESSION, user);
 				return "redirect:/um/user/one.do?id=" + user.getId();

@@ -13,7 +13,7 @@
   		<table>
     	<tr>
 	    	<td><span id="_user_name"><spring:message code="_user_name"/>:</span></td>
-	    	<td><input type="text" name="userName"/></td>
+	    	<td><input type="text" name="username"/></td>
     	</tr>
     	<tr>
 	    	<td><span id="_pwd"><spring:message code="_pwd"/>:</span></td>

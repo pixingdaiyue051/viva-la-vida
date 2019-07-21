@@ -93,7 +93,7 @@ public class JdbcUtil {
 		Connection conn = getConnection();
 		try {
 			DatabaseMetaData dbmd = conn.getMetaData();
-			System.out.println("数据库已知的用户: " + dbmd.getUserName());
+			System.out.println("数据库已知的用户: " + dbmd.getUsername());
 			System.out.println("数据库的系统函数的逗号分隔列表: " + dbmd.getSystemFunctions());
 			System.out.println("数据库的时间和日期函数的逗号分隔列表: " + dbmd.getTimeDateFunctions());
 			System.out.println("数据库的字符串函数的逗号分隔列表: " + dbmd.getStringFunctions());

@@ -1,5 +1,7 @@
 package com.jdk8.cstream;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -73,5 +75,11 @@ public class TraderTest {
                 .stream()
                 .forEach(e -> System.out.println(e.getKey() + "--" + e.getValue()));
 
+
+
+        String[] idsStr = "8,6,9,5".split(",");
+        Arrays.stream(idsStr)
+                .mapToLong(id->Long.valueOf(id))
+                .forEach(System.out::println);
     }
 }

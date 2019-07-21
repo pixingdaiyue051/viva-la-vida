@@ -14,7 +14,7 @@ public class EmailUtil {
     private final static String PASSWORD = "pixingdaiyue051";
     private final static String CHARSET = "UTF-8";
 
-    public static EmailRespone send(EmailWrapper wrapper) {
+    public static EmailRespone send(EmailInfoSender wrapper) {
         EmailRespone respone = new EmailRespone();
         respone.setSuccess(true);
         respone.setMsg("邮件发送成功!");
@@ -102,7 +102,7 @@ public class EmailUtil {
 //        }
 //    }
 
-    private static void checkEmailWrapper(EmailWrapper wrapper, EmailRespone respone) {
+    private static void checkEmailWrapper(EmailInfoSender wrapper, EmailRespone respone) {
         if (StringUtils.isBlank(wrapper.getSubject())) {
             respone.setSuccess(false);
             respone.setMsg("邮件主题为空，无法发送！");

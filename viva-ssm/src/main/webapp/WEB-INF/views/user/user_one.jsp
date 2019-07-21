@@ -7,6 +7,6 @@
 	<title>11111</title>
   </head>
   <body>
-    <p>${user.userName}&nbsp;&nbsp;&nbsp;&nbsp;${user.trueName}</p>
+    <p>${user.username}&nbsp;&nbsp;&nbsp;&nbsp;${user.truename}</p>
   </body>
 </html>
