@@ -28,17 +28,19 @@
             <version>4.11</version>
             <scope>test</scope>
         </dependency>
-
+        <!-- apache email API-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-email</artifactId>
             <version>1.1</version>
         </dependency>
+        <!-- apache common lang API-->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
             <version>LATEST</version>
         </dependency>
+        <!-- github tiny pinyin-->
         <dependency>
             <groupId>com.github.promeg</groupId>
             <artifactId>tinypinyin</artifactId>
@@ -48,6 +50,12 @@
             <groupId>com.github.promeg</groupId>
             <artifactId>tinypinyin-lexicons-java-cncity</artifactId>
             <version>2.0.3</version>
+        </dependency>
+        <!-- apache activemq-->
+        <dependency>
+            <groupId>org.apache.activemq</groupId>
+            <artifactId>activemq-all</artifactId>
+            <version>5.9.0</version>
         </dependency>
     </dependencies>
 
