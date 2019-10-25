@@ -11,7 +11,7 @@
   <url>http://maven.apache.org</url>
   <packaging>war</packaging>
   <properties>
-  	<spring.version>4.2.5.RELEASE</spring.version>
+  	<spring.version>5.2.0.RELEASE</spring.version>
   	<mybatis.version>3.3.1</mybatis.version>
   	<mybatisspring.version>1.2.4</mybatisspring.version>
 	<mysql.version>5.1.30</mysql.version>
