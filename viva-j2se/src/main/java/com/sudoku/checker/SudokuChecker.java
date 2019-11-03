@@ -1,6 +1,9 @@
 package com.sudoku.checker;
 
-import com.ht.basic.*;
+import com.sudoku.basic.Constants;
+import com.sudoku.basic.IndexDataBinder;
+import com.sudoku.basic.SudokuDto;
+import com.sudoku.basic.SudokuWrapper;
 
 import java.util.ArrayList;
 import java.util.List;

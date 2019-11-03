@@ -8,9 +8,9 @@ public class MessageConsumer {
 
     private static final String ACTIVEMQ_URL = "tcp://127.0.0.1:61616";
 
-    private static final String QUEUE_NAME = "MyMessage";
+    private static final String QUEUE_NAME = "queue.test";
 
-    private static final String TOPIC_NAME = "MyTopicMessage";
+    private static final String TOPIC_NAME = "topic.test";
 
     public static void main(String[] args) {
         try {
@@ -48,5 +48,6 @@ public class MessageConsumer {
                 e.printStackTrace();
             }
         });
+
     }
 }

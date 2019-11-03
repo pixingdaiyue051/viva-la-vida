@@ -1,7 +1,7 @@
 package com.sudoku.generator;
 
-import com.ht.basic.*;
-import com.ht.checker.SudokuChecker;
+import com.sudoku.basic.*;
+import com.sudoku.checker.SudokuChecker;
 
 import java.util.ArrayList;
 import java.util.List;
