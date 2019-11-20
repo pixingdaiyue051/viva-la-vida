@@ -1,4 +1,4 @@
-###父项目站点###
+###main entry ignore###
 target/
 .classpath
 .project
@@ -9,7 +9,7 @@ target/
 *.ipr
 out/
 
-###子项目viva-api###
+###viva-api###
 viva-api/target/
 viva-api/.classpath
 viva-api/.project
@@ -20,29 +20,7 @@ viva-api/*.iml
 viva-api/*.ipr
 viva-api/out/
 
-###子项目viva-service###
-viva-service/target/
-viva-service/.classpath
-viva-service/.project
-viva-service/.settings
-viva-service/.idea/
-viva-service/*.iws
-viva-service/*.iml
-viva-service/*.ipr
-viva-service/out/
-
-###子项目viva-web###
-viva-web/target/
-viva-web/.classpath
-viva-web/.project
-viva-web/.settings
-viva-web/.idea/
-viva-web/*.iws
-viva-web/*.iml
-viva-web/*.ipr
-viva-web/out/
-
-###子项目viva-j2se###
+###viva-j2se###
 viva-j2se/target/
 viva-j2se/.classpath
 viva-j2se/.project
@@ -53,7 +31,7 @@ viva-j2se/*.iml
 viva-j2se/*.ipr
 viva-j2se/out
 
-###子项目viva-solr-test###
+###viva-solr-test###
 viva-solr-test/target/
 viva-solr-test/.classpath
 viva-solr-test/.project
@@ -64,18 +42,7 @@ viva-solr-test/*.iml
 viva-solr-test/*.ipr
 viva-solr-test/out/
 
-###子项目viva-spring-ocean###
-viva-spring-ocean/target/
-viva-spring-ocean/.classpath
-viva-spring-ocean/.project
-viva-spring-ocean/.settings
-viva-spring-ocean/.idea/
-viva-spring-ocean/*.iws
-viva-spring-ocean/*.iml
-viva-spring-ocean/*.ipr
-viva-spring-ocean/out/
-
-###子项目viva-ssm###
+###viva-ssm###
 viva-ssm/target/
 viva-ssm/.classpath
 viva-ssm/.project
