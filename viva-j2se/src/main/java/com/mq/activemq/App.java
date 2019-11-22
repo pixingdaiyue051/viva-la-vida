@@ -4,7 +4,7 @@
  * @author : hexk
  * @date : 2019-11-01 09:35
  **/
-package com.mq;
+package com.mq.activemq;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
@@ -13,10 +13,6 @@ import javax.jms.MessageProducer;
 import javax.jms.*;
 
 public class App {
-
-    private static final String ACTIVEMQ_URL = "tcp://127.0.0.1:61616";
-
-    private static final String QUEUE_NAME = "queue.test";
 
     public static void main(String[] args) throws Exception {
         thread(new HelloWorldProducer(), false);
@@ -59,7 +55,7 @@ public class App {
         public void run() {
             try {
                 // Create a ConnectionFactory
-                ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(ACTIVEMQ_URL);
+                ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(ActivemqConstant.ACTIVEMQ_URL);
 
                 // Create a Connection
                 Connection connection = connectionFactory.createConnection();
@@ -69,7 +65,7 @@ public class App {
                 Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
                 // Create the destination (Topic or Queue)
-                Destination destination = session.createQueue(QUEUE_NAME);
+                Destination destination = session.createQueue(ActivemqConstant.QUEUE_NAME);
 
                 // Create a MessageProducer from the Session to the Topic or Queue
                 MessageProducer producer = session.createProducer(destination);
@@ -99,7 +95,7 @@ public class App {
             try {
 
                 // Create a ConnectionFactory
-                ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(ACTIVEMQ_URL);
+                ActiveMQConnectionFactory connectionFactory = new ActiveMQConnectionFactory(ActivemqConstant.ACTIVEMQ_URL);
 
                 // Create a Connection
                 Connection connection = connectionFactory.createConnection();
@@ -111,7 +107,7 @@ public class App {
                 Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
 
                 // Create the destination (Topic or Queue)
-                Destination destination = session.createQueue(QUEUE_NAME);
+                Destination destination = session.createQueue(ActivemqConstant.QUEUE_NAME);
 
                 // Create a MessageConsumer from the Session to the Topic or Queue
                 MessageConsumer consumer = session.createConsumer(destination);

@@ -1,16 +1,10 @@
-package com.mq;
+package com.mq.activemq;
 
 import org.apache.activemq.ActiveMQConnectionFactory;
 
 import javax.jms.*;
 
 public class MessageConsumer {
-
-    private static final String ACTIVEMQ_URL = "tcp://127.0.0.1:61616";
-
-    private static final String QUEUE_NAME = "queue.test";
-
-    private static final String TOPIC_NAME = "topic.test";
 
     public static void main(String[] args) {
         try {
@@ -23,7 +17,7 @@ public class MessageConsumer {
 
     private static void recieve(boolean isTopic) throws JMSException {
         //创建连接工厂
-        ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory(ACTIVEMQ_URL);
+        ActiveMQConnectionFactory activeMQConnectionFactory = new ActiveMQConnectionFactory(ActivemqConstant.ACTIVEMQ_URL);
         //创建连接
         Connection connection = activeMQConnectionFactory.createConnection();
         //打开连接
@@ -33,9 +27,9 @@ public class MessageConsumer {
         //创建队列目标
         Destination destination = null;
         if (isTopic) {
-            destination = session.createTopic(TOPIC_NAME);
+            destination = session.createTopic(ActivemqConstant.TOPIC_NAME);
         } else {
-            destination = session.createQueue(QUEUE_NAME);
+            destination = session.createQueue(ActivemqConstant.QUEUE_NAME);
         }
         //创建消费者
         javax.jms.MessageConsumer consumer = session.createConsumer(destination);
