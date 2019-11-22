@@ -13,17 +13,18 @@ import org.apache.rocketmq.remoting.common.RemotingHelper;
 public class OnewayProducer {
 
     public static void main(String[] args) throws Exception {
-        //Instantiate with a producer group name.
+        // Instantiate with a producer group name.
         DefaultMQProducer producer = new DefaultMQProducer(RocketmqConstant.DEFAULT_GROUP);
         // Specify name server addresses.
         producer.setNamesrvAddr(RocketmqConstant.DEFAULT_NAMESRV_ADDR);
-        //Launch the instance.
+        // Launch the instance.
+        producer.setRetryTimesWhenSendFailed(RocketmqConstant.SEND_FAILED_RETRY);
+        producer.setInstanceName(RocketmqConstant.INSTANCE_NAME_B);
         producer.start();
-        producer.setRetryTimesWhenSendFailed(RocketmqConstant.SEND_SYNC_FAILED_RETRY);
         for (int i = 0; i < 10; i++) {
             //Create a message instance, specifying topic, tag and message body.
             Message msg = new Message(RocketmqConstant.DEFAULT_TOPIC,
-                    RocketmqConstant.DEFAULT_TAG,
+                    RocketmqConstant.DEFAULT_TAG_A,
                     ("Hello world" + i).getBytes(RemotingHelper.DEFAULT_CHARSET)
             );
             //Call send message to deliver message to one of brokers.

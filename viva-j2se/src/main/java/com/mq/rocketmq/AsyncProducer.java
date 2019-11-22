@@ -15,19 +15,19 @@ import org.apache.rocketmq.remoting.common.RemotingHelper;
 public class AsyncProducer {
 
     public static void main(String[] args) throws Exception {
-        //Instantiate with a producer group name.
+        // Instantiate with a producer group name.
         DefaultMQProducer producer = new DefaultMQProducer(RocketmqConstant.DEFAULT_GROUP);
         // Specify name server addresses.
         producer.setNamesrvAddr(RocketmqConstant.DEFAULT_NAMESRV_ADDR);
-        //Launch the instance.
+        // Launch the instance.
+        producer.setRetryTimesWhenSendAsyncFailed(RocketmqConstant.SEND_FAILED_RETRY);
+        producer.setInstanceName(RocketmqConstant.INSTANCE_NAME_A);
         producer.start();
-        producer.setRetryTimesWhenSendAsyncFailed(RocketmqConstant.SEND_ASYNC_FAILED_RETRY);
         for (int i = 0; i < 10; i++) {
             final int index = i;
             //Create a message instance, specifying topic, tag and message body.
             Message msg = new Message(RocketmqConstant.DEFAULT_TOPIC,
-                    RocketmqConstant.DEFAULT_TAG,
-                    "OrderID188",
+                    RocketmqConstant.DEFAULT_TAG_A,
                     ("Hello world" + i).getBytes(RemotingHelper.DEFAULT_CHARSET)
             );
             producer.send(msg, new SendCallback() {
@@ -35,16 +35,15 @@ public class AsyncProducer {
                 public void onSuccess(SendResult sendResult) {
                     System.out.printf("%-10d OK %s %n", index,
                             sendResult.getMsgId());
+                    producer.shutdown();
                 }
 
                 @Override
                 public void onException(Throwable e) {
                     System.out.printf("%-10d Exception %s %n", index, e);
-                    e.printStackTrace();
+                    producer.shutdown();
                 }
             });
         }
-        //Shut down once the producer instance is not longer in use.
-        producer.shutdown();
     }
 }

@@ -14,9 +14,13 @@ public class RocketmqConstant {
 
     public static final String DEFAULT_TOPIC = "r_topic_test";
 
-    public static final String DEFAULT_TAG = "r_tag_a";
+    public static final String DEFAULT_TAG_A = "r_tag_a";
 
-    public static final int SEND_SYNC_FAILED_RETRY = 0;
+    public static final String DEFAULT_TAG_B = "r_tag_b";
 
-    public static final int SEND_ASYNC_FAILED_RETRY = 0;
+    public static final String INSTANCE_NAME_A = "r_ins_a";
+
+    public static final String INSTANCE_NAME_B = "r_ins_b";
+
+    public static final int SEND_FAILED_RETRY = 0;
 }
