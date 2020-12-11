@@ -7,7 +7,7 @@
     <groupId>com.tequeno</groupId>
     <artifactId>viva-j2se</artifactId>
     <version>1.0.0</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

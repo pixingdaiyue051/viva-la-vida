@@ -1,38 +1,36 @@
-//package com.temail;
-//
-//import org.apache.commons.mail.EmailAttachment;
-//
-//import javax.swing.filechooser.FileSystemView;
-//import java.io.File;
-//import java.util.Arrays;
-//import java.util.stream.Collectors;
-//
-//public class EmailTest {
-//
-//    public static void main(String[] args) {
-////        EmailUtil.send("pixingdaiyue051@163.com", "test", "测试哦中文乱码");
-////
-////        EmailUtil.sendHtmlMsg("pixingdaiyue051@163.com", "test", "测试发送文件", homeDirectory.getPath() + "/1984.txt", "1984");
-//
-//        EmailInfoSender wrapper = new EmailInfoSender("test-plus", "pixingdaiyue051@163.com", "", "发送给我自己的邮件");
-//
-//        FileSystemView fsv = FileSystemView.getFileSystemView();
-//        File homeDirectory = fsv.getHomeDirectory();
-////        File[] files = homeDirectory.listFiles();
-////        for (File f : files) {
-////            System.out.println(f.getName() + "--" + f.isAbsolute() + "--" + f.length());
-////        }
-//
-//        wrapper.setAttachments(Arrays.stream(homeDirectory.listFiles()).filter(File::isFile)
-//                .filter(f -> !f.getAbsolutePath().endsWith("lnk"))
-//                .map(f -> {
-//                    EmailAttachment attachment = new EmailAttachment();
-//                    attachment.setName(f.getName());
-//                    attachment.setPath(f.getAbsolutePath());
-//                    return attachment;
-//                })
-//                .limit(5)
-//                .collect(Collectors.toList()));
-//        System.out.println(EmailUtil.send(wrapper).getMsg());
-//    }
-//}
+package com.temail;
+
+import javax.swing.filechooser.FileSystemView;
+import java.io.File;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+public class EmailTest {
+
+    public static void main(String[] args) {
+
+        EmailWrapper wrapper = new EmailWrapper();
+        wrapper.setSubject("【test】");
+        wrapper.setToAddr("pixingdaiyue051@163.com");
+        wrapper.setCcAddr("pixingdaiyue051@dingtalk.com");
+        StringBuilder builder = new StringBuilder();
+        builder.append("<html>");
+        builder.append("<head><title>504 Gateway Time-out</title></head>");
+        builder.append("<body bgcolor='white'>");
+        builder.append("<center><h1>504 Gateway Time-out</h1></center>");
+        builder.append("<hr><center>nginx</center>");
+        builder.append("</body>");
+        builder.append("</html>");
+        wrapper.setHtmlMsg(builder.toString());
+        // 桌面文件
+        File homeDirectory = FileSystemView.getFileSystemView().getHomeDirectory();
+        wrapper.setFileList(Arrays.stream(homeDirectory.listFiles()).filter(File::isFile)
+                .filter(f -> !f.getAbsolutePath().endsWith("lnk"))
+                .limit(1)
+                .collect(Collectors.toList()));
+        EmailRespone emailRespone = EmailUtil.sendMimeEmail(wrapper);
+        System.out.println(emailRespone.getSuccess());
+        System.out.println(emailRespone.getMsg());
+        System.out.println(emailRespone.getThrowable());
+    }
+}

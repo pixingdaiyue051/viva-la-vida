@@ -5,6 +5,8 @@ public class EmailRespone {
 
     private String msg;
 
+    private Throwable throwable;
+
     public boolean getSuccess() {
         return success;
     }
@@ -19,5 +21,13 @@ public class EmailRespone {
 
     public void setMsg(String msg) {
         this.msg = msg;
+    }
+
+    public Throwable getThrowable() {
+        return throwable;
+    }
+
+    public void setThrowable(Throwable throwable) {
+        this.throwable = throwable;
     }
 }
