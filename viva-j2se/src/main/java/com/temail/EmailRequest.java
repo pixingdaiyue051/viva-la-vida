@@ -1,11 +1,8 @@
 package com.temail;
 
-import org.apache.commons.mail.EmailAttachment;
-
-import java.io.File;
 import java.util.List;
 
-public class EmailWrapper {
+public class EmailRequest {
 
     /**
      * 邮件主题，必须
@@ -14,7 +11,7 @@ public class EmailWrapper {
     /**
      * 邮件内容，可以是html信息，必须
      */
-    private String htmlMsg;
+    private String content;
     /**
      * 接收人邮件地址，必须
      * 多个接收人逗号分隔
@@ -33,7 +30,7 @@ public class EmailWrapper {
     /**
      * 附件，非必须
      */
-    private List<File> fileList;
+    private List<EmailFile> fileList;
 
     public String getSubject() {
         return subject;
@@ -43,12 +40,12 @@ public class EmailWrapper {
         this.subject = subject;
     }
 
-    public String getHtmlMsg() {
-        return htmlMsg;
+    public String getContent() {
+        return content;
     }
 
-    public void setHtmlMsg(String htmlMsg) {
-        this.htmlMsg = htmlMsg;
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getToAddr() {
@@ -75,11 +72,11 @@ public class EmailWrapper {
         this.bccAddr = bccAddr;
     }
 
-    public List<File> getFileList() {
+    public List<EmailFile> getFileList() {
         return fileList;
     }
 
-    public void setFileList(List<File> fileList) {
+    public void setFileList(List<EmailFile> fileList) {
         this.fileList = fileList;
     }
 }

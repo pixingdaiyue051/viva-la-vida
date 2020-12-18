@@ -6,6 +6,8 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.Optional;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class FileTest {
@@ -24,24 +26,23 @@ public class FileTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-        File f = new File(Paths.get(".", "doc/data.txt").normalize().toString());
-        System.out.println(f.length());
-        f = new File(Paths.get("../", "viva-la-vida").normalize().toString());
-        recrusiveListFiles(f, 0);
+        recursiveListFile(Paths.get(".", "doc/data.txt").normalize().toString());
+        recursiveListFile(Paths.get("../", "viva-la-vida").normalize().toString());
     }
 
-    public static void recrusiveListFiles(File file, int len) {
-        for (int i = 0; i < len; i++) {
-            System.out.print("\t");
-        }
+    public static void recursiveListFile(String filePath) {
+        File f = new File(filePath);
+        recursiveListFile(f, 0);
+    }
+
+    private static void recursiveListFile(File file, int len) {
+        IntStream.range(0, len).forEach(i -> System.out.print("\t"));
         System.out.println(file.getName());
         if (file.isDirectory()) {
             File[] files = file.listFiles(f -> !f.isHidden() && !f.getName().startsWith("."));
             len++;
-            for (File f : files) {
-                recrusiveListFiles(f, len);
-            }
+            int finalLen = len;
+            Stream.of(files).forEach(f -> recursiveListFile(f, finalLen));
         }
     }
 }
