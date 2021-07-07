@@ -1,4 +1,4 @@
-package com.jdk8.ffile;
+package com.tequeno.io;
 
 import java.io.File;
 import java.io.IOException;
