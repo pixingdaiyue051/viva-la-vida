@@ -1,4 +1,4 @@
-package com.tequeno.inet.netty;
+package com.tequeno.inet.netty.server;
 
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
@@ -25,7 +25,9 @@ public class DiscardServerHandler extends ChannelInboundHandlerAdapter {
             //  echo any received data is sent back.
 //            ctx.write(msg);
 //            ctx.flush();
-//            ctx.writeAndFlush(msg);
+            ctx.writeAndFlush(msg);
+//            Please note that we did not release the received message unlike we did in the DISCARD example.
+//            It is because Netty releases it for you when it is written out to the wire.
         } finally {
 //            ((ByteBuf) msg).release();
             ReferenceCountUtil.release(msg);

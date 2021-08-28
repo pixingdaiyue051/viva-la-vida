@@ -5,33 +5,14 @@ import java.util.List;
 
 public class StringTest {
     public static void main(String[] args) {
-//		stringBufferOneDemo();
-//		stringBuildOneDemo();
-        getMaxLengthSubString("qwertyuiopasdfghjklzxcvbnm");
-    }
+//        getMaxLengthSubString("qwertyuiopasdfghjklzxcvbnm");
 
-    public static void stringBufferOneDemo() {
-        StringBuffer buf = new StringBuffer();
-        buf.append("1");
-        buf.append("2");
-        buf.append("3");
-        buf.append("4");
-        buf.append("5");
-        buf.delete(0, 1);
-        buf.replace(0, 1, "1");
-        System.out.println(buf);
-    }
+        String idCard = "510781198210203256";
+//        idCard = "510921197912177590";
+//        idCard = "510704198205292714";
 
-    public static void stringBuildOneDemo() {
-        StringBuilder builder = new StringBuilder();
-        builder.append("1");
-        builder.append("2");
-        builder.append("3");
-        builder.append("4");
-        builder.append("5");
-        builder.delete(0, 1);
-        builder.replace(0, 0, "1");
-        System.out.println(builder);
+        boolean check = IdAlgorithmEnum.check(idCard);
+        System.out.println(check);
     }
 
     public static String getMaxLengthSubString(String s) {
@@ -63,4 +44,5 @@ public class StringTest {
         }
         return result;
     }
+
 }

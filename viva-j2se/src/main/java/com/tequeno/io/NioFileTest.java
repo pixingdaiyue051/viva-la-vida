@@ -3,8 +3,10 @@ package com.tequeno.io;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.channels.FileChannel;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.stream.IntStream;
 
 /**
  * @Desription:
@@ -17,7 +19,8 @@ public class NioFileTest {
 //        file.getChannel()
         NioFileTest nioFileTest = new NioFileTest();
 //            nioFileTest.testBuffer();
-        nioFileTest.testChannel();
+//        nioFileTest.testChannel();
+        nioFileTest.testWrite();
     }
 
     private void testBuffer() {
@@ -75,6 +78,20 @@ public class NioFileTest {
 //            outMapper.put(b);
 //            String s = new String(b);
 //            System.out.println(s);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void testWrite() {
+        try (FileChannel outChannel = FileChannel.open(Paths.get("E:\\data\\upload\\fake_json_1\\data1.txt"), StandardOpenOption.APPEND, StandardOpenOption.CREATE)) {
+            String text = "87973同一个iv辅导班v都能看见三百v举报覅尔康返回铁道部v帝国和韩国i给";
+            byte[] bytes = text.getBytes();
+
+            ByteBuffer byteBuffer = ByteBuffer.wrap(bytes);
+            outChannel.write(byteBuffer);
+            byteBuffer.clear();
+
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -1,4 +1,4 @@
-package com.tequeno.inet.netty;
+package com.tequeno.inet.netty.server;
 
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -12,11 +12,11 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 /**
  * Discards any incoming data.
  */
-public class TimeServer {
+public class MyServer {
 
     private int port;
 
-    public TimeServer(int port) {
+    public MyServer(int port) {
         this.port = port;
     }
 
@@ -27,12 +27,7 @@ public class TimeServer {
             ServerBootstrap b = new ServerBootstrap(); // (2)
             b.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class) // (3)
-                    .childHandler(new ChannelInitializer<SocketChannel>() { // (4)
-                        @Override
-                        public void initChannel(SocketChannel ch) throws Exception {
-                            ch.pipeline().addLast(new TimeServerHandler());
-                        }
-                    })
+                    .childHandler(new MyServerInitializer())
                     .option(ChannelOption.SO_BACKLOG, 128)          // (5)
                     .childOption(ChannelOption.SO_KEEPALIVE, true); // (6)
 
@@ -50,6 +45,6 @@ public class TimeServer {
     }
 
     public static void main(String[] args) throws Exception {
-        new TimeServer(8080).run();
+        new MyServer(8081).run();
     }
 }
