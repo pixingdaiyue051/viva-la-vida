@@ -49,6 +49,29 @@ public enum IdAlgorithmEnum {
         this.otp = otp;
     }
 
+    public static boolean calculate(String idCard) {
+        boolean matches = idCard.matches("[0-9]{17}[0-9|X|x]");
+        if (!matches) {
+            System.out.println("错误身份证");
+            return false;
+        }
+        String[] array = idCard.toUpperCase().split("");
+        int sum = 0;
+        for (int i = 0; i < array.length - 1; i++) {
+            Integer factor = IdAlgorithmHolder.map.get(i);
+            int idxNum = Integer.parseInt(array[i]);
+            int tmp = factor * idxNum;
+            sum += tmp;
+        }
+        int modeIdx = sum % MOD;
+        System.out.printf("sum[%d],modIdx[%d]", sum, modeIdx);
+        System.out.println();
+        String lastStr = array[array.length - 1];
+        String modeStr = IdAlgorithmHolder.map2.get(modeIdx);
+        System.out.printf("lastStr[%s],modeStr[%s]", lastStr, modeStr);
+        return lastStr.equals(modeStr);
+    }
+
     public static boolean check(String idCard) {
         boolean matches = idCard.matches("[0-9]{17}[0-9|X|x]");
         if (!matches) {

@@ -1,4 +1,4 @@
-package com.tequeno.test;
+package com.tequeno.io;
 
 
 import org.jfree.chart.ChartFactory;
