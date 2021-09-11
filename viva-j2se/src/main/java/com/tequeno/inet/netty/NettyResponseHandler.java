@@ -9,6 +9,13 @@ public class NettyResponseHandler {
         return response;
     }
 
+    public static NettyResponse success(String code, Object data) {
+        NettyResponse response = success();
+        response.setCode(code);
+        response.setData(data);
+        return response;
+    }
+
     public static NettyResponse success(Object data) {
         NettyResponse response = success();
         response.setData(data);
