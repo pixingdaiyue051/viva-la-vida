@@ -48,6 +48,7 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
         channelGroup.add(ctx.channel());
         online = channelGroup.size();
         System.out.println(ctx.channel().remoteAddress() + "上线了!");
+        System.out.println("目前在线数" + online);
     }
 
     //关闭连接
@@ -56,11 +57,7 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
         channelGroup.remove(ctx.channel());
         online = channelGroup.size();
         System.out.println(ctx.channel().remoteAddress() + "断开连接");
-    }
-
-    @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        ctx.flush();
+        System.out.println("目前在线数" + online);
     }
 
     //出现异常
@@ -75,8 +72,7 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
     }
 
     //给每个人发送消息,除发消息人外
-    private void sendAllMessages(ChannelHandlerContext ctx, NettyResponse msg) {
-        channelGroup.stream().filter(channel -> !channel.id().asLongText().equals(ctx.channel().id().asLongText()))
-                .forEach(channel -> channel.writeAndFlush(new TextWebSocketFrame(JSON.toJSONString(msg))));
+    private void sendAllMessages(NettyResponse msg) {
+        channelGroup.writeAndFlush(new TextWebSocketFrame(JSON.toJSONString(msg)));
     }
 }
