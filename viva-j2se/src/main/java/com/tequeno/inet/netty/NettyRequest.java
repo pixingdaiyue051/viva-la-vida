@@ -12,8 +12,6 @@ public class NettyRequest {
 
     private String value;
 
-    private List<NettyResponse> list;
-
     public String getCode() {
         return code;
     }
@@ -44,13 +42,5 @@ public class NettyRequest {
 
     public void setValue(String value) {
         this.value = value;
-    }
-
-    public List<NettyResponse> getList() {
-        return list;
-    }
-
-    public void setList(List<NettyResponse> list) {
-        this.list = list;
     }
 }
