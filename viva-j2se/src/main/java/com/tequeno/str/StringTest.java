@@ -2,17 +2,25 @@ package com.tequeno.str;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class StringTest {
     public static void main(String[] args) {
 //        getMaxLengthSubString("qwertyuiopasdfghjklzxcvbnm");
 
-        String idCard = "510781198210203256";
+//        String idCard = "632323190605261343";
 //        idCard = "510921197912177590";
 //        idCard = "510704198205292714";
+//        boolean check = IdHandler.check(idCard);
+//        System.out.println(check);
 
-        boolean check = IdAlgorithmEnum.check(idCard);
+        String idCard = IdHandler.singleOne();
+        System.out.println(idCard);
+        boolean check = IdHandler.check(idCard);
         System.out.println(check);
+
+        List<String> randomList = IdHandler.randomList(10);
+        randomList.forEach(System.out::println);
     }
 
     public static String getMaxLengthSubString(String s) {
