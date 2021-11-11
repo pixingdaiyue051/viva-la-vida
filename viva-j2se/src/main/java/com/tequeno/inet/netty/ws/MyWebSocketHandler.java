@@ -1,14 +1,18 @@
 package com.tequeno.inet.netty.ws;
 
 import com.alibaba.fastjson.JSON;
+import com.tequeno.inet.netty.NettyCodeEnum;
 import com.tequeno.inet.netty.NettyRequest;
 import com.tequeno.inet.netty.NettyResponse;
 import com.tequeno.inet.netty.NettyResponseHandler;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;
+import io.netty.channel.group.ChannelMatcher;
 import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import io.netty.util.AttributeKey;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
 public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketFrame> {
@@ -26,19 +30,21 @@ public class MyWebSocketHandler extends SimpleChannelInboundHandler<TextWebSocke
         //send_message是我的自定义类型，前后端分离往往需要统一数据格式，可以先把对象转成json字符串再发送给客户端
         System.out.println(msg.text());
         NettyRequest request = JSON.parseObject(msg.text(), NettyRequest.class);
-        if ("00".equals(request.getCode())) {
+        if (NettyCodeEnum.HEART.getCode().equals(request.getCode())) {
             System.out.println("收到心跳包");
             sendMessage(ctx, NettyResponseHandler.success(request.getCode(), request.getMsg() + "知道了"));
         }
-        if ("01".equals(request.getCode())) {
+        if (NettyCodeEnum.SUB.getCode().equals(request.getCode())) {
             System.out.println("收到订阅包");
+            String key = request.getKey();
+            AttributeKey<Object> attributeKey = AttributeKey.valueOf(key);
+            ctx.channel().attr(attributeKey).set(request.getValue());
             sendMessage(ctx, NettyResponseHandler.success(request.getCode(), request.getMsg() + "好的"));
         }
-        if ("02".equals(request.getCode())) {
+        if (NettyCodeEnum.BIZ.getCode().equals(request.getCode())) {
             System.out.println("收到业务包");
             sendMessage(ctx, NettyResponseHandler.success(request.getCode(), request.getMsg() + "再等等"));
         }
-//        sendAllMessages(ctx, NettyResponseHandler.success());
     }
 
 

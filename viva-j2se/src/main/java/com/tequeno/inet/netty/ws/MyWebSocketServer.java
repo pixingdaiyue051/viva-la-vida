@@ -38,8 +38,4 @@ public class MyWebSocketServer {
             bossGroup.shutdownGracefully();
         }
     }
-
-    public static void main(String[] args) throws Exception {
-        new MyWebSocketServer(8342).run();
-    }
 }

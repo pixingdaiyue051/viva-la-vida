@@ -20,7 +20,7 @@ public class MyWebSocketServerInitializer extends ChannelInitializer<SocketChann
         //http聚合器
         pipeline.addLast(new HttpObjectAggregator(1024 * 62));
         //websocket支持,设置路由
-        pipeline.addLast(new WebSocketServerProtocolHandler("/ok"));
+        pipeline.addLast(new WebSocketServerProtocolHandler("/ws"));
         //添加自定义的助手类
         pipeline.addLast(new MyWebSocketHandler());
     }

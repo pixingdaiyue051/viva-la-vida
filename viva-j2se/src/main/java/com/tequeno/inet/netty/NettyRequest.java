@@ -1,7 +1,5 @@
 package com.tequeno.inet.netty;
 
-import java.util.List;
-
 public class NettyRequest {
 
     private String code;
