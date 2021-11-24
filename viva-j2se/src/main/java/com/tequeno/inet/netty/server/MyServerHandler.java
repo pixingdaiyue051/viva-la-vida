@@ -1,62 +1,52 @@
 package com.tequeno.inet.netty.server;
 
-import com.tequeno.inet.netty.NettyRequest;
-import com.tequeno.inet.netty.NettyResponseHandler;
-import com.tequeno.inet.netty.UnixTime;
+import com.tequeno.inet.nio.NioBodyDto;
+import com.tequeno.inet.nio.NioMsgCodeEnum;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.SimpleChannelInboundHandler;
+import io.netty.channel.group.ChannelGroup;
+import io.netty.channel.group.DefaultChannelGroup;
+import io.netty.util.concurrent.GlobalEventExecutor;
 
-import java.util.Collections;
+import java.util.concurrent.TimeUnit;
 
-public class MyServerHandler extends SimpleChannelInboundHandler<String> {
+public class MyServerHandler extends SimpleChannelInboundHandler<NioBodyDto> {
 
+    public static ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+
+    //接收到客户都发送的消息
     @Override
-    protected void channelRead0(ChannelHandlerContext ctx, String request) throws Exception {
-        System.out.println("MyServerHandler------" + request.toString());
-//        if ("0000".equals(request.getCode())) {
-//            ctx.writeAndFlush(NettyResponseHandler.success());
-//            return;
-//        }
-//        if ("0001".equals(request.getCode())) {
-//            ctx.writeAndFlush(NettyResponseHandler.success(new UnixTime()));
-//            return;
-//        }
-//        if ("0002".equals(request.getCode())) {
-//            ctx.writeAndFlush(NettyResponseHandler.success("new UnixTime()"));
-//            return;
-//        }
-//        if ("0003".equals(request.getCode())) {
-//            ctx.writeAndFlush(NettyResponseHandler.success(10L));
-//            return;
-//        }
-//        if ("0004".equals(request.getCode())) {
-//            ctx.writeAndFlush(NettyResponseHandler.success(10.01D));
-//            return;
-//        }
-//        if ("0005".equals(request.getCode())) {
-//            ctx.writeAndFlush(NettyResponseHandler.success(Collections.singletonList("loop")));
-//            return;
-//        }
-        ctx.writeAndFlush(NettyResponseHandler.fail());
-
+    public void channelRead0(ChannelHandlerContext ctx, NioBodyDto dto) throws Exception {
+        System.out.println("MyServerHandler------------" + dto);
+        TimeUnit.SECONDS.sleep(3L);
+        sendMessage(ctx, NioMsgCodeEnum.desc(dto.getCode()) + dto.getMsg());
     }
 
+
+    //客户端建立连接
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("MyServerHandler-----channelActive");
-        super.channelActive(ctx);
+        channelGroup.add(ctx.channel());
+        System.out.println(ctx.channel().remoteAddress() + "上线了!");
+        System.out.println("目前在线数" + channelGroup.size());
     }
 
+    //关闭连接
     @Override
-    public void channelReadComplete(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("MyServerHandler-----channelReadComplete");
-        super.channelReadComplete(ctx);
+    public void channelInactive(ChannelHandlerContext ctx) throws Exception {
+        channelGroup.remove(ctx.channel());
+        System.out.println(ctx.channel().remoteAddress() + "断开连接");
+        System.out.println("目前在线数" + channelGroup.size());
     }
 
+    //出现异常
     @Override
-    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         cause.printStackTrace();
-        ctx.close();
+    }
+
+    //给单个人发送消息
+    private void sendMessage(ChannelHandlerContext ctx, String msg) {
+        ctx.writeAndFlush(msg);
     }
 }

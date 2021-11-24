@@ -1,22 +1,10 @@
-package com.tequeno.inet.netty;
+package com.tequeno.inet.nio;
 
-public class NettyResponse {
-
-    private boolean success;
-
+public class NioBodyDto {
     private String code;
-
     private String msg;
-
-    private Object data;
-
-    public boolean isSuccess() {
-        return success;
-    }
-
-    public void setSuccess(boolean success) {
-        this.success = success;
-    }
+    private String tid;
+    private String data;
 
     public String getCode() {
         return code;
@@ -34,11 +22,19 @@ public class NettyResponse {
         this.msg = msg;
     }
 
-    public Object getData() {
+    public String getTid() {
+        return tid;
+    }
+
+    public void setTid(String tid) {
+        this.tid = tid;
+    }
+
+    public String getData() {
         return data;
     }
 
-    public void setData(Object data) {
+    public void setData(String data) {
         this.data = data;
     }
 }
