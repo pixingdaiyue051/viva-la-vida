@@ -1,6 +1,7 @@
-package com.tequeno.inet.nio;
+package com.tequeno.inet.nioconst;
 
 import com.alibaba.fastjson.JSON;
+import com.tequeno.inet.InetUtil;
 
 public class NioHeadHandler {
 
@@ -37,7 +38,7 @@ public class NioHeadHandler {
         String json = JSON.toJSONString(dto);
         int offset = FIXED_LENGTH - json.length();
         if (offset > 0) {
-            dto.setOffset(NioUtil.random(offset));
+            dto.setOffset(InetUtil.random(offset));
             json = JSON.toJSONString(dto);
         }
         return json;

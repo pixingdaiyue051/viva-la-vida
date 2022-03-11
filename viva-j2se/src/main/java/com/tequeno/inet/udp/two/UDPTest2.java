@@ -8,8 +8,8 @@ public class UDPTest2 {
 
     public static void main(String[] args) {
         try {
-            DatagramSocket dss = new DatagramSocket(InetConst.SENDPORT);
-            DatagramSocket dsr = new DatagramSocket(InetConst.RECIEVEPORT);
+            DatagramSocket dss = new DatagramSocket(InetConst.SENDER_PORT);
+            DatagramSocket dsr = new DatagramSocket(InetConst.RECEIVER_PORT);
             UDPSendHandler sendHandler = new UDPSendHandler(dss);
             UDPRecieveHandler recieveHandler = new UDPRecieveHandler(dsr);
             Thread ts = new Thread(sendHandler);

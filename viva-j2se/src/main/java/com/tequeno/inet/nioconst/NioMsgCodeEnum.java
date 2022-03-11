@@ -1,4 +1,4 @@
-package com.tequeno.inet.nio;
+package com.tequeno.inet.nioconst;
 
 import java.util.Arrays;
 import java.util.HashMap;

@@ -19,12 +19,12 @@ public class TCPThreadFileTransHandler {
      */
     public void doClient() {
         File file = new File("E:\\Files\\hexk\\doc\\test1\\hero is shit.jpg");
-        try (Socket socket = new Socket(InetConst.HOSTNAME, InetConst.SENDPORT);
+        try (Socket socket = new Socket(InetConst.HOSTNAME, InetConst.SENDER_PORT);
              FileInputStream fis = new FileInputStream(file);
              // 输出流传输文件名
              DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
              // 输出流传输文件信息(二进制流)
-             BufferedOutputStream bos = new BufferedOutputStream(socket.getOutputStream());) {
+             BufferedOutputStream bos = new BufferedOutputStream(socket.getOutputStream())) {
             dos.writeUTF(file.getName());
             byte[] b = new byte[1024];
             while (fis.read(b) > 0) {
@@ -41,7 +41,7 @@ public class TCPThreadFileTransHandler {
      * 使用输出流向回传数据 服务端socket因为要和多个客户端多次通信,所以可以不用关闭
      */
     public void doServer() {
-        try (ServerSocket serverSocket = new ServerSocket(InetConst.SENDPORT);) {
+        try (ServerSocket serverSocket = new ServerSocket(InetConst.SENDER_PORT);) {
             while (true) {
                 Socket socket = serverSocket.accept();
                 new Thread(new TCPFileThread(socket)).start();

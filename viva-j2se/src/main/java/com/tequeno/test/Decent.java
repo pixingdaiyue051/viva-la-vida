@@ -1,15 +1,8 @@
 package com.tequeno.test;
 
+import com.tequeno.num.NumTransferHandler;
+
 public class Decent {
-    public static void main(String[] args) {
-        Decent de = new Decent();
-        // for (int i = 0; i < 1000; i++) {
-        // System.out.println(de.sumReciprocal(i + 1));
-        // }
-        // System.out.println(de.sumEqualDifference(100));
-        // System.out.println(de.sumEqualRatio(10));
-        de.sumFibonacci(10);
-    }
 
     // reciprocal倒数
     public double sumReciprocal(int n) {
@@ -95,5 +88,53 @@ public class Decent {
             System.out.println(buf.toString());
         }
         return sum;
+    }
+
+    public void testNum() {
+        Integer a = 1;
+        Integer b = 2;
+        Integer c = 3;
+        Integer d = 3;
+        Integer e = 321;
+        Integer f = 321;
+        Long g = 3L;
+        Long h = 2L;
+
+        System.out.println(c == d);//true
+        System.out.println(e == f);//false
+        System.out.println(c == (a + b));//true
+        System.out.println(c.equals(a + b));//true
+        System.out.println(g == (a + b));//true
+        System.out.println(g.equals(a + b));//false
+        System.out.println(g.equals(a + h));//true
+
+        long l3 = System.currentTimeMillis();
+        NumTransferHandler n = new NumTransferHandler();
+        String in = "20190511";
+        String result = n.transfer(in, NumTransferHandler.DecDispEnum.DEC, NumTransferHandler.DecDispEnum.BIN);
+        System.out.println(result);
+        long l4 = System.currentTimeMillis();
+        System.out.println(l4-l3);
+        result = n.transfer(in, NumTransferHandler.DecDispEnum.DEC, NumTransferHandler.DecDispEnum.OCT);
+        System.out.println(result);
+        result = n.transfer(in, NumTransferHandler.DecDispEnum.DEC, NumTransferHandler.DecDispEnum.HEX);
+        System.out.println(result);
+        result = n.transfer(in, NumTransferHandler.DecDispEnum.DEC, NumTransferHandler.DecDispEnum.DEC);
+        System.out.println(result);
+
+        String str = "54af";
+        String transferRe = n.transfer(str, NumTransferHandler.DecDispEnum.HEX, NumTransferHandler.DecDispEnum.BIN);
+        System.out.println(transferRe);
+
+        long l1 = System.currentTimeMillis();
+        int i = 20190511;
+        String s = Integer.toBinaryString(i);
+        System.out.println(s);
+        long l2 = System.currentTimeMillis();
+        System.out.println(l2-l1);
+        String s1 = Integer.toOctalString(i);
+        System.out.println(s1);
+        String s2 = Integer.toHexString(i);
+        System.out.println(s2);
     }
 }

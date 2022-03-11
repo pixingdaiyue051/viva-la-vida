@@ -1,7 +1,7 @@
 package com.tequeno.inet.netty.server;
 
-import com.tequeno.inet.nio.NioBodyDto;
-import com.tequeno.inet.nio.NioMsgCodeEnum;
+import com.tequeno.inet.nioconst.NioBodyDto;
+import com.tequeno.inet.nioconst.NioMsgCodeEnum;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.group.ChannelGroup;

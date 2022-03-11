@@ -1,4 +1,4 @@
-package com.tequeno.inet.nio;
+package com.tequeno.inet.nioconst;
 
 public class NioBodyDto {
     private String code;

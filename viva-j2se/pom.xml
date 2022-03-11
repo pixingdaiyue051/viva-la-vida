@@ -92,7 +92,11 @@
             <artifactId>jfreechart</artifactId>
             <version>1.0.19</version>
         </dependency>
-
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>5.7.16</version>
+        </dependency>
 
     </dependencies>
 

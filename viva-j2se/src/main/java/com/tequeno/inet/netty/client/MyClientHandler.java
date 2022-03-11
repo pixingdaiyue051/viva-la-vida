@@ -1,6 +1,6 @@
 package com.tequeno.inet.netty.client;
 
-import com.tequeno.inet.nio.NioBodyDto;
+import com.tequeno.inet.nioconst.NioBodyDto;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 

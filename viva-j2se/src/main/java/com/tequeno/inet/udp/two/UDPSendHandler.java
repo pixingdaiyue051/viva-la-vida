@@ -24,11 +24,11 @@ public class UDPSendHandler implements Runnable {
             InetAddress i = InetAddress.getByName(InetConst.HOSTNAME);
             while (true) {
                 data = scanner.nextLine();
-                if ("stop".equalsIgnoreCase(data)) {
+                if (InetConst.BREAK_OUT.equalsIgnoreCase(data)) {
                     break;
                 }
                 byte[] buf = data.getBytes();
-                DatagramPacket dp = new DatagramPacket(buf, buf.length, i, InetConst.RECIEVEPORT);
+                DatagramPacket dp = new DatagramPacket(buf, buf.length, i, InetConst.RECEIVER_PORT);
                 // 3.发送报文
                 ds.send(dp);
             }

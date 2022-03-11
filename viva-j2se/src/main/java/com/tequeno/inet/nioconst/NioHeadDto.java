@@ -1,4 +1,4 @@
-package com.tequeno.inet.nio;
+package com.tequeno.inet.nioconst;
 
 public class NioHeadDto {
     private String type;

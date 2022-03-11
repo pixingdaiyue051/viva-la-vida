@@ -1,9 +1,9 @@
-package com.tequeno.inet.nio;
+package com.tequeno.inet;
 
 import java.util.Random;
 import java.util.UUID;
 
-public class NioUtil {
+public class InetUtil {
 
     private static final String[] NUM_POOL = new String[]{
             "1", "2", "3", "4", "5", "6", "7", "8", "9", "0"
