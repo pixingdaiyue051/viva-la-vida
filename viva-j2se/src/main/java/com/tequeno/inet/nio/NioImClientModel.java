@@ -13,7 +13,7 @@ import java.util.Iterator;
 import java.util.Scanner;
 import java.util.Set;
 
-public class NioImClient {
+public class NioImClientModel {
 
     private Selector selector;
 
@@ -21,7 +21,7 @@ public class NioImClient {
 
     private String localAddress;
 
-    public NioImClient() {
+    public NioImClientModel() {
         try {
             selector = Selector.open();
             channel = SocketChannel.open(new InetSocketAddress(InetConst.HOSTNAME, InetConst.NIO_SERVER_PORT));

@@ -1,4 +1,4 @@
-package com.tequeno.inet.netty.client;
+package com.tequeno.inet.netty.mine;
 
 
 import com.alibaba.fastjson.JSON;
@@ -17,7 +17,7 @@ public class MyClientEncoder extends MessageToByteEncoder<String> {
 
     @Override
     protected void encode(ChannelHandlerContext ctx, String msg, ByteBuf out) {
-        System.out.println("MyClientEncoder------------");
+//        System.out.println("MyClientEncoder------------");
 
         String tid = InetUtil.uuid();
         NioBodyDto body = NioBodyHandler.wrap(NioMsgCodeEnum.CODE_2.getCode(), msg, tid);

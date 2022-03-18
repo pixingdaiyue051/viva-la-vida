@@ -17,4 +17,6 @@ public class InetConst {
     public final static String BREAK_OUT = "110";
 
     public final static String BREAK_OUT_NEW = new String(BREAK_OUT.getBytes(StandardCharsets.UTF_8));
+
+    public static final int NETTY_PORT = 9950;
 }

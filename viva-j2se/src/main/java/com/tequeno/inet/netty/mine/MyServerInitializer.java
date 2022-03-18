@@ -1,4 +1,4 @@
-package com.tequeno.inet.netty.server;
+package com.tequeno.inet.netty.mine;
 
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.socket.SocketChannel;

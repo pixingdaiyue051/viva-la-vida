@@ -13,13 +13,13 @@ import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Set;
 
-public class NioImServer {
+public class NioImServerModel {
 
     private Selector selector;
 
     private ServerSocketChannel serverChannel;
 
-    public NioImServer() {
+    public NioImServerModel() {
         try {
             selector = Selector.open();
             serverChannel = ServerSocketChannel.open();

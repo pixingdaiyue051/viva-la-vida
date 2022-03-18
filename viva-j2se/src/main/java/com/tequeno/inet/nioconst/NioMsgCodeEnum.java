@@ -6,8 +6,8 @@ import java.util.Map;
 
 public enum NioMsgCodeEnum {
 
-    CODE_1("1001", "注册"),
-    CODE_2("1002", "登录"),
+    CODE_1("1001", "[服务器]"),
+    CODE_2("1002", "[客户端]"),
     CODE_3("1003", "校验"),
     CODE_4("1004", "退出"),
     ;

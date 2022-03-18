@@ -6,7 +6,7 @@ public class NioSocketServer {
 //        NioSocketModel nioSocketModel = new NioSocketModel();
 //        nioSocketModel.serverSimulator();
 
-        NioImServer server = new NioImServer();
+        NioImServerModel server = new NioImServerModel();
         server.listen();
     }
 }

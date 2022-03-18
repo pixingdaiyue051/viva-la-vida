@@ -6,7 +6,7 @@ public class NioSocketClient {
 //        NioSocketModel nioSocketModel = new NioSocketModel();
 //        nioSocketModel.clientSimulator();
 
-        NioImClient client = new NioImClient();
+        NioImClientModel client = new NioImClientModel();
         client.read();
         client.send();
     }
