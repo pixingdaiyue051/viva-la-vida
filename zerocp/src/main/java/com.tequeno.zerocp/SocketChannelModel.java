@@ -7,13 +7,19 @@ import java.nio.channels.SocketChannel;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
 
-public class Model {
+public class SocketChannelModel {
+
+    private int port;
+
+    public SocketChannelModel(int port) {
+        this.port = port;
+    }
 
     public void zeroCpServer(String fileName) {
         try (FileChannel fileChannel = FileChannel.open(Paths.get(fileName),
                 StandardOpenOption.CREATE, StandardOpenOption.READ, StandardOpenOption.WRITE);
              ServerSocketChannel serverSocketChannel = ServerSocketChannel.open()) {
-            serverSocketChannel.bind(new InetSocketAddress(25493));
+            serverSocketChannel.bind(new InetSocketAddress(port));
             SocketChannel socketChannel = serverSocketChannel.accept();
             long read, total = 0;
             long l1 = System.currentTimeMillis();
@@ -31,7 +37,7 @@ public class Model {
 
     public void zeroCpClient(String fileName) {
         try (FileChannel fileChannel = FileChannel.open(Paths.get(fileName), StandardOpenOption.READ);
-             SocketChannel socketChannel = SocketChannel.open(new InetSocketAddress("127.0.0.1", 25493))) {
+             SocketChannel socketChannel = SocketChannel.open(new InetSocketAddress("127.0.0.1", port))) {
             long read, total = 0;
             long l1 = System.currentTimeMillis();
 
