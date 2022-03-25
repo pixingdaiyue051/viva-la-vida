@@ -45,6 +45,14 @@ public class MyHttpServerDecoder extends MessageToMessageDecoder<HttpObject> {
             HttpRequest request = (HttpRequest) httpObject;
             String uri = request.uri();
             System.out.println("请求uri" + uri);
+
+            // 过滤正常请求接口前的预检请求
+            HttpMethod method = request.method();
+            if(HttpMethod.OPTIONS.equals(method)) {
+                System.out.println("不处理options请求");
+                return;
+            }
+
             // 不处理网页图标请求 只有使用浏览器访问时会发送该请求
             if ("/favicon.ico".equals(uri)) {
                 System.out.println("暂无网页图标");
