@@ -9,13 +9,6 @@
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.plugin>2.3.2</maven.compiler.plugin>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
-    </properties>
-
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -72,7 +65,13 @@
         <dependency>
             <groupId>io.netty</groupId>
             <artifactId>netty-all</artifactId>
-            <version>4.1.65.Final</version>
+            <version>4.1.45.Final</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.protobuf/protobuf-java -->
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
+            <version>3.19.4</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/com.itextpdf/itextpdf -->
         <dependency>
@@ -92,11 +91,6 @@
             <artifactId>jfreechart</artifactId>
             <version>1.0.19</version>
         </dependency>
-        <dependency>
-            <groupId>cn.hutool</groupId>
-            <artifactId>hutool-all</artifactId>
-            <version>5.7.16</version>
-        </dependency>
 
     </dependencies>
 
@@ -105,21 +99,62 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>${maven.compiler.plugin}</version>
+                <version>3.8.1</version>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
-                    <encoding>${project.build.sourceEncoding}</encoding>
+                    <source>11</source>
+                    <target>11</target>
+                    <encoding>UTF-8</encoding>
+                    <skip>true</skip>
                 </configuration>
             </plugin>
-            <!--跳过项目运行测试用例-->
-            <!--<plugin>
+            <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-surefire-plugin</artifactId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>
+
                 <configuration>
-                    <skipTests>true</skipTests>
+                    <archive>
+                        <manifest>
+                            <!-- 指定入口函数 -->
+                            <mainClass>com.tequeno.netty.http.MyHttpServer</mainClass>
+                            <!-- 是否添加依赖的jar路径配置 -->
+                            <addClasspath>true</addClasspath>
+                            <!-- 依赖的jar包存放未知，和生成的jar放在同一级目录下 -->
+                            <classpathPrefix>lib/</classpathPrefix>
+                        </manifest>
+                    </archive>
+                    <!-- 打包包括的内容 -->
+                    <includes>
+                        <include>com/tequeno/netty/http/*</include>
+                    </includes>
+                    <!-- 打包排除的内容 -->
+                    <excludes>
+                        <exclude>com/tequeno/classload/*</exclude>
+                        <exclude>com/tequeno/collect/*</exclude>
+                        <exclude>com/tequeno/classload/*</exclude>
+                        <exclude>com/tequeno/heap/*</exclude>
+                        <exclude>com/tequeno/inet/*</exclude>
+                        <exclude>com/tequeno/io/*</exclude>
+                        <exclude>com/tequeno/jdk8/*</exclude>
+                        <exclude>com/tequeno/lottery/*</exclude>
+                        <exclude>com/tequeno/lucky/*</exclude>
+                        <exclude>com/tequeno/jdk8/*</exclude>
+                        <exclude>com/tequeno/mq/*</exclude>
+<!--                        <exclude>com/tequeno/netty/*</exclude>-->
+                        <exclude>com/tequeno/num/*</exclude>
+                        <exclude>com/tequeno/pattern/*</exclude>
+                        <exclude>com/tequeno/str/*</exclude>
+                        <exclude>com/tequeno/num/*</exclude>
+                        <exclude>com/tequeno/sudoku/*</exclude>
+                        <exclude>com/tequeno/superchild/*</exclude>
+                        <exclude>com/tequeno/temail/*</exclude>
+                        <exclude>com/tequeno/test/*</exclude>
+                        <exclude>com/tequeno/thread/*</exclude>
+                        <exclude>com/tequeno/thread1/*</exclude>
+                        <exclude>com/tequeno/thread2/*</exclude>
+                    </excludes>
                 </configuration>
-            </plugin>-->
+            </plugin>
         </plugins>
     </build>
 </project>

@@ -1,13 +1,8 @@
 package com.tequeno.inet.nio;
 
-import com.tequeno.inet.InetConst;
-
-import java.io.DataInputStream;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.ServerSocket;
-import java.net.Socket;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.nio.MappedByteBuffer;
@@ -132,6 +127,11 @@ public class NioTest {
             // 直接使用transfer实现通道之间数据传输
 //            inChannel.transferTo(0, inChannel.size(), outChannel);
 //            outChannel.transferFrom(inChannel, 0, inChannel.size());
+
+//            long read, total = 0;
+//            while ((read = inChannel.transferTo(total, inChannel.size() - total, outChannel)) != 0) {
+//                total += read;
+//            }
 
             // channel配合MappedByteBuffer完成文件读写,直接操作缓冲区
             // mappedByteBuffer已经完成了对file的映射 可以通过操作byteBuffer来修改文件

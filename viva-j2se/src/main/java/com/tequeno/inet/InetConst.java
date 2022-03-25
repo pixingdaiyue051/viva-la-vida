@@ -1,7 +1,5 @@
 package com.tequeno.inet;
 
-import java.nio.charset.StandardCharsets;
-
 public class InetConst {
 
     public final static int SENDER_PORT = 9923;
@@ -16,7 +14,4 @@ public class InetConst {
 
     public final static String BREAK_OUT = "110";
 
-    public final static String BREAK_OUT_NEW = new String(BREAK_OUT.getBytes(StandardCharsets.UTF_8));
-
-    public static final int NETTY_PORT = 9950;
 }
