@@ -17,6 +17,11 @@ public class MyHttpServerEncoder extends MessageToMessageEncoder<String> {
         ByteBuf content = Unpooled.copiedBuffer(msg, CharsetUtil.UTF_8);
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, content);
         response.headers()
+                .set(HttpHeaderNames.ACCESS_CONTROL_ALLOW_ORIGIN, "*")
+                .set(HttpHeaderNames.ACCESS_CONTROL_ALLOW_HEADERS, "*")
+                .set(HttpHeaderNames.ACCESS_CONTROL_ALLOW_METHODS, "GET, POST, PUT, DELETE")
+                .set(HttpHeaderNames.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true")
+
                 .set(HttpHeaderNames.CONTENT_TYPE, "text/plain")
                 .set(HttpHeaderNames.CONTENT_LENGTH, content.readableBytes());
 
