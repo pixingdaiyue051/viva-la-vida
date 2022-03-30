@@ -7,6 +7,7 @@ import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.multipart.*;
 import io.netty.util.CharsetUtil;
 
+import java.io.File;
 import java.io.RandomAccessFile;
 import java.nio.channels.FileChannel;
 import java.nio.file.Paths;
@@ -20,7 +21,7 @@ import java.util.List;
  */
 public class MyHttpServerDecoder extends MessageToMessageDecoder<HttpObject> {
 
-    private final static String PATH = "/data/upload"; // 服务器保存文件的路径
+    private final static String PATH = "/data/upload/"; // 服务器保存文件的路径
     private final static String FILE_SUFFIX = "file-suffix"; // 文件后缀
     private final static String FILE_SIZE = "file-size"; // 文件大小
     private final static HttpDataFactory FACTORY = new DefaultHttpDataFactory(DefaultHttpDataFactory.MAXSIZE); // MAXSIZE 表示不限制读取的字节数 都以文件的形式读取
@@ -48,7 +49,7 @@ public class MyHttpServerDecoder extends MessageToMessageDecoder<HttpObject> {
 
             // 过滤正常请求接口前的预检请求
             HttpMethod method = request.method();
-            if(HttpMethod.OPTIONS.equals(method)) {
+            if (HttpMethod.OPTIONS.equals(method)) {
                 System.out.println("不处理options请求");
                 return;
             }
@@ -83,10 +84,15 @@ public class MyHttpServerDecoder extends MessageToMessageDecoder<HttpObject> {
                 decoder.offer(httpContent);
                 // 最后一个数据块 一定要关闭decoder
                 if (httpObject instanceof LastHttpContent) {
-                    writeHttpContent();
+                    File f = new File(PATH);
+                    if (!f.exists()) {
+                        f.mkdirs();
+                    }
+                    String filename = System.currentTimeMillis() + fileSuffix;
+                    writeHttpContent(filename);
                     decoder.destroy();
                     decoder = null;
-                    ctx.writeAndFlush(LocalDateTime.now().toString());
+                    ctx.writeAndFlush(filename);
                     end = System.currentTimeMillis();
                     System.out.println("自解码耗时:" + (end - start) + "ms");
                 }
@@ -107,9 +113,9 @@ public class MyHttpServerDecoder extends MessageToMessageDecoder<HttpObject> {
         }
     }
 
-    private void writeHttpContent() {
+    private void writeHttpContent(String filename) {
         System.out.println("上传中...");
-        try (FileChannel fileOutChannel = FileChannel.open(Paths.get(PATH, System.currentTimeMillis() + fileSuffix),
+        try (FileChannel fileOutChannel = FileChannel.open(Paths.get(PATH, filename),
                 StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
             List<InterfaceHttpData> httpDataList = decoder.getBodyHttpDatas();
             httpDataList.stream()
@@ -123,7 +129,7 @@ public class MyHttpServerDecoder extends MessageToMessageDecoder<HttpObject> {
                                 System.out.println("已传输..." + read);
                                 total += read;
                             }
-                            System.out.println("共传输..." + + total);
+                            System.out.println("共传输..." + total);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
