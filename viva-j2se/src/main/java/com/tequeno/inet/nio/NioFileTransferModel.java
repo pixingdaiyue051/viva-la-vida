@@ -41,9 +41,9 @@ public class NioFileTransferModel {
         try (FileChannel fileChannel = FileChannel.open(Paths.get(fileName), StandardOpenOption.READ);
              SocketChannel socketChannel = SocketChannel.open(new InetSocketAddress(InetConst.HOSTNAME, InetConst.NIO_SERVER_PORT))) {
             ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
-            int read, total = 0;
+            long read, total = 0;
             long l1 = System.currentTimeMillis();
-            while ((read = fileChannel.read(byteBuffer)) != -1) {
+            while ((read = fileChannel.read(byteBuffer, total)) != -1) {
                 total += read;
                 byteBuffer.flip();
                 socketChannel.write(byteBuffer);
@@ -58,6 +58,7 @@ public class NioFileTransferModel {
 
     /**
      * 使用nio channel transferFrom 方式数据从socket传输到文件
+     *
      * @param fileName
      */
     public void zeroCpServer(String fileName) {
@@ -84,6 +85,7 @@ public class NioFileTransferModel {
      * 使用nio channel transferTo 方式传输数据
      * 底层使用了零拷贝实现
      * 但是在windows平台下一次只能传输8m数据
+     *
      * @param fileName
      */
     public void zeroCpClient(String fileName) {
