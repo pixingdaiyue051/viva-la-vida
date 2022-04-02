@@ -1,8 +1,10 @@
 package com.tequeno.netty.http;
 
 import com.tequeno.netty.NettyConstant;
+import com.tequeno.netty.NettyResponse;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
@@ -36,6 +38,10 @@ public class MyHttpServer {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
         }
+    }
+
+    public static void send(ChannelHandlerContext ctx, NettyResponse res) {
+        ctx.writeAndFlush(res);
     }
 
     public static void main(String[] args) {

@@ -1,5 +1,6 @@
 package com.tequeno.netty.http;
 
+import com.tequeno.netty.NettyResponseHandler;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageDecoder;
@@ -53,12 +54,15 @@ public class MyHttpServerDecoder extends MessageToMessageDecoder<HttpObject> {
                 System.out.println("不处理options请求");
                 return;
             }
-
             // 不处理网页图标请求 只有使用浏览器访问时会发送该请求
             if ("/favicon.ico".equals(uri)) {
                 System.out.println("暂无网页图标");
                 return;
             }
+//            // 读静态资源
+//            if ("/".equals(uri)) {
+//                return;
+//            }
             // 即将上传文件 先打开文件通道
             if ("/upload".equals(uri)) {
                 HttpHeaders headers = request.headers();
@@ -89,10 +93,10 @@ public class MyHttpServerDecoder extends MessageToMessageDecoder<HttpObject> {
                         f.mkdirs();
                     }
                     String filename = System.currentTimeMillis() + fileSuffix;
-                    writeHttpContent(filename);
+                    this.writeHttpContent(filename);
                     decoder.destroy();
                     decoder = null;
-                    ctx.writeAndFlush(filename);
+                    MyHttpServer.send(ctx, NettyResponseHandler.success(filename));
                     end = System.currentTimeMillis();
                     System.out.println("自解码耗时:" + (end - start) + "ms");
                 }
@@ -105,7 +109,7 @@ public class MyHttpServerDecoder extends MessageToMessageDecoder<HttpObject> {
                     in.readBytes(bytes);
                     out.add(new String(bytes, CharsetUtil.UTF_8));
                 } else {
-                    ctx.writeAndFlush(LocalDateTime.now().toString());
+                    MyHttpServer.send(ctx, NettyResponseHandler.success(LocalDateTime.now().toString()));
                 }
                 end = System.currentTimeMillis();
                 System.out.println("自解码耗时:" + (end - start) + "ms");

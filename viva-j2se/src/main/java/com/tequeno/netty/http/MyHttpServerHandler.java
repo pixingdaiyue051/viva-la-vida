@@ -1,5 +1,6 @@
 package com.tequeno.netty.http;
 
+import com.tequeno.netty.NettyResponseHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -13,6 +14,7 @@ public class MyHttpServerHandler extends SimpleChannelInboundHandler<Object> {
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         System.out.println(msg);
-        ctx.writeAndFlush(msg);
+        MyHttpServer.send(ctx, NettyResponseHandler.success(msg));
     }
+
 }
