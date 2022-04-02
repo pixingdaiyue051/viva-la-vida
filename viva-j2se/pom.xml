@@ -121,11 +121,12 @@
                             <!-- 是否添加依赖的jar路径配置 -->
                             <addClasspath>true</addClasspath>
                             <!-- 依赖的jar包存放未知，和生成的jar放在同一级目录下 -->
-                            <classpathPrefix>lib/</classpathPrefix>
+                            <classpathPrefix>/data/lib/</classpathPrefix>
                         </manifest>
                     </archive>
                     <!-- 打包包括的内容 -->
                     <includes>
+                        <include>com/tequeno/netty/*</include>
                         <include>com/tequeno/netty/http/*</include>
                     </includes>
                     <!-- 打包排除的内容 -->
