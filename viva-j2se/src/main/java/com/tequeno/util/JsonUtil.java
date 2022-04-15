@@ -1,4 +1,4 @@
-package com.tequeno.json;
+package com.tequeno.util;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;

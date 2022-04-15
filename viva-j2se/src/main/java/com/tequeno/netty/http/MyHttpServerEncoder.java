@@ -8,15 +8,19 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.MessageToMessageEncoder;
 import io.netty.handler.codec.http.*;
 import io.netty.util.CharsetUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
 public class MyHttpServerEncoder extends MessageToMessageEncoder<NettyResponse> {
 
+    private final static Logger logger = LoggerFactory.getLogger(MyHttpServerEncoder.class);
+
     @Override
     protected void encode(ChannelHandlerContext ctx, NettyResponse msg, List<Object> out) throws Exception {
 
-        System.out.println("MyHttpServerEncoder");
+        logger.info("MyHttpServerEncoder");
 
         ByteBuf content = Unpooled.copiedBuffer(JSON.toJSONString(msg), CharsetUtil.UTF_8);
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, content);

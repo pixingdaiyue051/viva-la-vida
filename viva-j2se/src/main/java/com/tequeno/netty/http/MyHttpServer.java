@@ -8,8 +8,12 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class MyHttpServer {
+
+    private final static Logger logger = LoggerFactory.getLogger(MyHttpServer.class);
 
     private int port;
 
@@ -29,11 +33,10 @@ public class MyHttpServer {
                     .childHandler(new MyHttpServerInitializer());
 
             ChannelFuture f = b.bind(port).sync();
-
+            logger.info("netty已启动");
             f.channel().closeFuture().sync();
         } catch (Exception e) {
-            System.out.println("netty启动失败");
-            e.printStackTrace();
+            logger.error("netty启动失败", e);
         } finally {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();

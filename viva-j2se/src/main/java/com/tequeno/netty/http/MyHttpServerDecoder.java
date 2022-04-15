@@ -7,6 +7,8 @@ import io.netty.handler.codec.MessageToMessageDecoder;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.multipart.*;
 import io.netty.util.CharsetUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.File;
 import java.io.RandomAccessFile;
@@ -21,6 +23,8 @@ import java.util.List;
  * 不需要考虑多线程数据共享 资源竞争问题
  */
 public class MyHttpServerDecoder extends MessageToMessageDecoder<HttpObject> {
+
+    private final static Logger logger = LoggerFactory.getLogger(MyHttpServerDecoder.class);
 
     private final static String PATH = "/data/upload/"; // 服务器保存文件的路径
     private final static String FILE_SUFFIX = "file-suffix"; // 文件后缀
@@ -46,17 +50,17 @@ public class MyHttpServerDecoder extends MessageToMessageDecoder<HttpObject> {
             start = System.currentTimeMillis();
             HttpRequest request = (HttpRequest) httpObject;
             String uri = request.uri();
-            System.out.println("请求uri" + uri);
+            logger.info("请求的uri{}", uri);
 
             // 过滤正常请求接口前的预检请求
             HttpMethod method = request.method();
             if (HttpMethod.OPTIONS.equals(method)) {
-                System.out.println("不处理options请求");
+                logger.info("不处理options请求");
                 return;
             }
             // 不处理网页图标请求 只有使用浏览器访问时会发送该请求
             if ("/favicon.ico".equals(uri)) {
-                System.out.println("暂无网页图标");
+                logger.info("暂无网页图标");
                 return;
             }
 //            // 读静态资源
@@ -98,7 +102,7 @@ public class MyHttpServerDecoder extends MessageToMessageDecoder<HttpObject> {
                     decoder = null;
                     MyHttpServer.send(ctx, NettyResponseHandler.success(filename));
                     end = System.currentTimeMillis();
-                    System.out.println("自解码耗时:" + (end - start) + "ms");
+                    logger.info("自解码耗时:{}ms", end - start);
                 }
             } else {
                 // 普通的请求
@@ -112,13 +116,13 @@ public class MyHttpServerDecoder extends MessageToMessageDecoder<HttpObject> {
                     MyHttpServer.send(ctx, NettyResponseHandler.success(LocalDateTime.now().toString()));
                 }
                 end = System.currentTimeMillis();
-                System.out.println("自解码耗时:" + (end - start) + "ms");
+                logger.info("自解码耗时:{}ms", end - start);
             }
         }
     }
 
     private void writeHttpContent(String filename) {
-        System.out.println("上传中...");
+        logger.info("上传中...");
         try (FileChannel fileOutChannel = FileChannel.open(Paths.get(PATH, filename),
                 StandardOpenOption.CREATE, StandardOpenOption.APPEND)) {
             List<InterfaceHttpData> httpDataList = decoder.getBodyHttpDatas();
@@ -127,13 +131,13 @@ public class MyHttpServerDecoder extends MessageToMessageDecoder<HttpObject> {
                     .map(data -> (FileUpload) data)
                     .forEach(fileUpload -> {
                         try (FileChannel fileInChannel = new RandomAccessFile(fileUpload.getFile(), "r").getChannel()) {
-                            System.out.println("读取数据块...");
+                            logger.info("读取数据块...");
                             long read, total = 0;
                             while ((read = fileInChannel.transferTo(total, fileInChannel.size(), fileOutChannel)) > 0) {
-                                System.out.println("已传输..." + read);
+                                logger.info("已传输...{}", read);
                                 total += read;
                             }
-                            System.out.println("共传输..." + total);
+                            logger.info("共传输...{}", total);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }

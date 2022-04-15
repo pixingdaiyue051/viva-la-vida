@@ -28,38 +28,47 @@
             <artifactId>commons-lang3</artifactId>
             <version>LATEST</version>
         </dependency>
-        <!-- github tiny pinyin-->
-        <dependency>
-            <groupId>com.github.promeg</groupId>
-            <artifactId>tinypinyin</artifactId>
-            <version>2.0.3</version>
-        </dependency>
-        <dependency>
-            <groupId>com.github.promeg</groupId>
-            <artifactId>tinypinyin-lexicons-java-cncity</artifactId>
-            <version>2.0.3</version>
-        </dependency>
-        <!-- apache activemq-->
-        <dependency>
-            <groupId>org.apache.activemq</groupId>
-            <artifactId>activemq-all</artifactId>
-            <version>5.9.0</version>
-        </dependency>
-        <!-- rocketmq -->
-        <dependency>
-            <groupId>org.apache.rocketmq</groupId>
-            <artifactId>rocketmq-client</artifactId>
-            <version>4.5.2</version>
-        </dependency>
+<!--        &lt;!&ndash; github tiny pinyin&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>com.github.promeg</groupId>-->
+<!--            <artifactId>tinypinyin</artifactId>-->
+<!--            <version>2.0.3</version>-->
+<!--        </dependency>-->
+<!--        <dependency>-->
+<!--            <groupId>com.github.promeg</groupId>-->
+<!--            <artifactId>tinypinyin-lexicons-java-cncity</artifactId>-->
+<!--            <version>2.0.3</version>-->
+<!--        </dependency> -->
+<!--        &lt;!&ndash; apache activemq&ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.activemq</groupId>-->
+<!--            <artifactId>activemq-all</artifactId>-->
+<!--            <version>5.9.0</version>-->
+<!--        </dependency>-->
+<!--        &lt;!&ndash; rocketmq &ndash;&gt;-->
+<!--        <dependency>-->
+<!--            <groupId>org.apache.rocketmq</groupId>-->
+<!--            <artifactId>rocketmq-client</artifactId>-->
+<!--            <version>4.5.2</version>-->
+<!--            <exclusions>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>commons-lang3</artifactId>-->
+<!--                    <groupId>org.apache.commons</groupId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>fastjson</artifactId>-->
+<!--                    <groupId>com.alibaba</groupId>-->
+<!--                </exclusion>-->
+<!--                <exclusion>-->
+<!--                    <artifactId>netty-all</artifactId>-->
+<!--                    <groupId>io.netty</groupId>-->
+<!--                </exclusion>-->
+<!--            </exclusions>-->
+<!--        </dependency>-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>RELEASE</version>
-        </dependency>
-        <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-api</artifactId>
-            <version>LATEST</version>
         </dependency>
         <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
         <dependency>
@@ -91,7 +100,18 @@
             <artifactId>jfreechart</artifactId>
             <version>1.0.19</version>
         </dependency>
-
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.11</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-core -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-core</artifactId>
+            <version>1.2.11</version>
+        </dependency>
     </dependencies>
 
     <build>

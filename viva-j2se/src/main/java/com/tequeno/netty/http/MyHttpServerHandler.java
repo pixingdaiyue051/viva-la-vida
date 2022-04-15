@@ -3,6 +3,8 @@ package com.tequeno.netty.http;
 import com.tequeno.netty.NettyResponseHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * http服务器
@@ -11,10 +13,11 @@ import io.netty.channel.SimpleChannelInboundHandler;
  */
 public class MyHttpServerHandler extends SimpleChannelInboundHandler<Object> {
 
+    private final static Logger logger = LoggerFactory.getLogger(MyHttpServerHandler.class);
+
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println(msg);
+        logger.info("MyHttpServerHandler接收到消息:{}", msg);
         MyHttpServer.send(ctx, NettyResponseHandler.success(msg));
     }
-
 }
