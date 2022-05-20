@@ -40,6 +40,7 @@ public class MyHttpServer {
         } finally {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
+            logger.info("netty已关闭");
         }
     }
 
