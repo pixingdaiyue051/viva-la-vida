@@ -2,10 +2,11 @@ package com.tequeno.str;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class IdHandler {
 
@@ -48,12 +49,11 @@ public class IdHandler {
     }
 
     public static List<String> randomList(int size) {
-        Random r = new Random();
-        List<String> result = new ArrayList<>(size);
-        for (int i = 0; i < size; i++) {
-            result.add(singleOne(r));
-        }
-        return result;
+        final Random r = new Random();
+        return IntStream.range(0, size)
+                .boxed()
+                .map(i -> singleOne(r))
+                .collect(Collectors.toList());
     }
 
     public static String singleOne() {

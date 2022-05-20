@@ -14,10 +14,10 @@ public class StringTest {
 //        boolean check = IdHandler.check(idCard);
 //        System.out.println(check);
 
-        String idCard = IdHandler.singleOne();
-        System.out.println(idCard);
-        boolean check = IdHandler.check(idCard);
-        System.out.println(check);
+//        String idCard = IdHandler.singleOne();
+//        System.out.println(idCard);
+//        boolean check = IdHandler.check(idCard);
+//        System.out.println(check);
 
         List<String> randomList = IdHandler.randomList(10);
         randomList.forEach(System.out::println);
