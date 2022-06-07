@@ -2,34 +2,24 @@ package com.tequeno.classload;
 
 public class ClassLoaderTest {
     public static void main(String[] args) {
-        System.out.println("爸爸的岁数:" + Son.factor); // 入口
-    }
-}
+//        System.out.println("爸爸的岁数:" + Son.factor);
 
-class Grandpa {
-    static {
-        System.out.println("爷爷在静态代码块");
-    }
-}
+//        Book.staticFunction();
+//        Book.staticFunction();
+//        Book b = new Book();
+//        b.casualFunction();
 
-class Father extends Grandpa {
-    public static int factor = 25;
+//        Son son = new Son();
+//        Son.run();
 
-    static {
-        System.out.println("爸爸在静态代码块");
-    }
+        TestClass testClass = new TestClass();
+        testClass.run();
 
-    public Father() {
-        System.out.println("我是爸爸~");
-    }
-}
+        TestClass.InnerClass ic = testClass.new InnerClass();
+        ic.run();
 
-class Son extends Father {
-    static {
-        System.out.println("儿子在静态代码块");
-    }
+        TestClass.InnerStaticClass c = new TestClass.InnerStaticClass();
+        c.run();
 
-    public Son() {
-        System.out.println("我是儿子~");
     }
 }

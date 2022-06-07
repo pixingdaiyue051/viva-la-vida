@@ -62,9 +62,4 @@ public enum TestEnum {
             Arrays.stream(enums).forEach(item -> map.put(item.prefix, item.prisonId));
         }
     }
-
-    public static void main(String[] args) {
-        System.out.println(TestEnum.FOUR.getPrefix());
-//        System.out.println(TestEnum.fetchPrisonId(TestEnum.FOUR.getPrefix()));
-    }
 }
