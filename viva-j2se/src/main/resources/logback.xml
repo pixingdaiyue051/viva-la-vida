@@ -114,6 +114,7 @@
 
     <root level="DEBUG">
         <appender-ref ref="STDOUT" />
+        <appender-ref ref="AsyncDebug" />
         <appender-ref ref="AsyncInfo" />
         <appender-ref ref="AsyncWarn" />
         <appender-ref ref="AsyncError" />
