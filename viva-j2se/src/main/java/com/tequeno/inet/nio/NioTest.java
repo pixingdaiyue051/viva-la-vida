@@ -18,7 +18,7 @@ public class NioTest {
 //        file.getChannel();
 
         NioTest nioSocketModel = new NioTest();
-//        nioSocketModel.testBuffer();
+        nioSocketModel.testBuffer();
 //        nioSocketModel.testFileOutChannel();
         nioSocketModel.testFileInChannel();
 //        nioSocketModel.testFileTransfer();
@@ -35,26 +35,35 @@ public class NioTest {
      * flip 切换读写模式
      */
     private void testBuffer() {
-        IntBuffer intBuffer = IntBuffer.allocate(5);
-        for (int i = 0; i < intBuffer.limit(); i++) {
-            intBuffer.put((int) (i * Math.random() * 20));
-        }
-
-        intBuffer.flip();
-
-        while (intBuffer.hasRemaining()) {
-            System.out.println(intBuffer.get());
-        }
+//        IntBuffer intBuffer = IntBuffer.allocate(5);
+//        for (int i = 0; i < intBuffer.limit(); i++) {
+//            intBuffer.put((int) (i * Math.random() * 20));
+//        }
+//        intBuffer.flip();
+//        while (intBuffer.hasRemaining()) {
+//            System.out.println(intBuffer.get());
+//        }
 
 
-        ByteBuffer byteBuffer = ByteBuffer.allocate(10);
-        byteBuffer.put("testing...".getBytes(StandardCharsets.UTF_8));
-
+        // 需要填充的字节数超出申请的最大容量时异常 java.nio.BufferOverflowException
+        String str = "testing...";
+        ByteBuffer byteBuffer = ByteBuffer.allocate(str.length());
+        byteBuffer.put(str.getBytes(StandardCharsets.UTF_8));
+        // 读写翻转 直接开始读取时异常 java.nio.BufferUnderflowException
         byteBuffer.flip();
+        // 根据buffer大小申请内存 手动读取数据
+        byte[] array = new byte[byteBuffer.limit()];
+        byteBuffer.get(array);
+        System.out.println(new String(array, StandardCharsets.UTF_8));
+        byteBuffer.clear();
 
-        byte[] b = new byte[byteBuffer.limit()];
-        byteBuffer.get(b);
-        System.out.println(new String(b, StandardCharsets.UTF_8));
+        // 存入数据 直接包装无需担忧超出字节
+        String str1 = "testing...";
+        final ByteBuffer byteBuffer1 = ByteBuffer.wrap(str1.getBytes(StandardCharsets.UTF_8));
+        // 直接获得缓冲区字节数
+        final byte[] array1 = byteBuffer1.array();
+        System.out.println(new String(array1, StandardCharsets.UTF_8));
+        byteBuffer1.clear();
 
     }
 
@@ -87,17 +96,15 @@ public class NioTest {
      * 使用 fileChannel 的 read 方法将 文件内的数据写入到 byteBuffer
      */
     private void testFileInChannel() {
-        try (FileInputStream fis = new FileInputStream("/data/doc/count-json.txt");
+        try (FileInputStream fis = new FileInputStream("/data/doc/sign_-1.txt");
              FileChannel fileChannel = fis.getChannel()) {
             // 读取文件
-            ByteBuffer byteBuffer = ByteBuffer.allocate((int) fileChannel.size());
-            fileChannel.read(byteBuffer);
+            System.out.println("文件总字节数:" + fileChannel.size());
+            ByteBuffer byteBuffer = ByteBuffer.allocate(500);
+            fileChannel.read(byteBuffer, 0);
+            System.out.println("已读取字节数:" + byteBuffer.position());
             // 获取缓冲区的数据
             byte[] bytes = byteBuffer.array();
-//            // 手动读取
-//            byte[] b = new byte[byteBuffer.limit()];
-//            byteBuffer.flip();
-//            byteBuffer.get(b);
             System.out.println(new String(bytes, StandardCharsets.UTF_8));
             // 清空缓冲区 并不会实际清空数据
             byteBuffer.clear();

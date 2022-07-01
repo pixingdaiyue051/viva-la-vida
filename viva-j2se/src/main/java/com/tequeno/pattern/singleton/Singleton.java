@@ -14,9 +14,22 @@ public class Singleton {
      *
      * @return
      */
+    @Deprecated
     public static Singleton getInstance() {
         System.out.println("getInstance");
         return INSTANCE;
+    }
+
+    /**
+     * 懒汉式 推荐使用
+     * 静态内部类方式 优化饿汉式
+     * 可以防止多线程数据共享问题
+     * INSTANCE 延迟加载
+     *
+     * @return
+     */
+    public static Singleton getInstance1() {
+        return SingletonHolder.INSTANCE;
     }
 
     private static class SingletonHolder {
@@ -29,17 +42,6 @@ public class Singleton {
         }
     }
 
-    /**
-     * 静态内部类方式 优化饿汉式
-     * 可以防止多线程数据共享问题
-     * INSTANCE 延迟加载
-     *
-     * @return
-     */
-    public static Singleton getInstance1() {
-        return SingletonHolder.INSTANCE;
-    }
-
 
     private static Singleton s;
 
@@ -49,6 +51,7 @@ public class Singleton {
      *
      * @return
      */
+    @Deprecated
     public static Singleton getInstance2() {
         if (s == null) {
             System.out.println("getInstance2");
@@ -64,6 +67,7 @@ public class Singleton {
      *
      * @return
      */
+    @Deprecated
     public static synchronized Singleton getInstance3() {
         if (s == null) {
             System.out.println("getInstance3");
@@ -73,10 +77,13 @@ public class Singleton {
     }
 
     /**
+     * 懒汉式  先声明一个空对象
      * 和上面的方法一样有问题
      * 实际测试当线程量过多时并不一定能防止并发(几率很小)
+     *
      * @return
      */
+    @Deprecated
     public static Singleton getInstance4() {
         synchronized (Singleton.class) {
             if (s == null) {
@@ -88,9 +95,10 @@ public class Singleton {
     }
 
     /**
-     * 懒汉式  先声明一个空对象
+     * 懒汉式 推荐使用
      * 使用双重校验锁(DCL)解决多线程下同步锁耗资源问题
      * 实际测试当线程量过多时并不一定能防止并发(几率很小)
+     *
      * @return
      */
     public static Singleton getInstance5() {

@@ -174,28 +174,21 @@
                     <!-- 打包排除的内容 -->
                     <excludes>
                         <exclude>com/tequeno/classload/*</exclude>
-                        <exclude>com/tequeno/collect/*</exclude>
-                        <exclude>com/tequeno/classload/*</exclude>
-                        <exclude>com/tequeno/heap/*</exclude>
+                        <exclude>com/tequeno/conutil/*</exclude>
                         <exclude>com/tequeno/inet/*</exclude>
                         <exclude>com/tequeno/io/*</exclude>
                         <exclude>com/tequeno/jdk8/*</exclude>
+                        <exclude>com/tequeno/json/*</exclude>
                         <exclude>com/tequeno/lottery/*</exclude>
                         <exclude>com/tequeno/lucky/*</exclude>
-                        <exclude>com/tequeno/jdk8/*</exclude>
                         <exclude>com/tequeno/mq/*</exclude>
 <!--                        <exclude>com/tequeno/netty/*</exclude>-->
-                        <exclude>com/tequeno/num/*</exclude>
                         <exclude>com/tequeno/pattern/*</exclude>
-                        <exclude>com/tequeno/str/*</exclude>
-                        <exclude>com/tequeno/num/*</exclude>
                         <exclude>com/tequeno/sudoku/*</exclude>
-                        <exclude>com/tequeno/superchild/*</exclude>
                         <exclude>com/tequeno/temail/*</exclude>
                         <exclude>com/tequeno/test/*</exclude>
                         <exclude>com/tequeno/thread/*</exclude>
-                        <exclude>com/tequeno/thread1/*</exclude>
-                        <exclude>com/tequeno/thread2/*</exclude>
+                        <exclude>com/tequeno/threadpool/*</exclude>
                     </excludes>
                 </configuration>
             </plugin>

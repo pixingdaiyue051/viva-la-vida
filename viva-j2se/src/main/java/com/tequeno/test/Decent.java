@@ -1,7 +1,5 @@
 package com.tequeno.test;
 
-import com.tequeno.num.NumTransferHandler;
-
 public class Decent {
 
     // reciprocal倒数
@@ -111,19 +109,19 @@ public class Decent {
         long l3 = System.currentTimeMillis();
         NumTransferHandler n = new NumTransferHandler();
         String in = "20190511";
-        String result = n.transfer(in, NumTransferHandler.DecDispEnum.DEC, NumTransferHandler.DecDispEnum.BIN);
+        String result = n.transfer(in, NumTransferEnum.DEC, NumTransferEnum.BIN);
         System.out.println(result);
         long l4 = System.currentTimeMillis();
         System.out.println(l4-l3);
-        result = n.transfer(in, NumTransferHandler.DecDispEnum.DEC, NumTransferHandler.DecDispEnum.OCT);
+        result = n.transfer(in, NumTransferEnum.DEC, NumTransferEnum.OCT);
         System.out.println(result);
-        result = n.transfer(in, NumTransferHandler.DecDispEnum.DEC, NumTransferHandler.DecDispEnum.HEX);
+        result = n.transfer(in, NumTransferEnum.DEC, NumTransferEnum.HEX);
         System.out.println(result);
-        result = n.transfer(in, NumTransferHandler.DecDispEnum.DEC, NumTransferHandler.DecDispEnum.DEC);
+        result = n.transfer(in, NumTransferEnum.DEC, NumTransferEnum.DEC);
         System.out.println(result);
 
         String str = "54af";
-        String transferRe = n.transfer(str, NumTransferHandler.DecDispEnum.HEX, NumTransferHandler.DecDispEnum.BIN);
+        String transferRe = n.transfer(str, NumTransferEnum.HEX, NumTransferEnum.BIN);
         System.out.println(transferRe);
 
         long l1 = System.currentTimeMillis();
