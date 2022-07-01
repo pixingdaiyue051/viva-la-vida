@@ -39,11 +39,12 @@ public class JsonTest {
 //        System.out.println(dto1);
 
         // 2
-        TypeToken<UserDto> typeToken = new TypeToken<>() {
-        };
-
-        RestDto<List<UserDto>> res1 = gson.fromJson(json, typeToken.getType());
-        System.out.println(res1);
+//        TypeToken<UserDto> typeToken = new TypeToken<>() {
+//        };
+//
+//
+//        RestDto<List<UserDto>> res1 = gson.fromJson(json, typeToken.getType());
+//        System.out.println(res1);
     }
 
     private void fastjson(String json) {

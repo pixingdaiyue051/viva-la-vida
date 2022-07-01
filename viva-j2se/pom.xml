@@ -22,11 +22,10 @@
             <artifactId>commons-email</artifactId>
             <version>1.1</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
-            <version>3.9</version>
+            <version>3.12.0</version>
         </dependency>
         <!--        &lt;!&ndash; github tiny pinyin&ndash;&gt;-->
 <!--        <dependency>-->
@@ -113,11 +112,35 @@
             <artifactId>logback-classic</artifactId>
             <version>1.2.11</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-core -->
+        <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-core</artifactId>
-            <version>1.2.11</version>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.10</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+        <dependency>
+            <groupId>redis.clients</groupId>
+            <artifactId>jedis</artifactId>
+            <version>2.9.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/cglib/cglib -->
+        <dependency>
+            <groupId>cglib</groupId>
+            <artifactId>cglib</artifactId>
+            <version>2.2.2</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/us.codecraft/webmagic-core -->
+        <dependency>
+            <groupId>us.codecraft</groupId>
+            <artifactId>webmagic-core</artifactId>
+            <version>0.10.0</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/us.codecraft/webmagic-extension -->
+        <dependency>
+            <groupId>us.codecraft</groupId>
+            <artifactId>webmagic-extension</artifactId>
+            <version>0.10.0</version>
         </dependency>
     </dependencies>
 
@@ -136,8 +159,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>8</source>
+                    <target>8</target>
                     <encoding>UTF-8</encoding>
                     <skip>true</skip>
                 </configuration>
@@ -169,33 +192,27 @@
                     <!-- 打包包括的内容 -->
                     <includes>
                         <include>com/tequeno/netty/*</include>
-                        <include>com/tequeno/netty/http/*</include>
+                        <!--<include>com/tequeno/netty/http/*</include>-->
                     </includes>
                     <!-- 打包排除的内容 -->
                     <excludes>
                         <exclude>com/tequeno/classload/*</exclude>
-                        <exclude>com/tequeno/collect/*</exclude>
-                        <exclude>com/tequeno/classload/*</exclude>
-                        <exclude>com/tequeno/heap/*</exclude>
+                        <exclude>com/tequeno/conutil/*</exclude>
                         <exclude>com/tequeno/inet/*</exclude>
                         <exclude>com/tequeno/io/*</exclude>
                         <exclude>com/tequeno/jdk8/*</exclude>
+                        <exclude>com/tequeno/json/*</exclude>
+                        <exclude>com/tequeno/jvm/*</exclude>
                         <exclude>com/tequeno/lottery/*</exclude>
                         <exclude>com/tequeno/lucky/*</exclude>
-                        <exclude>com/tequeno/jdk8/*</exclude>
                         <exclude>com/tequeno/mq/*</exclude>
-<!--                        <exclude>com/tequeno/netty/*</exclude>-->
-                        <exclude>com/tequeno/num/*</exclude>
+                        <!--<exclude>com/tequeno/netty/*</exclude>-->
                         <exclude>com/tequeno/pattern/*</exclude>
-                        <exclude>com/tequeno/str/*</exclude>
-                        <exclude>com/tequeno/num/*</exclude>
                         <exclude>com/tequeno/sudoku/*</exclude>
-                        <exclude>com/tequeno/superchild/*</exclude>
                         <exclude>com/tequeno/temail/*</exclude>
                         <exclude>com/tequeno/test/*</exclude>
                         <exclude>com/tequeno/thread/*</exclude>
-                        <exclude>com/tequeno/thread1/*</exclude>
-                        <exclude>com/tequeno/thread2/*</exclude>
+                        <exclude>com/tequeno/threadpool/*</exclude>
                     </excludes>
                 </configuration>
             </plugin>
