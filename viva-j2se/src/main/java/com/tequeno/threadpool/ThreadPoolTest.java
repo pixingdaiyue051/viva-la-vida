@@ -8,8 +8,8 @@ public class ThreadPoolTest {
 //        System.out.println("test1");
 //        poolTest.test1();
 
-        System.out.println("test2");
-        poolTest.test2();
+//        System.out.println("test2");
+//        poolTest.test2();
 
 //        System.out.println("test3");
 //        poolTest.test3();
@@ -17,7 +17,7 @@ public class ThreadPoolTest {
 //        System.out.println("test4");
 //        poolTest.test4();
 
-//        ScheduledPoolService poolService = new ScheduledPoolService();
-//        poolService.scheduleTick();
+        ScheduledPoolService poolService = new ScheduledPoolService();
+        poolService.scheduleTick();
     }
 }

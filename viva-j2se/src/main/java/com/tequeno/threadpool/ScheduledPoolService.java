@@ -29,12 +29,12 @@ public class ScheduledPoolService {
             System.out.print(Thread.currentThread().getName() + "----");
             System.out.println(LocalDateTime.now().toString());
         }, 3, TimeUnit.SECONDS);
-
-        service.scheduleAtFixedRate(() -> {
-            now = System.currentTimeMillis();
-            System.out.print(Thread.currentThread().getName() + "----");
-            System.out.println(now - l1);
-        }, 1, 1, TimeUnit.SECONDS);
+//
+//        service.scheduleAtFixedRate(() -> {
+//            now = System.currentTimeMillis();
+//            System.out.print(Thread.currentThread().getName() + "----");
+//            System.out.println(now - l1);
+//        }, 1, 1, TimeUnit.SECONDS);
 //
 //        service.scheduleWithFixedDelay(() -> {
 ////            now = System.currentTimeMillis();

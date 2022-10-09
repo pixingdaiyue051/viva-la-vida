@@ -7,7 +7,8 @@ public class CachedPoolService {
 
     /**
      * 使用future获得异步任务的返回值
-     * future.get方法阻塞获得放回值
+     * future.get方法阻塞获得返回值
+     * 按照future的添加顺序  顺序阻塞返回
      */
     public void test1() {
         ExecutorService pool = Executors.newCachedThreadPool();
@@ -57,6 +58,8 @@ public class CachedPoolService {
 
     /**
      * ExecutorCompletionService
+     * 对future阻塞优化
+     * 哪个future任务先结束就先获得返回值
      */
     public void test2() {
         ExecutorService pool = Executors.newCachedThreadPool();
@@ -102,7 +105,7 @@ public class CachedPoolService {
 
     /**
      * CountDownLatch
-     * 计算异步任务结束
+     * 计算异步任务结束  等待所有任务结束
      */
     public void test3() {
         ExecutorService pool = Executors.newCachedThreadPool();
@@ -158,7 +161,8 @@ public class CachedPoolService {
     }
 
     /**
-     * awaitTermination 只有调用了shutdown shutdownNow 让任务队列不再接收新的任务才能等待结束然后进行相关的操作
+     * awaitTermination
+     * 只有调用了shutdown shutdownNow 让任务队列不再接收新的任务才能等待结束然后进行相关的操作
      */
     public void test4() {
         ExecutorService pool = Executors.newCachedThreadPool();
@@ -175,29 +179,9 @@ public class CachedPoolService {
             System.out.println("future9 over");
         });
 
-        pool.execute(() -> {
-            System.out.println("future3 is running...");
-            try {
-                TimeUnit.SECONDS.sleep(3L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("future3 over");
-        });
-
-        pool.execute(() -> {
-            System.out.println("future6 is running...");
-            try {
-                TimeUnit.SECONDS.sleep(6L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("future6 over");
-        });
-
         try {
             pool.shutdown();
-            boolean termination = pool.awaitTermination(11L, TimeUnit.SECONDS);
+            boolean termination = pool.awaitTermination(10L, TimeUnit.SECONDS);
             if (termination) {
                 System.out.println("线程池已关闭");
             } else {
