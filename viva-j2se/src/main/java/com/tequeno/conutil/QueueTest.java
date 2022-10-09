@@ -2,6 +2,7 @@ package com.tequeno.conutil;
 
 import java.util.ArrayDeque;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.DelayQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
@@ -14,6 +15,8 @@ public class QueueTest {
     public static void main(String[] args) {
         QueueTest test = new QueueTest();
         test.arrayBlockingQueue();
+
+
     }
 
     /**
@@ -58,6 +61,9 @@ public class QueueTest {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+    }
+
+    public void delayedQueue() {
     }
 
     public void stack() {
