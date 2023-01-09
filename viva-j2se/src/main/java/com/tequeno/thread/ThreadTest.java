@@ -14,11 +14,15 @@ public class ThreadTest {
 //        DeadLockModel deadLockModel = new DeadLockModel();
 //        deadLockModel.test();
 
-        StopThreadModel st = new StopThreadModel();
-        st.signalTest();
+//        StopThreadModel st = new StopThreadModel();
+//        st.signalTest();
 //        st.waitTest();
 //        st.joinTest();
 //        st.sleepTest();
+
+
+        LockModel lock = new LockModel();
+        lock.multiAct();
     }
 
 }

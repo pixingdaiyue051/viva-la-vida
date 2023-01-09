@@ -9,17 +9,21 @@ import java.util.concurrent.locks.ReentrantLock;
  */
 public class StopThreadModel {
 
+    /**
+     * TODO
+     */
     public void signalTest() {
 
         final ReentrantLock lock = new ReentrantLock();
         final Condition condition = lock.newCondition();
 
+
         Thread t2 = new Thread(() -> {
             lock.lock();
             try {
+                condition.signal();
                 condition.await();
                 System.out.println("t2----");
-//                condition.signal();
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -31,9 +35,8 @@ public class StopThreadModel {
             lock.lock();
             try {
                 condition.await();
+                condition.signal();
                 System.out.println("t1----");
-//                condition.signal();
-//                t2.interrupt();
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -44,10 +47,9 @@ public class StopThreadModel {
         t2.start();
 
 
-        t1.interrupt();
         lock.lock();
         try {
-//            condition.signal(); // 唤醒最先进入等待的线程
+            condition.signal(); // 唤醒最先进入等待的线程
             condition.await(); // 主线程进入等待
             System.out.println("main----");
         } catch (Exception e) {
@@ -57,6 +59,9 @@ public class StopThreadModel {
         }
     }
 
+    /**
+     * 不推荐
+     */
     public void waitTest() {
 
         final Object lock = new Object();
@@ -100,11 +105,12 @@ public class StopThreadModel {
         }
     }
 
+    /**
+     * 推荐
+     */
     public void joinTest() {
 
-        Thread t1 = new Thread(() -> {
-            System.out.println("t1----");
-        });
+        Thread t1 = new Thread(() -> System.out.println("t1----"));
         Thread t2 = new Thread(() -> {
             try {
                 t1.join(); // 当前线程t2会等到t1执行完再执行
@@ -124,6 +130,10 @@ public class StopThreadModel {
         System.out.println("main----");
     }
 
+    /**
+     * 不推荐
+     */
+    @Deprecated
     public void sleepTest() {
 
         Thread t1 = new Thread(() -> {

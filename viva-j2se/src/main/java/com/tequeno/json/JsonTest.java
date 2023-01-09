@@ -42,6 +42,7 @@ public class JsonTest {
         TypeToken<UserDto> typeToken = new TypeToken<>() {
         };
 
+
         RestDto<List<UserDto>> res1 = gson.fromJson(json, typeToken.getType());
         System.out.println(res1);
     }
