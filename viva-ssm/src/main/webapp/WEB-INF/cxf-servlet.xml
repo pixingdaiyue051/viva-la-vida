@@ -10,9 +10,9 @@
     
     <import resource="classpath:META-INF/cxf/cxf.xml"/>
 	
- 	<jaxws:endpoint id="test" address="/test" implementorClass="com.webservice.test.TestWsdl">
+ 	<jaxws:endpoint id="algorithmTest" address="/algorithmTest" implementorClass="com.webservice.algorithmTest.TestWsdl">
  		<jaxws:implementor>
- 			<bean id="test" class="com.webservice.test.TestWsdlImpl"></bean>
+ 			<bean id="algorithmTest" class="com.webservice.algorithmTest.TestWsdlImpl"></bean>
  		</jaxws:implementor>
  	</jaxws:endpoint>
 </beans>

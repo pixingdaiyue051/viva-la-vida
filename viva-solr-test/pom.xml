@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.tequeno</groupId>
-    <artifactId>viva-solr-test</artifactId>
+    <artifactId>viva-solr-algorithmTest</artifactId>
     <version>1.0.0</version>
     <packaging>jar</packaging>
 
-    <name>viva-solr-test</name>
+    <name>viva-solr-algorithmTest</name>
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.plugin>2.3.2</maven.compiler.plugin>
@@ -23,7 +23,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.11</version>
-            <scope>test</scope>
+            <scope>algorithmTest</scope>
         </dependency>
 
         <dependency>

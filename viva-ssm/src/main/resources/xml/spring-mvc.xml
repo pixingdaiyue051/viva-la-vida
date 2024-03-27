@@ -29,14 +29,14 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<mvc:exclude-mapping path="/test/*.do" />
+			<mvc:exclude-mapping path="/algorithmTest/*.do" />
 			<mvc:exclude-mapping path="/base/i18n.do" />
 			<mvc:exclude-mapping path="/um/user/login.do" />
 			<mvc:exclude-mapping path="/um/user/loginPage.do" />
 			<bean id="loginInterceptor" class="org.interceptor.LoginInterceptor" />
 		</mvc:interceptor>
 		<!-- <mvc:interceptor>
-			<mvc:mapping path="/test/*.do" />
+			<mvc:mapping path="/algorithmTest/*.do" />
 			<mvc:mapping path="/um/user/loginPage.do" />
 			<bean id="ii8nInterceptor" class="org.interceptor.I18nInterceptor" />
 		</mvc:interceptor> -->

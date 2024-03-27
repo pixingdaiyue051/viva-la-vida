@@ -130,18 +130,25 @@
             <artifactId>cglib</artifactId>
             <version>2.2.2</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/us.codecraft/webmagic-core -->
         <dependency>
-            <groupId>us.codecraft</groupId>
-            <artifactId>webmagic-core</artifactId>
-            <version>0.10.0</version>
+            <groupId>com.tequeno</groupId>
+            <artifactId>opencv</artifactId>
+            <version>4.9.0</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/us.codecraft/webmagic-extension -->
+
+        <!-- https://mvnrepository.com/artifact/com.google.zxing/core -->
         <dependency>
-            <groupId>us.codecraft</groupId>
-            <artifactId>webmagic-extension</artifactId>
-            <version>0.10.0</version>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>core</artifactId>
+            <version>3.4.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.zxing/javase -->
+        <dependency>
+            <groupId>com.google.zxing</groupId>
+            <artifactId>javase</artifactId>
+            <version>3.4.1</version>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -157,10 +164,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
                 <configuration>
-                    <source>8</source>
-                    <target>8</target>
+                    <source>11</source>
+                    <target>11</target>
                     <encoding>UTF-8</encoding>
                     <skip>true</skip>
                 </configuration>
@@ -168,8 +174,6 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.6</version>
-
                 <configuration>
                     <archive>
                         <manifest>
@@ -196,23 +200,18 @@
                     </includes>
                     <!-- 打包排除的内容 -->
                     <excludes>
+                        <exclude>com/tequeno/algorithm/*</exclude>
                         <exclude>com/tequeno/classload/*</exclude>
                         <exclude>com/tequeno/conutil/*</exclude>
-                        <exclude>com/tequeno/inet/*</exclude>
-                        <exclude>com/tequeno/io/*</exclude>
+                        <exclude>com/tequeno/email/*</exclude>
+                        <exclude>com/tequeno/file/*</exclude>
                         <exclude>com/tequeno/jdk8/*</exclude>
-                        <exclude>com/tequeno/json/*</exclude>
                         <exclude>com/tequeno/jvm/*</exclude>
-                        <exclude>com/tequeno/lottery/*</exclude>
-                        <exclude>com/tequeno/lucky/*</exclude>
-                        <exclude>com/tequeno/mq/*</exclude>
+                        <exclude>com/tequeno/net/*</exclude>
                         <!--<exclude>com/tequeno/netty/*</exclude>-->
+                        <exclude>com/tequeno/opencv/*</exclude>
                         <exclude>com/tequeno/pattern/*</exclude>
-                        <exclude>com/tequeno/sudoku/*</exclude>
-                        <exclude>com/tequeno/temail/*</exclude>
-                        <exclude>com/tequeno/test/*</exclude>
                         <exclude>com/tequeno/thread/*</exclude>
-                        <exclude>com/tequeno/threadpool/*</exclude>
                     </excludes>
                 </configuration>
             </plugin>

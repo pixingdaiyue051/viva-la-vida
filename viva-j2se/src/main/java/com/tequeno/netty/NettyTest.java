@@ -1,9 +1,11 @@
 package com.tequeno.netty;
 
+import com.tequeno.net.InetConst;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Scanner;
 
 public class NettyTest {
 
@@ -43,5 +45,20 @@ public class NettyTest {
         System.out.println(buf.arrayOffset());
         System.out.println(buf.hasArray());
         System.out.println(new String(buf.array(), StandardCharsets.UTF_8));
+    }
+
+    public void testScanner() {
+        try (Scanner scanner = new Scanner(System.in)) {
+            while (true) {
+                String nextLine = scanner.nextLine();
+                if (InetConst.BREAK_OUT.equals(nextLine)) {
+                    System.out.println("结束");
+                    break;
+                }
+                System.out.println("输入:" + nextLine);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
