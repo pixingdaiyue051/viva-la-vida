@@ -2,7 +2,7 @@
 <configuration scan="false" debug="false">
     <!-- 定义日志文件 输出位置以下是API内的默认位置 -->
     <!-- <property name="log_dir" value="/home/hadmin/data/logs/src" /> -->
-    <property name="log_dir" value="/var/log/viva-la-vida" />
+    <property name="log_dir" value="/data/logs/viva-la-vida" />
     <!-- 日志最大的历史 30天 -->
     <property name="maxHistory" value="30" />
     <!-- 异步输出日志最大缓冲默认256 -->
