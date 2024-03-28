@@ -130,11 +130,10 @@
             <artifactId>cglib</artifactId>
             <version>2.2.2</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.bytedeco/opencv -->
         <dependency>
-            <groupId>org.bytedeco</groupId>
+            <groupId>com.tequeno</groupId>
             <artifactId>opencv</artifactId>
-            <version>4.7.0-1.5.9</version>
+            <version>4.9.0</version>
         </dependency>
     </dependencies>
 

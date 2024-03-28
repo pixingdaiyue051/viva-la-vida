@@ -111,26 +111,4 @@ public class FileTest {
             e.printStackTrace();
         }
     }
-
-    private void base64() {
-
-        // 加密
-        final Base64.Encoder encoder = Base64.getEncoder();
-        final String encoded = encoder.encodeToString("hjkjkkjkdsfgdvdgsdgd".getBytes(StandardCharsets.UTF_8));
-        System.out.println(encoded);
-
-        // 解码
-        final Base64.Decoder decoder = Base64.getDecoder();
-        final byte[] decoded = decoder.decode("aGpramtramtkc2ZnZHZkZ3NkZ2Q=");
-        System.out.println(new String(decoded, StandardCharsets.UTF_8));
-
-
-        // 加密
-        final String s = org.apache.commons.codec.binary.Base64.encodeBase64String("hjkjkkjkdsfgdvdgsdgd".getBytes(StandardCharsets.UTF_8));
-        System.out.println(s);
-
-        // 解码
-        final byte[] bs = org.apache.commons.codec.binary.Base64.decodeBase64("TFeIrTZDQKsiH54b");
-        System.out.println(new String(bs, StandardCharsets.UTF_8));
-    }
 }

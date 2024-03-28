@@ -1,7 +1,7 @@
 package com.tequeno.io;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
+import java.util.Random;
 
 /**
  * 模拟读取一个10G文件
@@ -11,9 +11,7 @@ import java.io.IOException;
  */
 public class BigFileTest {
 
-    private static String filepath = "/data/upload/bigdata_test/test.dat";
-
-    private static File prepareFile(String filepath) {
+    private File prepareFile(String filepath) {
         File file = new File(filepath);
         if (!file.exists()) {
             try {
@@ -25,21 +23,46 @@ public class BigFileTest {
         return file;
     }
 
+    /**
+     * 产生10G的数据
+     */
+    private void generateData(File file) {
+        Random random = new Random();
+        int start = 18;
+        int end = 70;
+        try (FileOutputStream fos = new FileOutputStream(file, true);
+             OutputStreamWriter osw = new OutputStreamWriter(fos);
+             BufferedWriter bos = new BufferedWriter(osw)) {
+
+            long l1 = System.currentTimeMillis();
+            for (long i = 1; i < Integer.MAX_VALUE; i++) {
+                String data = (random.nextInt(end - start + 1) + start) + ",";
+                bos.write(data);
+                // 每1000条记录成一行
+                if (i % 1000 == 0) {
+                    bos.write("00"); // 加入一个和数据位大小一致的数据换行
+                    bos.newLine();
+                    System.out.println("写入1000条数据,耗时:" + (System.currentTimeMillis() - l1) + "ms");
+                }
+            }
+            System.out.println("写入1000000000数据,耗时:" + (System.currentTimeMillis() - l1) + "ms");
+            System.gc();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void main(String[] args) {
-        final File file = prepareFile(filepath);
+        BigFileTest bigFileTest = new BigFileTest();
 
-//        BigFileWriter writer = new BigFileWriter();
-//        writer.generateData(file);
+        String filePath = "/data/1/bigfile.dat";
+        File file = bigFileTest.prepareFile(filePath);
+//        bigFileTest.generateData(file);
 
-//        BigFileReader reader = new BigFileReader();
-//        reader.readData(file);
-
-        BigFileConcurrentReader reader = new BigFileConcurrentReader();
-        reader.readData(file);
-
-//        BigFileCoReader reader = new BigFileCoReader();
-//        reader.readData(filepath);
-
+        BigFileReader reader = new BigFileReader();
+//        reader.singRead(file);
+//        reader.threadRead(file);
+        reader.threadReadPlus(filePath);
     }
 
 }

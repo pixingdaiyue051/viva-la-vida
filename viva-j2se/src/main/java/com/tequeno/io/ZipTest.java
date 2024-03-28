@@ -11,7 +11,7 @@ import java.util.zip.ZipOutputStream;
 
 public class ZipTest {
 
-    public static void toZip(List<File> srcFiles, String zipPath) {
+    public void toZip(List<File> srcFiles, String zipPath) {
         byte[] buf = new byte[1024];
         long start = System.currentTimeMillis();
         try (OutputStream out = Files.newOutputStream(Paths.get(zipPath));
@@ -40,6 +40,6 @@ public class ZipTest {
         fileList.add(new File("/data/pic/5639395138950405.jpg"));
         fileList.add(new File("/data/pic/6668538023345750.jpg"));
         fileList.add(new File("/data/pic/16575137789103803.jpg"));
-        ZipTest.toZip(fileList, "/data/pic/pink_floyd2.zip");
+        new ZipTest().toZip(fileList, "/data/pic/pink_floyd2.zip");
     }
 }
