@@ -1,38 +1,40 @@
 package com.tequeno.conutil;
 
 import io.netty.util.HashedWheelTimer;
-import io.netty.util.Timeout;
-import redis.clients.jedis.Jedis;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.time.Instant;
-import java.util.*;
-import java.util.concurrent.DelayQueue;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Timer;
+import java.util.concurrent.*;
 
 /**
  * 延时消息 定时任务
  */
 public class DelayTaskHandler {
 
+    private final static Logger logger = LoggerFactory.getLogger(DelayTaskHandler.class);
+
     /**
+     * 本地服务内存 重启后失效 不推荐
      * 无限循环 模拟定时任务
      */
-    @Deprecated
     public void infiniteLoop() {
-        System.out.println("infiniteLoop");
+        logger.info("infiniteLoop");
         // 存放定时任务
         final Map<String, Long> taskMap = new HashMap<>();
 
         // 添加定时任务
         final Instant now = Instant.now();
-        System.out.println("任务压栈task-%,启动时间:" + now.toEpochMilli());
-        taskMap.put("task-3", now.plusSeconds(5).toEpochMilli());
-        taskMap.put("task-1", now.plusSeconds(1).toEpochMilli());
-        taskMap.put("task-4", now.plusSeconds(10).toEpochMilli());
-        taskMap.put("task-2", now.plusSeconds(3).toEpochMilli());
-        taskMap.put("task-5", now.plusSeconds(16).toEpochMilli());
+        logger.info("infiniteLoop 添加任务数据");
+        taskMap.put("task-2", now.plusMillis(3000L).toEpochMilli());
+        taskMap.put("task-4", now.plusMillis(1000L).toEpochMilli());
+        taskMap.put("task-3", now.plusMillis(5000L).toEpochMilli());
+        taskMap.put("task-1", now.plusMillis(10000L).toEpochMilli());
+        taskMap.put("task-5", now.plusMillis(16000L).toEpochMilli());
 
         Long itemLong;
         do {
@@ -44,86 +46,91 @@ public class DelayTaskHandler {
                 // 有任务需要执行
                 if (milli >= itemLong) {
                     // 延迟任务，业务逻辑执行
-                    System.out.printf("%s执行任务%s,执行时间:%s", Thread.currentThread().getName(), entry.getKey(), milli);
+                    logger.info("{}执行任务{}", Thread.currentThread().getName(), entry.getKey());
                     // 删除任务
                     it.remove();
-                    System.out.println("剩余任务数:" + taskMap.size());
+                    logger.info("剩余任务数:{}", taskMap.size());
                 }
             }
-        } while (taskMap.size() != 0);
+        } while (!taskMap.isEmpty());
     }
 
     /**
-     * timerTask Timer定时器
-     */
-    public void timerTask() {
-        System.out.println("timerTask");
-        System.out.println("任务压栈task-%,启动时间:" + System.currentTimeMillis());
-
-        Timer timer = new Timer();
-        for (int i = 0; i < 5; i++) {
-            int finalI = i;
-            TimerTask t = new TimerTask() {
-                @Override
-                public void run() {
-                    System.out.printf("%s执行,执行时间:%s", Thread.currentThread().getName(), System.currentTimeMillis());
-                    System.out.println();
-                    if (finalI == 4) {
-                        timer.cancel();
-                        timer.purge();
-                    }
-                }
-            };
-            timer.schedule(t, (i + 1) * 3000L);
-        }
-    }
-
-    /**
+     * 本地服务内存 重启后失效 不推荐
      * DelayQueue
-     * 延时队列
      */
     public void delayedQueue() {
-        System.out.println("delayedQueue");
-        System.out.println("任务压栈task-%,启动时间:" + System.currentTimeMillis());
-        DelayQueue<QueueDelayEl> dq = new DelayQueue<>();
-        dq.add(new QueueDelayEl("task-2", 3000L));
-        dq.add(new QueueDelayEl("task-4", 1000L));
-        dq.add(new QueueDelayEl("task-3", 5000L));
-        dq.add(new QueueDelayEl("task-1", 10000L));
-        dq.add(new QueueDelayEl("task-5", 16000L));
+        logger.info("delayedQueue");
+        DelayQueue<DelayedQueueEl> dq = new DelayQueue<>();
+        logger.info("delayedQueue 添加任务数据");
+        dq.add(new DelayedQueueEl("task-2", 3000L));
+        dq.add(new DelayedQueueEl("task-4", 1000L));
+        dq.add(new DelayedQueueEl("task-3", 5000L));
+        dq.add(new DelayedQueueEl("task-1", 10000L));
+        dq.add(new DelayedQueueEl("task-5", 16000L));
 
         while (!dq.isEmpty()) {
             try {
-                final QueueDelayEl taken = dq.take();
-                System.out.printf("%s执行任务%s,执行时间:%s", Thread.currentThread().getName(), taken.getName(), taken.getDelayTime());
-                System.out.println("剩余任务数:" + dq.size());
+                final DelayedQueueEl taken = dq.take();
+                logger.info("{}执行任务{}", Thread.currentThread().getName(), taken.getName());
+                logger.info("剩余任务数:{}", dq.size());
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                logger.error("delayedQueue 异常", e);
             }
         }
     }
 
     /**
-     * ScheduledExecutorService
+     * 本地服务内存 重启后失效 不推荐
+     * 使用单独的timerThread阻塞式执行任务
+     * timerTask Timer定时器
      */
-    public void scheduledExecutor() {
-        System.out.println("scheduledExecutor");
-        System.out.println("thread pool task,启动时间:" + System.currentTimeMillis());
-        final ScheduledExecutorService service = Executors.newScheduledThreadPool(10);
-        service.schedule(this::scheduledPof, 3, TimeUnit.SECONDS);
-        service.schedule(this::scheduledPof, 10, TimeUnit.SECONDS);
-        service.schedule(this::scheduledPof, 1, TimeUnit.SECONDS);
-        service.schedule(this::scheduledPof, 5, TimeUnit.SECONDS);
-        service.schedule(this::scheduledPof, 16, TimeUnit.SECONDS);
-        service.shutdown();
-    }
+    public void timerTask() {
+        logger.info("timerTask");
+        Timer timer = new Timer();
+        logger.info("timerTask 添加任务数据");
+        CountDownLatch count = new CountDownLatch(5);
+        timer.schedule(new DelayedTimerTaskEl("task-2", count), 3000L);
+        timer.schedule(new DelayedTimerTaskEl("task-4", count), 1000L);
+        timer.schedule(new DelayedTimerTaskEl("task-3", count), 5000L);
+        timer.schedule(new DelayedTimerTaskEl("task-1", count), 10000L);
+        timer.schedule(new DelayedTimerTaskEl("task-5", count), 16000L);
 
-    private void scheduledPof() {
-        System.out.printf("-%s,执行时间:%s", Thread.currentThread().getName(), System.currentTimeMillis());
-        System.out.println();
+        try {
+            count.await();
+            timer.cancel();
+            timer.purge();
+        } catch (InterruptedException e) {
+            logger.error("timerTask 异常", e);
+        }
     }
 
     /**
+     * 本地服务内存 重启后失效 不推荐
+     * ScheduledExecutorService
+     */
+    public void scheduledExecutor() {
+        logger.info("scheduledExecutor");
+        final ScheduledExecutorService service = Executors.newScheduledThreadPool(10);
+        CountDownLatch count = new CountDownLatch(5);
+        service.schedule(new DelayedExecutorEl("task-2", count), 3000L, TimeUnit.MILLISECONDS);
+        service.schedule(new DelayedExecutorEl("task-4", count), 1000L, TimeUnit.MILLISECONDS);
+        service.schedule(new DelayedExecutorEl("task-3", count), 5000L, TimeUnit.MILLISECONDS);
+        service.schedule(new DelayedExecutorEl("task-1", count), 10000L, TimeUnit.MILLISECONDS);
+        service.schedule(new DelayedExecutorEl("task-5", count), 16000L, TimeUnit.MILLISECONDS);
+        service.shutdown();
+
+        try {
+            count.await();
+        } catch (InterruptedException e) {
+            logger.error("scheduledExecutor 异常", e);
+        }
+
+//        while (!service.isTerminated()) ;
+    }
+
+    /**
+     * 本地服务内存 重启后失效 不推荐
      * Netty hashedWheelTimer 的延迟任务
      * <p>
      * Netty 是由 JBOSS 提供的一个 Java 开源框架，它是一个基于 NIO 的客户、服务器端的编程框架，
@@ -140,67 +147,23 @@ public class DelayTaskHandler {
      * TODO 待改进验证
      */
     public void hashedWheelTimer() {
-        System.out.println("hashedWheelTimer");
-        System.out.println("hashedWheelTimer,启动时间:" + System.currentTimeMillis());
-        HashedWheelTimer timer = new HashedWheelTimer(1, TimeUnit.SECONDS, 8); // 时间轮中的槽数
-        timer.newTimeout(this::timerPof, 3, TimeUnit.SECONDS);
-        timer.newTimeout(this::timerPof, 10, TimeUnit.SECONDS);
-        timer.newTimeout(this::timerPof, 1, TimeUnit.SECONDS);
-        timer.newTimeout(this::timerPof, 5, TimeUnit.SECONDS);
-        timer.newTimeout(this::timerPof, 16, TimeUnit.SECONDS);
-        while (true) {
-            if (timer.pendingTimeouts() <= 0) {
-                timer.stop();
-                break;
-            }
+        logger.info("hashedWheelTimer");
+        HashedWheelTimer timer = new HashedWheelTimer(1000, TimeUnit.MILLISECONDS, 8);
+        logger.info("hashedWheelTimer 添加任务数据");
+        CountDownLatch count = new CountDownLatch(5);
+        timer.newTimeout(new DelayedHashWheelEl("task-2", count), 3000L, TimeUnit.MILLISECONDS);
+        timer.newTimeout(new DelayedHashWheelEl("task-4", count), 1000L, TimeUnit.MILLISECONDS);
+        timer.newTimeout(new DelayedHashWheelEl("task-3", count), 5000L, TimeUnit.MILLISECONDS);
+        timer.newTimeout(new DelayedHashWheelEl("task-1", count), 10000L, TimeUnit.MILLISECONDS);
+        timer.newTimeout(new DelayedHashWheelEl("task-5", count), 16000L, TimeUnit.MILLISECONDS);
+
+        try {
+            count.await();
+            timer.stop();
+        } catch (InterruptedException e) {
+            logger.error("hashedWheelTimer 异常", e);
         }
+//        while (timer.pendingTimeouts() > 0) ;
     }
 
-    private void timerPof(Timeout timeout) {
-        System.out.printf("-%s,执行时间:%s", Thread.currentThread().getName(), System.currentTimeMillis());
-        System.out.println();
-    }
-
-    /**
-     * redis zset
-     */
-    @Deprecated
-    public void redisZset() {
-        System.out.println("redisZset");
-        final Instant now = Instant.now();
-        System.out.println("任务压栈task-%,启动时间:" + now.toEpochMilli());
-        String key = "test:z1";
-        final Jedis jedis = JedisUtil.getInstance().getJedis();
-        jedis.zadd(key, now.plusSeconds(5).toEpochMilli(), "task-3");
-        jedis.zadd(key, now.plusSeconds(1).toEpochMilli(), "task-1");
-        jedis.zadd(key, now.plusSeconds(10).toEpochMilli(), "task-4");
-        jedis.zadd(key, now.plusSeconds(3).toEpochMilli(), "task-2");
-        jedis.zadd(key, now.plusSeconds(16).toEpochMilli(), "task-5");
-
-        while (true) {
-            // 当前时间
-            Instant nowInstant = Instant.now();
-            long lastSecond = nowInstant.plusSeconds(-1).toEpochMilli(); // 上一秒时间
-            long nowSecond = nowInstant.toEpochMilli();
-            // 查询当前时间的所有任务
-            Set<String> data = jedis.zrangeByScore(key, lastSecond, nowSecond);
-            for (String item : data) {
-                System.out.printf("%s执行任务%s,执行时间:%s", Thread.currentThread().getName(), item, nowSecond);
-                System.out.println();
-            }
-            // 删除已经执行的任务
-            jedis.zremrangeByScore(key, lastSecond, nowSecond);
-            final Long aLong = jedis.zcount(key, "0", Long.MAX_VALUE + "");
-            if (aLong <= 0) {
-                jedis.disconnect();
-                jedis.close();
-                break;
-            }
-            try {
-                TimeUnit.SECONDS.sleep(1L);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
-    }
 }

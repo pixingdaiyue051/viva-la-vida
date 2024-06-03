@@ -3,13 +3,13 @@ package com.tequeno.conutil;
 import java.util.concurrent.Delayed;
 import java.util.concurrent.TimeUnit;
 
-public class QueueDelayEl implements Delayed {
+public class DelayedQueueEl implements Delayed {
 
     // 延迟截止时间（单面：毫秒）
     private final long delayTime;
     private final String name;
 
-    public QueueDelayEl(String name, long delayTime) {
+    public DelayedQueueEl(String name, long delayTime) {
         this.name = name;
         this.delayTime = (System.currentTimeMillis() + delayTime);
     }
