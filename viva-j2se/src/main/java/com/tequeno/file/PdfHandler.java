@@ -3,7 +3,6 @@ package com.tequeno.file;
 import com.itextpdf.text.*;
 import com.itextpdf.text.pdf.*;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
@@ -52,9 +51,9 @@ public class PdfHandler {
         DecimalFormat percent1 = new DecimalFormat("0.000");
         String advice = String.format(ADVICE_TEMP, "10%", percent.format(v2), percent.format(v1), percent.format(1 - v1));
 
-        Document document = new Document();
-        try {
-            PdfWriter.getInstance(document, new FileOutputStream(pdfPath));
+        try (FileOutputStream os = new FileOutputStream(pdfPath)) {
+            Document document = new Document();
+            PdfWriter.getInstance(document, os);
             document.open();
 
 
@@ -103,12 +102,12 @@ public class PdfHandler {
 
             document.add(table);
             document.close();
-        } catch (DocumentException | FileNotFoundException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public void setContent(PdfPTable table, Object content) throws IOException, DocumentException {
+    public void setContent(PdfPTable table, Object content) throws DocumentException {
         Paragraph pp = new Paragraph();
         pp.setAlignment(1);
         pp.setSpacingBefore(15f);

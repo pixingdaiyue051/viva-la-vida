@@ -3,6 +3,7 @@ package com.tequeno;
 import com.tequeno.thread.CachedPoolService;
 import com.tequeno.thread.LockModel;
 import com.tequeno.thread.ScheduledPoolService;
+import com.tequeno.thread.StopThreadModel;
 import org.junit.Test;
 
 public class ThreadTest {
@@ -40,15 +41,15 @@ public class ThreadTest {
 //        DeadLockModel deadLockModel = new DeadLockModel();
 //        deadLockModel.test();
 
-//        StopThreadModel st = new StopThreadModel();
-//        st.signalTest();
-//        st.waitTest();
-//        st.joinTest();
+        StopThreadModel st = new StopThreadModel();
 //        st.sleepTest();
+//        st.waitTest();
+        st.signalTest();
+//        st.joinTest();
 
 
-        LockModel lock = new LockModel();
-        lock.multiAct();
+//        LockModel lock = new LockModel();
+//        lock.multiAct();
     }
 
 }

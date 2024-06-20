@@ -124,11 +124,6 @@
             <artifactId>cglib</artifactId>
             <version>2.2.2</version>
         </dependency>
-        <dependency>
-            <groupId>com.tequeno</groupId>
-            <artifactId>opencv</artifactId>
-            <version>4.9.0</version>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.zxing/core -->
         <dependency>
             <groupId>com.google.zxing</groupId>
@@ -201,7 +196,6 @@
                         <exclude>com/tequeno/jvm/*</exclude>
                         <exclude>com/tequeno/net/*</exclude>
                         <!--<exclude>com/tequeno/netty/*</exclude>-->
-                        <exclude>com/tequeno/opencv/*</exclude>
                         <exclude>com/tequeno/pattern/*</exclude>
                         <exclude>com/tequeno/thread/*</exclude>
                     </excludes>

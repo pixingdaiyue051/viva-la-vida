@@ -1,5 +1,7 @@
 package com.tequeno.thread;
 
+import java.nio.charset.CoderMalfunctionError;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -10,53 +12,30 @@ import java.util.concurrent.locks.ReentrantLock;
 public class StopThreadModel {
 
     /**
-     * TODO
+     * 不推荐
      */
-    public void signalTest() {
-
-        final ReentrantLock lock = new ReentrantLock();
-        final Condition condition = lock.newCondition();
-
-
-        Thread t2 = new Thread(() -> {
-            lock.lock();
-            try {
-                condition.signal();
-                condition.await();
-                System.out.println("t2----");
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                lock.unlock();
-            }
-        });
+    public void sleepTest() {
 
         Thread t1 = new Thread(() -> {
-            lock.lock();
-            try {
-                condition.await();
-                condition.signal();
-                System.out.println("t1----");
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                lock.unlock();
-            }
+            System.out.println("t1----"); // t1立刻执行
         });
+        Thread t2 = new Thread(() -> {
+            try {
+                TimeUnit.MILLISECONDS.sleep(500L); // t2休眠500ms
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            System.out.println("t2----");
+        });
+
         t1.start();
         t2.start();
-
-
-        lock.lock();
         try {
-            condition.signal(); // 唤醒最先进入等待的线程
-            condition.await(); // 主线程进入等待
-            System.out.println("main----");
-        } catch (Exception e) {
+            TimeUnit.SECONDS.sleep(1L); // 主线休眠1s
+        } catch (InterruptedException e) {
             e.printStackTrace();
-        } finally {
-            lock.unlock();
         }
+        System.out.println("main----");
     }
 
     /**
@@ -106,6 +85,56 @@ public class StopThreadModel {
     }
 
     /**
+     * TODO
+     */
+    public void signalTest() {
+
+        final ReentrantLock lock = new ReentrantLock();
+        final Condition condition = lock.newCondition();
+
+
+        Thread t2 = new Thread(() -> {
+            lock.lock();
+            try {
+                condition.await();
+                System.out.println("t2----");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                condition.signal();
+                lock.unlock();
+            }
+        });
+
+        Thread t1 = new Thread(() -> {
+            lock.lock();
+            try {
+                condition.await();
+                System.out.println("t1----");
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                condition.signal();
+                lock.unlock();
+            }
+        });
+        t1.start();
+        t2.start();
+
+        condition.signal();
+
+        lock.lock();
+        try {
+            condition.await(); // 主线程进入等待
+            System.out.println("main----");
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            lock.unlock();
+        }
+    }
+
+    /**
      * 推荐
      */
     public void joinTest() {
@@ -124,34 +153,6 @@ public class StopThreadModel {
         t2.start();
         try {
             t2.join(); // 主线程会等t2执行完再执行
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-        System.out.println("main----");
-    }
-
-    /**
-     * 不推荐
-     */
-    @Deprecated
-    public void sleepTest() {
-
-        Thread t1 = new Thread(() -> {
-            System.out.println("t1----"); // t1立刻执行
-        });
-        Thread t2 = new Thread(() -> {
-            try {
-                TimeUnit.MILLISECONDS.sleep(500L); // t2休眠500ms
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            System.out.println("t2----");
-        });
-
-        t1.start();
-        t2.start();
-        try {
-            TimeUnit.SECONDS.sleep(1L); // 主线休眠1s
         } catch (InterruptedException e) {
             e.printStackTrace();
         }

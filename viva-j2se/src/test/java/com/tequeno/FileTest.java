@@ -62,16 +62,21 @@ public class FileTest {
     public void testImage() {
         ImageHandler imageHandler = new ImageHandler();
 
-        String base64 = imageHandler.imageToBase64("/data/pic/face/7b2e1bdd55631cee1acf2315c5f708cd.jpg");
-        System.out.println(base64);
+//        String base64 = imageHandler.imageToBase64("/data/pic/face/7b2e1bdd55631cee1acf2315c5f708cd.jpg");
+//        System.out.println(base64);
 //        imageHandler.base64ToImage(base64);
+
+//        String base64 = imageHandler.urlToBase64("https://school-dev01.oss-cn-hangzhou.aliyuncs.com/student_face/545325014325530624.jpg?Expires=1718849524&OSSAccessKeyId=LTAI5tCy4nFXF3KFTx18daWb&Signature=SkpS%2FSXet7MXsDhV6rl%2BsKY%2B%2FX0%3D");
+//        System.out.println(base64);
+
+        imageHandler.compressImage("/data/pic/67e599683d27cb9886b202026e3063fb.jpeg", "/data/1/1.jpeg", 0.5f);
     }
 
     @Test
     public void testJFreeChart() throws Exception {
         //创建主题样式
         StandardChartTheme mChartTheme = new StandardChartTheme("CN");
-//设置标题字体
+        //设置标题字体
         mChartTheme.setExtraLargeFont(new Font("黑体", Font.BOLD, 20));
         //设置轴向字体
         mChartTheme.setLargeFont(new Font("宋体", Font.PLAIN, 15));
@@ -111,19 +116,21 @@ public class FileTest {
 
     @Test
     public void testQrcode() {
-        ImageHandler handler = new ImageHandler();
+        QrcodeHandler handler = new QrcodeHandler();
 //        handler.generateQrcode("https://www.baidu.com", "测试二维码");
 
-//        1750371575276056577,濮阳市西湖中学
-//        1790644721651707905,南乐近德固中学
-//        1790922566457786369,濮阳市第一高级中学
+//      1750371575276056577,濮阳市西湖中学
+//      1790644721651707905,南乐近德固中学
+//      1790922566457786369,濮阳市第一高级中学
 
-        handler.generateQrcode("https://jiansuotong.top:9001/h5?schoolId=1750371575276056577&schoolname=濮阳市西湖中学", "濮阳市西湖中学", "濮阳市西湖中学");
-        handler.generateQrcode("https://jiansuotong.top:9002/h5?schoolId=1790644721651707905&schoolname=南乐近德固中学", "南乐近德固中学", "南乐近德固中学");
-        handler.generateQrcode("https://jiansuotong.top:9002/h5?schoolId=1790922566457786369&schoolname=濮阳市第一高级中学", "濮阳市第一高级中学", "濮阳市第一高级中学");
+//        handler.generateQrcode("https://jiansuotong.top:9002/h5?schoolId=1750371575276056577&schoolname=濮阳市西湖中学", "h5_xhzx", "濮阳市西湖中学");
+//        handler.generateQrcode("https://jiansuotong.top:9002/h5?schoolId=1790644721651707905&schoolname=南乐近德固中学", "h5_nyjdgzx", "南乐近德固中学");
+//        handler.generateQrcode("https://jiansuotong.top:9002/h5?schoolId=1790922566457786369&schoolname=濮阳市第一高级中学", "h5_dygjzx", "濮阳市第一高级中学");
 
+//        File logo = new File("/data/pic/logo.jpg");
+//        handler.generateQrcode("http://jiansuotong.top:8888/opt/xyks_app.apk", "xyks_app1", logo);
 
-//        String out = handler.decodeQrcode("/data/1/测试二维码1.jpg");
+//        String out = handler.decodeQrcode("/data/pic/xyks_app.jpg");
 //        System.out.println(out);
 
     }
