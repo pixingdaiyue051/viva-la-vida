@@ -3,6 +3,7 @@ package com.tequeno.file;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
 import java.util.List;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
@@ -18,8 +19,8 @@ public class ZipHandler {
             for (File srcFile : srcFiles) {
                 zos.putNextEntry(new ZipEntry(srcFile.getName()));
                 int len;
-                InputStream in = Files.newInputStream(srcFile.toPath());
-                while ((len = in.read(buf)) != -1) {
+                InputStream in = Files.newInputStream(srcFile.toPath(), StandardOpenOption.READ);
+                while ((len = in.read(buf)) > 0) {
                     zos.write(buf, 0, len);
                 }
                 zos.closeEntry();

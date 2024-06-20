@@ -7,13 +7,17 @@ import com.google.zxing.common.HybridBinarizer;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
-import javax.imageio.ImageIO;
+import javax.imageio.*;
+import javax.imageio.stream.FileImageOutputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.net.URL;
+import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 public class ImageHandler {
@@ -45,7 +49,8 @@ public class ImageHandler {
         base64String = base64String.replaceFirst(BASE64_PREFIX, "");
         // 将Base64字符串解码为字节数组
         byte[] decodedBytes = Base64.getDecoder().decode(base64String);
-        try (ByteArrayInputStream bis = new ByteArrayInputStream(decodedBytes); FileOutputStream fos = new FileOutputStream(outPath)) {
+        try (ByteArrayInputStream bis = new ByteArrayInputStream(decodedBytes);
+             FileOutputStream fos = new FileOutputStream(outPath)) {
 
             // 读取输入流并转换为BufferedImage对象
             BufferedImage image = ImageIO.read(bis);
@@ -59,17 +64,45 @@ public class ImageHandler {
     public String imageToBase64(String imagePath) {
         // 创建一个File对象
         File file = new File(imagePath);
-        String base64 = null;
         // 创建FileInputStream对象
-        try (FileInputStream fis = new FileInputStream(file)) {
+        try (FileInputStream fis = new FileInputStream(file);
+             ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
             // 获取文件字节
-            byte[] bytes = new byte[(int) file.length()];
-            fis.read(bytes);
-            base64 = Base64.getEncoder().encodeToString(bytes);
+            byte[] bytes = new byte[1024];
+            int len;
+            while ((len = fis.read(bytes)) > 0) {
+                bos.write(bytes, 0, len);
+            }
+            return Base64.getEncoder().encodeToString(bos.toByteArray());
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return base64;
+        return "";
+    }
+
+    public String urlToBase64(String urlPath) {
+        URLConnection connection = null;
+        try {
+            URL url = new URL(urlPath);
+            connection = url.openConnection();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        try (InputStream is = connection.getInputStream();
+//             FileOutputStream fos = new FileOutputStream(DIR + System.currentTimeMillis() + "." + SUFFIX);
+             ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+            byte[] bytes = new byte[1024];
+            int len;
+            while ((len = is.read(bytes)) > 0) {
+//                fos.write(bytes, 0, len);
+                bos.write(bytes, 0, len);
+            }
+            return Base64.getEncoder().encodeToString(bos.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return "";
     }
 
     /**
@@ -136,6 +169,29 @@ public class ImageHandler {
     }
 
     /**
+     * 插入底部文本
+     *
+     * @param source 二维码图片
+     * @param text   二维码底部文本内容
+     */
+    private void insertText(BufferedImage source, String text) {
+        int width = source.getWidth();
+        int height = source.getHeight();
+        Graphics2D graph = source.createGraphics();
+        // 计算文字开始的位置(居中显示)
+        // x开始的位置：（图片宽度-字体大小*字的个数）/2
+        int startX = (width - (FONT_SIZE * text.length())) / 2;
+        // y开始的位置：图片高度-（图片高度-图片宽度）/2
+        int startY = height - (height - width) / 2;
+        graph.setColor(Color.BLACK);
+        Font font = new Font(null, Font.BOLD, FONT_SIZE);
+        graph.setFont(font);
+        graph.drawString(text, startX, startY);
+        // 清除画笔工具
+        graph.dispose();
+    }
+
+    /**
      * 生成二维码
      *
      * @param content    字符串内容
@@ -168,29 +224,6 @@ public class ImageHandler {
     }
 
     /**
-     * 插入底部文本
-     *
-     * @param source 二维码图片
-     * @param text   二维码底部文本内容
-     */
-    private void insertText(BufferedImage source, String text) {
-        int width = source.getWidth();
-        int height = source.getHeight();
-        Graphics2D graph = source.createGraphics();
-        // 计算文字开始的位置(居中显示)
-        // x开始的位置：（图片宽度-字体大小*字的个数）/2
-        int startX = (width - (FONT_SIZE * text.length())) / 2;
-        // y开始的位置：图片高度-（图片高度-图片宽度）/2
-        int startY = height - (height - width) / 2;
-        graph.setColor(Color.BLACK);
-        Font font = new Font(null, Font.BOLD, FONT_SIZE);
-        graph.setFont(font);
-        graph.drawString(text, startX, startY);
-        // 清除画笔工具
-        graph.dispose();
-    }
-
-    /**
      * 解析二维码
      *
      * @param path
@@ -212,4 +245,33 @@ public class ImageHandler {
         return null;
     }
 
+    public void compressImage(String inputPath, String outputPath, float quality)  {
+        try {
+            File inputFile = new File(inputPath);
+            File outputFile = new File(outputPath);
+            // 读取图片
+            BufferedImage image = ImageIO.read(inputFile);
+
+            // 获取图片写入工具
+            Iterator<ImageWriter> writers = ImageIO.getImageWritersBySuffix(SUFFIX);
+            ImageWriter writer = writers.next();
+
+            // 设置压缩参数
+            ImageWriteParam param = writer.getDefaultWriteParam();
+            param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+            param.setCompressionQuality(quality); // 设置压缩质量
+
+            // 将图片输出到文件
+            FileImageOutputStream output = new FileImageOutputStream(outputFile);
+            writer.setOutput(output);
+            IIOImage iioImage = new IIOImage(image, null, null);
+            writer.write(null, iioImage, param);
+
+            // 关闭流
+            output.close();
+            writer.dispose();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
 }

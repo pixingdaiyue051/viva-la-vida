@@ -183,4 +183,11 @@ public class AlgorithmTest {
         }
     }
 
+    @Test
+    public void testSnow() {
+        long nextId = SnowFlakeUtil.nextId();
+        System.out.println(nextId);
+        System.out.println(Long.MAX_VALUE);
+    }
+
 }

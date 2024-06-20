@@ -62,16 +62,21 @@ public class FileTest {
     public void testImage() {
         ImageHandler imageHandler = new ImageHandler();
 
-        String base64 = imageHandler.imageToBase64("/data/pic/face/7b2e1bdd55631cee1acf2315c5f708cd.jpg");
-        System.out.println(base64);
+//        String base64 = imageHandler.imageToBase64("/data/pic/face/7b2e1bdd55631cee1acf2315c5f708cd.jpg");
+//        System.out.println(base64);
 //        imageHandler.base64ToImage(base64);
+
+//        String base64 = imageHandler.urlToBase64("https://school-dev01.oss-cn-hangzhou.aliyuncs.com/student_face/545325014325530624.jpg?Expires=1718849524&OSSAccessKeyId=LTAI5tCy4nFXF3KFTx18daWb&Signature=SkpS%2FSXet7MXsDhV6rl%2BsKY%2B%2FX0%3D");
+//        System.out.println(base64);
+
+        imageHandler.compressImage("/data/pic/67e599683d27cb9886b202026e3063fb.jpeg", "/data/1/1.jpeg", 0.5f);
     }
 
     @Test
     public void testJFreeChart() throws Exception {
         //创建主题样式
         StandardChartTheme mChartTheme = new StandardChartTheme("CN");
-//设置标题字体
+        //设置标题字体
         mChartTheme.setExtraLargeFont(new Font("黑体", Font.BOLD, 20));
         //设置轴向字体
         mChartTheme.setLargeFont(new Font("宋体", Font.PLAIN, 15));
