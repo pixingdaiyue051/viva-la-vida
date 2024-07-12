@@ -4,10 +4,14 @@ import com.google.zxing.*;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;
+import com.google.zxing.qrcode.QRCodeReader;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
 
-import javax.imageio.*;
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
 import javax.imageio.stream.FileImageOutputStream;
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -124,6 +128,43 @@ public class ImageHandler {
 
     }
 
+    /**
+     * 图片压缩
+     *
+     * @param inputPath
+     * @param outputPath
+     * @param quality
+     */
+    public void compressImage(String inputPath, String outputPath, float quality) {
+        try {
+            File inputFile = new File(inputPath);
+            File outputFile = new File(outputPath);
+            // 读取图片
+            BufferedImage image = ImageIO.read(inputFile);
+
+            // 获取图片写入工具
+            Iterator<ImageWriter> writers = ImageIO.getImageWritersBySuffix(SUFFIX);
+            ImageWriter writer = writers.next();
+
+            // 设置压缩参数
+            ImageWriteParam param = writer.getDefaultWriteParam();
+            param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+            param.setCompressionQuality(quality); // 设置压缩质量
+
+            // 将图片输出到文件
+            FileImageOutputStream output = new FileImageOutputStream(outputFile);
+            writer.setOutput(output);
+            IIOImage iioImage = new IIOImage(image, null, null);
+            writer.write(null, iioImage, param);
+
+            // 关闭流
+            output.close();
+            writer.dispose();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
 
     private static final int WIDTH = 250;
     private static final int HEIGHT = 300;
@@ -142,30 +183,83 @@ public class ImageHandler {
         Map<EncodeHintType, Object> hints = new HashMap<>();
         hints.put(EncodeHintType.CHARACTER_SET, StandardCharsets.UTF_8);// 指定字符编码为UTF-8
         hints.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.H);// 指定二维码的纠错等级为中级
-        hints.put(EncodeHintType.MARGIN, 2);// 设置图片的边距
+        hints.put(EncodeHintType.MARGIN, 1);// 设置图片的边距
 
         QRCodeWriter writer = new QRCodeWriter();
         BitMatrix bitMatrix = writer.encode(content, BarcodeFormat.QR_CODE, WIDTH, HEIGHT, hints);
 
-        int width = bitMatrix.getWidth();
-        int height = bitMatrix.getHeight();
-
         // 写到字节数据中
-        // MatrixToImageWriter.writeToStream(bitMatrix, DEFAULT_SUBFIX, os);
+        // MatrixToImageWriter.writeToStream(bitMatrix, SUFFIX, os);
         // resultImage = MatrixToImageWriter.toBufferedImage(bitMatrix);
-        // ImageIO.write(resultImage, DEFAULT_SUBFIX, os);
+        // ImageIO.write(resultImage, SUFFIX, os);
 
         // 写到文件中
         // MatrixToImageWriter.writeToPath(bitMatrix, SUFFIX, Paths.get(DEFAULT_PATH));
 
+        // 原始效果
+        int width = bitMatrix.getWidth();
+        int height = bitMatrix.getHeight();
         BufferedImage resultImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
         for (int x = 0; x < width; x++) {
             for (int y = 0; y < height; y++) {
                 resultImage.setRGB(x, y, bitMatrix.get(x, y) ? Color.BLACK.getRGB() : Color.WHITE.getRGB());
             }
         }
+
         return resultImage;
+
+////        // 去白边
+//        int[] rectangle = bitMatrix.getEnclosingRectangle();
+//        int recWidth = rectangle[2] + 1;
+//        int recHeight = rectangle[3] + 1;
+//        BitMatrix newBitMatrix = new BitMatrix(recWidth, recHeight);
+//        newBitMatrix.clear();
+//        for (int i = 0; i < recWidth; i++) {
+//            for (int j = 0; j < recHeight; j++) {
+//                if (bitMatrix.get(i + rectangle[0], j + rectangle[1])) {
+//                    newBitMatrix.set(i, j);
+//                }
+//            }
+//        }
+//
+//        int width = newBitMatrix.getWidth();
+//        int height = newBitMatrix.getHeight();
+//        BufferedImage newResultImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+//        for (int x = 0; x < width; x++) {
+//            for (int y = 0; y < height; y++) {
+//                newResultImage.setRGB(x, y, newBitMatrix.get(x, y) ? Color.BLACK.getRGB() : Color.WHITE.getRGB());
+//            }
+//        }
+//
+//        return newResultImage;
+    }
+
+    /**
+     * 添加中间logo
+     *
+     * @param source   二维码图片
+     * @param logoFile logo
+     */
+    private void insertLogo(BufferedImage source, File logoFile) throws IOException {
+        Graphics2D graph = source.createGraphics();
+
+        // 读取Logo
+        BufferedImage logo = ImageIO.read(logoFile);
+        // 获得Logo位置
+        int startX = source.getWidth() / 5 * 2;
+        int startY = source.getHeight() / 5 * 2;
+        int width = source.getWidth() / 5;
+        int height = source.getHeight() / 5;
+
+        graph.drawImage(logo, startX, startY, width, height, null);
+//        graph.setStroke(new BasicStroke(1.2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+//        graph.setColor(Color.RED);
+//        graph.drawRoundRect(startX, startY, width, height, 15, 15);
+
+        // 清除画笔工具
+        graph.dispose();
+//        // 刷新二维码
+//        source.flush();
     }
 
     /**
@@ -207,6 +301,23 @@ public class ImageHandler {
     }
 
     /**
+     * 生成中间有logo的二维码
+     *
+     * @param content    字符串内容
+     * @param qrcodeName 二维码文件名
+     * @param logoFile   logo
+     */
+    public void generateQrcode(String content, String qrcodeName, File logoFile) {
+        try (FileOutputStream output = new FileOutputStream(DIR + qrcodeName + "." + SUFFIX)) {
+            BufferedImage image = this.generate(content);
+            insertLogo(image, logoFile);
+            ImageIO.write(image, SUFFIX, output);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
      * 生成底部有文字的二维码
      *
      * @param content    字符串内容
@@ -216,6 +327,25 @@ public class ImageHandler {
     public void generateQrcode(String content, String qrcodeName, String text) {
         try (FileOutputStream output = new FileOutputStream(DIR + qrcodeName + "." + SUFFIX)) {
             BufferedImage image = this.generate(content);
+            insertText(image, text);
+            ImageIO.write(image, SUFFIX, output);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * 生成有logo和底部文字的二维码
+     *
+     * @param content    字符串内容
+     * @param qrcodeName 二维码文件名
+     * @param logoFile   logo
+     * @param text       底部文字
+     */
+    public void generateQrcode(String content, String qrcodeName, File logoFile, String text) {
+        try (FileOutputStream output = new FileOutputStream(DIR + qrcodeName + "." + SUFFIX)) {
+            BufferedImage image = this.generate(content);
+            insertLogo(image, logoFile);
             insertText(image, text);
             ImageIO.write(image, SUFFIX, output);
         } catch (Exception e) {
@@ -237,41 +367,11 @@ public class ImageHandler {
             BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
             HashMap<DecodeHintType, Object> hints = new HashMap<>();
             hints.put(DecodeHintType.CHARACTER_SET, StandardCharsets.UTF_8);
-            Result result = new MultiFormatReader().decode(bitmap, hints);
+            Result result = new QRCodeReader().decode(bitmap, hints);
             return result.getText();
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
-    }
-
-    public void compressImage(String inputPath, String outputPath, float quality)  {
-        try {
-            File inputFile = new File(inputPath);
-            File outputFile = new File(outputPath);
-            // 读取图片
-            BufferedImage image = ImageIO.read(inputFile);
-
-            // 获取图片写入工具
-            Iterator<ImageWriter> writers = ImageIO.getImageWritersBySuffix(SUFFIX);
-            ImageWriter writer = writers.next();
-
-            // 设置压缩参数
-            ImageWriteParam param = writer.getDefaultWriteParam();
-            param.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
-            param.setCompressionQuality(quality); // 设置压缩质量
-
-            // 将图片输出到文件
-            FileImageOutputStream output = new FileImageOutputStream(outputFile);
-            writer.setOutput(output);
-            IIOImage iioImage = new IIOImage(image, null, null);
-            writer.write(null, iioImage, param);
-
-            // 关闭流
-            output.close();
-            writer.dispose();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
     }
 }

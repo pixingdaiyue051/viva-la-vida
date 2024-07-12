@@ -123,12 +123,13 @@ public class FileTest {
 //        1790644721651707905,南乐近德固中学
 //        1790922566457786369,濮阳市第一高级中学
 
-        handler.generateQrcode("https://jiansuotong.top:9001/h5?schoolId=1750371575276056577&schoolname=濮阳市西湖中学", "濮阳市西湖中学", "濮阳市西湖中学");
-        handler.generateQrcode("https://jiansuotong.top:9002/h5?schoolId=1790644721651707905&schoolname=南乐近德固中学", "南乐近德固中学", "南乐近德固中学");
-        handler.generateQrcode("https://jiansuotong.top:9002/h5?schoolId=1790922566457786369&schoolname=濮阳市第一高级中学", "濮阳市第一高级中学", "濮阳市第一高级中学");
+//        handler.generateQrcode("https://jiansuotong.top:9001/h5?schoolId=1750371575276056577&schoolname=濮阳市西湖中学", "濮阳市西湖中学", "濮阳市西湖中学");
+
+        File logo = new File("/data/pic/logo.jpg");
+        handler.generateQrcode("http://jiansuotong.top:8888/opt/xyks_app.apk", "xyks_app1", logo);
 
 
-//        String out = handler.decodeQrcode("/data/1/测试二维码1.jpg");
+//        String out = handler.decodeQrcode("/data/pic/xyks_app.jpg");
 //        System.out.println(out);
 
     }
