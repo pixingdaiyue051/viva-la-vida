@@ -1,0 +1,58 @@
+package com.tequeno.config.mq.activemq;
+
+import org.apache.activemq.ScheduledMessage;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.jms.core.MessagePostProcessor;
+
+import javax.jms.JMSException;
+import javax.jms.Message;
+
+/**
+ * 延迟消息配置，使用spring提供的jmstemplate
+ *
+ * @author : hexk
+ * @date : 2019-11-06 13:36
+ **/
+public class ScheduledMessagePostProcessor implements MessagePostProcessor {
+
+    private Long delay;
+
+    private Long period;
+
+    private Integer repeat;
+
+    private String cron;
+
+    @Override
+    public Message postProcessMessage(Message message) throws JMSException {
+        if (null != delay) {
+            message.setLongProperty(ScheduledMessage.AMQ_SCHEDULED_DELAY, delay);
+        }
+        if (null != repeat) {
+            message.setIntProperty(ScheduledMessage.AMQ_SCHEDULED_REPEAT, repeat);
+        }
+        if (null != period) {
+            message.setLongProperty(ScheduledMessage.AMQ_SCHEDULED_PERIOD, period);
+        }
+        if (StringUtils.isNotBlank(cron)) {
+            message.setStringProperty(ScheduledMessage.AMQ_SCHEDULED_CRON, cron);
+        }
+        return message;
+    }
+
+    public void setDelay(Long delay) {
+        this.delay = delay;
+    }
+
+    public void setPeriod(Long period) {
+        this.period = period;
+    }
+
+    public void setRepeat(Integer repeat) {
+        this.repeat = repeat;
+    }
+
+    public void setCron(String cron) {
+        this.cron = cron;
+    }
+}

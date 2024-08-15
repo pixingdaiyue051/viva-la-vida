@@ -1,0 +1,39 @@
+package com.tequeno.config.mq.activemq;
+
+import com.tequeno.common.mq.HtJmsConstant;
+import com.tequeno.common.mq.HtJmsModel;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.jms.core.JmsTemplate;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import javax.jms.Destination;
+import javax.jms.Queue;
+import javax.jms.Topic;
+
+@Component
+public class JmsSimplePublisher {
+
+    @Resource
+    private JmsTemplate jms;
+
+    @Resource
+    @Qualifier(HtJmsConstant.QUEUE_SIMPLE_NAME)
+    private Queue queue;
+
+    @Resource
+    @Qualifier(HtJmsConstant.TOPIC_SIMPLE_NAME)
+    private Topic topic;
+
+    public void sendQueue(HtJmsModel model) {
+        send(queue, model);
+    }
+
+    public void sendTopic(HtJmsModel model) {
+        send(topic, model);
+    }
+
+    public void send(Destination destination, HtJmsModel model) {
+        jms.convertAndSend(destination, model);
+    }
+}

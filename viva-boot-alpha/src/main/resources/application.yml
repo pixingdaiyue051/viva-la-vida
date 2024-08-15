@@ -1,0 +1,25 @@
+server:
+  port: 7211
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: viva-boot-alpha
+# redis
+redis:
+  #  host: 127.0.0.1
+  #  password: d40df8
+  host: temp-out.redis.rds.aliyuncs.com
+  password: u1f3%yuaUSlbwICLz6Is
+  port: 6379
+  database: 0
+  timeout: 10000
+  # 连接耗尽时是否阻塞, false报异常,true阻塞直到超时, 默认true
+  block-when-exhausted: false
+  # 是否启用pool的jmx管理功能, 默认true
+  jmx-enabled: false
+  # 链接池配置
+  min-idle: 0
+  max-idle: 8
+  max-active: 256
+  max-wait: 5000

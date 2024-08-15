@@ -1,0 +1,80 @@
+package com.tequeno.config.mq.activemq;
+
+import com.tequeno.common.mq.HtJmsConstant;
+import org.apache.activemq.ActiveMQConnectionFactory;
+import org.apache.activemq.command.ActiveMQQueue;
+import org.apache.activemq.command.ActiveMQTopic;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.jms.config.DefaultJmsListenerContainerFactory;
+import org.springframework.jms.config.JmsListenerContainerFactory;
+
+import javax.jms.Queue;
+import javax.jms.Topic;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Configuration
+public class ActiveMqConfig {
+
+    @Value("${activemq.user}")
+    private String user;
+
+    @Value("${activemq.password}")
+    private String password;
+
+    @Value("${activemq.broker-url}")
+    private String brokerUrl;
+
+    @Value("${activemq.trustedPackages}")
+    private String trustedPackages;
+
+    @Bean(HtJmsConstant.QUEUE_SCHEDULED_NAME)
+    public Queue queueScheduled() {
+        return new ActiveMQQueue(HtJmsConstant.QUEUE_SCHEDULED_NAME);
+    }
+
+    @Bean(HtJmsConstant.TOPIC_SCHEDULED_NAME)
+    public Topic topicScheduled() {
+        return new ActiveMQTopic(HtJmsConstant.TOPIC_SCHEDULED_NAME);
+    }
+
+    @Bean(HtJmsConstant.QUEUE_SIMPLE_NAME)
+    public Queue queueSimple() {
+        return new ActiveMQQueue(HtJmsConstant.QUEUE_SIMPLE_NAME);
+    }
+
+    @Bean(HtJmsConstant.TOPIC_SIMPLE_NAME)
+    public Topic topicSimple() {
+        return new ActiveMQTopic(HtJmsConstant.TOPIC_SIMPLE_NAME);
+    }
+
+    @Bean
+    public ActiveMQConnectionFactory connectionFactory() {
+        ActiveMQConnectionFactory factory = new ActiveMQConnectionFactory(user, password, brokerUrl);
+        if (StringUtils.isNotBlank(trustedPackages)) {
+            List<String> packageList = Arrays.stream(trustedPackages.split(",")).collect(Collectors.toList());
+            factory.setTrustedPackages(packageList);
+        }
+        return factory;
+    }
+
+    @Bean(HtJmsConstant.QUEUE_CONTAINER_FACTORY)
+    public JmsListenerContainerFactory<?> jmsListenerContainerQueue(ActiveMQConnectionFactory connectionFactory) {
+        DefaultJmsListenerContainerFactory bean = new DefaultJmsListenerContainerFactory();
+        bean.setConnectionFactory(connectionFactory);
+        return bean;
+    }
+
+    @Bean(HtJmsConstant.TOPIC_CONTAINER_FACTORY)
+    public JmsListenerContainerFactory<?> jmsListenerContainerTopic(ActiveMQConnectionFactory connectionFactory) {
+        DefaultJmsListenerContainerFactory bean = new DefaultJmsListenerContainerFactory();
+        //设置为发布订阅方式, 默认情况下使用的生产消费者方式
+        bean.setPubSubDomain(true);
+        bean.setConnectionFactory(connectionFactory);
+        return bean;
+    }
+}

@@ -6,8 +6,16 @@
 
     <groupId>com.tequeno</groupId>
     <artifactId>viva-j2se</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.0</version>
     <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.plugin>2.3.2</maven.compiler.plugin>
+        <maven.surefire.plugin>2.19.1</maven.surefire.plugin>
+        <maven.jar.plugin>3.0.2</maven.jar.plugin>
+        <maven.compiler.source>11</maven.compiler.source>
+        <maven.compiler.target>11</maven.compiler.target>
+    </properties>
 
     <dependencies>
         <dependency>
@@ -27,43 +35,6 @@
             <artifactId>commons-lang3</artifactId>
             <version>3.12.0</version>
         </dependency>
-        <!--        &lt;!&ndash; github tiny pinyin&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>com.github.promeg</groupId>-->
-<!--            <artifactId>tinypinyin</artifactId>-->
-<!--            <version>2.0.3</version>-->
-<!--        </dependency>-->
-<!--        <dependency>-->
-<!--            <groupId>com.github.promeg</groupId>-->
-<!--            <artifactId>tinypinyin-lexicons-java-cncity</artifactId>-->
-<!--            <version>2.0.3</version>-->
-<!--        </dependency> -->
-<!--        &lt;!&ndash; apache activemq&ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.activemq</groupId>-->
-<!--            <artifactId>activemq-all</artifactId>-->
-<!--            <version>5.9.0</version>-->
-<!--        </dependency>-->
-<!--        &lt;!&ndash; rocketmq &ndash;&gt;-->
-<!--        <dependency>-->
-<!--            <groupId>org.apache.rocketmq</groupId>-->
-<!--            <artifactId>rocketmq-client</artifactId>-->
-<!--            <version>4.5.2</version>-->
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <artifactId>commons-lang3</artifactId>-->
-<!--                    <groupId>org.apache.commons</groupId>-->
-<!--                </exclusion>-->
-<!--                <exclusion>-->
-<!--                    <artifactId>fastjson</artifactId>-->
-<!--                    <groupId>com.alibaba</groupId>-->
-<!--                </exclusion>-->
-<!--                <exclusion>-->
-<!--                    <artifactId>netty-all</artifactId>-->
-<!--                    <groupId>io.netty</groupId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
-<!--        </dependency>-->
         <!-- https://mvnrepository.com/artifact/com.alibaba/fastjson -->
         <dependency>
             <groupId>com.alibaba</groupId>
@@ -151,16 +122,26 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>${maven.compiler.plugin}</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
-                    <encoding>UTF-8</encoding>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
+                    <encoding>${project.build.sourceEncoding}</encoding>
                     <skip>true</skip>
                 </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>${maven.surefire.plugin}</version>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven.jar.plugin}</version>
                 <configuration>
                     <archive>
                         <manifest>

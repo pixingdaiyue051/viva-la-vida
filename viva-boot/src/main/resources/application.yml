@@ -1,0 +1,63 @@
+server:
+  port: 7210
+  servlet:
+    context-path: /
+spring:
+  application:
+    name: viva-boot
+  profiles:
+    active: dev
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    #    url: jdbc:mysql://127.0.0.1:3306/viva-la-vida
+    #    username: a00c8f12
+    #    password: d0633c
+    url: jdbc:mysql://rm-bp1x1ty88kmp5ypp5go.mysql.rds.aliyuncs.com:3306/school_call_test
+    username: school_call_test
+    password: Aa123456#
+# redis
+redis:
+#  host: 127.0.0.1
+#  password: d40df8
+  host: temp-out.redis.rds.aliyuncs.com
+  password: u1f3%yuaUSlbwICLz6Is
+  port: 6379
+  database: 0
+  timeout: 10000
+  # 连接耗尽时是否阻塞, false报异常,true阻塞直到超时, 默认true
+  block-when-exhausted: false
+  # 是否启用pool的jmx管理功能, 默认true
+  jmx-enabled: false
+  # 链接池配置
+  min-idle: 0
+  max-idle: 8
+  max-active: 256
+  max-wait: 5000
+# rocketmq
+rocketmq:
+  adder: 127.0.0.1:9876
+  group: r_group
+  topic: r_topic
+  producer:
+    instanceName: r_instance_p
+    retryTimesWhenSendFailed: 2
+    retryTimesWhenSendAsyncFailed: 2
+    vipChannelEnabled: false
+    sendMsgTimeout: 3000
+    maxMessageSize: 4194304
+  consumer:
+    instanceName:  r_instance_c
+    #   *表示订阅当前topic下所有的tag,配置特殊字符需要使用'(英文半角单引号)
+    #   || 表示同时订阅当前topic下多个tag 比如 r_tag_a || r_tag_b
+    subExpression: '*'
+    #    消费者一次接收消息最大数量
+    consumeMessageBatchMaxSize: 10
+    #    以上配置都是默认配置
+    consumeTimeout: 3000 #默认15
+    consumeThreadMin: 10 #默认20
+    consumeThreadMax: 30 #默认20
+file:
+  upload: /data/upload/
+  template: /data/template/
+#启动参数
+#-Dspring.config.location=/hexk/github/hey-jude/deploy/viva-boot/
