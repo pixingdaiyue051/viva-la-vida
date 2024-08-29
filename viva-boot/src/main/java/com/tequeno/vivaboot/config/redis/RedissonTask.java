@@ -1,31 +1,29 @@
-package com.tequeno.vivaboot.service;
+package com.tequeno.vivaboot.config.redis;
 
-import com.tequeno.annos.AntiRepeatAnno;
 import com.tequeno.dto.HtJmsRedisModel;
-import com.tequeno.dto.HtJmsRocketModel;
 import com.tequeno.enums.JedisKeyPrefixEnum;
 import com.tequeno.service.IDemoService;
-import com.tequeno.utils.HtCommonMethodUtil;
-import com.tequeno.utils.TimeUtil;
-import org.redisson.api.*;
+import org.redisson.api.RBlockingQueue;
+import org.redisson.api.RDelayedQueue;
+import org.redisson.api.RTopic;
+import org.redisson.api.RedissonClient;
 import org.redisson.api.listener.StatusListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.time.Duration;
-import java.util.List;
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
-@Service
-public class RedissonService {
+/**
+ * 不依赖spring的jedis服务，单例模式 使用jedisPool支持多线程
+ */
+@Component
+public class RedissonTask {
 
-    private final static Logger logger = LoggerFactory.getLogger(RedissonService.class);
+    private final static Logger logger = LoggerFactory.getLogger(RedissonTask.class);
 
     @Resource
     private RedissonClient redisson;
@@ -81,7 +79,7 @@ public class RedissonService {
                 }
             });
 
-            topic.addListener(HtJmsRocketModel.class, (c, m) -> logger.info("redisson channel [{}] 收到 [{}]", c, m.getCode()));
+            topic.addListener(HtJmsRedisModel.class, (c, m) -> logger.info("redisson channel [{}] 收到 [{}]", c, m.getCode()));
 
         });
     }
@@ -115,61 +113,4 @@ public class RedissonService {
             topic.publish(model);
         });
     }
-
-    public long seq() {
-        long first = 24000;
-        long step = 1;
-
-        RIdGenerator idGenerator = redisson.getIdGenerator(JedisKeyPrefixEnum.SEQ.assemblyKey(TimeUtil.nowDateNum()));
-        boolean b = idGenerator.tryInit(first, step);
-        if (b) {
-            Duration i = Duration.ofDays(1);
-            idGenerator.expire(i);
-        }
-
-        long nextId = idGenerator.nextId();
-
-        logger.info("序列号 {} {}", b, nextId);
-        return nextId;
-    }
-
-    public void lock() {
-        try {
-            String key = "test";
-            long expire = 65000L;
-            RLock lock = redisson.getLock(JedisKeyPrefixEnum.LOCK.assemblyKey(key));
-            boolean result = lock.tryLock(0, expire, TimeUnit.MILLISECONDS);
-            if (result) {
-                logger.info("加锁成功");
-            } else {
-                logger.info("加锁失败");
-            }
-        } catch (Exception e) {
-            logger.error("加锁失败", e);
-        }
-    }
-
-    @AntiRepeatAnno
-    public void lock1() {
-        logger.info("加锁成功");
-    }
-
-    public void bloom() {
-
-        RBloomFilter<String> bloomFilter = redisson.getBloomFilter(JedisKeyPrefixEnum.BLOOM.getPrefix());
-        bloomFilter.tryInit(100000, 0.01d);
-        long size = bloomFilter.count();
-        if (size < 1) {
-            List<String> list = IntStream.range(0, 1000)
-                    .boxed()
-                    .map(i -> HtCommonMethodUtil.getDefaultRandomStr())
-                    .collect(Collectors.toList());
-            bloomFilter.add(list);
-        }
-
-        boolean contained = bloomFilter.contains("123r");
-        logger.info("包含:{}", contained);
-
-    }
-
 }

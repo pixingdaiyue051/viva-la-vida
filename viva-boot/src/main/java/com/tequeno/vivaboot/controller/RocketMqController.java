@@ -34,4 +34,10 @@ public class RocketMqController {
         producer.send(modelList);
         return HtResultUtil.success(TimeUtil.now());
     }
+
+    @RequestMapping("transaction")
+    public HtResultModel transaction(@RequestBody HtJmsRocketModel model) {
+        producer.sendTransaction(model);
+        return HtResultUtil.success(TimeUtil.now());
+    }
 }

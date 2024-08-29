@@ -1,14 +1,15 @@
 package com.tequeno.vivaboot.config.mq.rocketmq;
 
 import com.alibaba.fastjson.JSON;
+import com.tequeno.constants.HtJmsConstant;
 import com.tequeno.dto.HtJmsRocketModel;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.apache.rocketmq.client.producer.TransactionMQProducer;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
@@ -21,11 +22,8 @@ public class RocketProducer {
 
     private final static Logger logger = LoggerFactory.getLogger(RocketProducer.class);
 
-    @Value("${rocketmq.topic}")
-    private String topic;
-
     @Resource
-    private DefaultMQProducer producer;
+    private TransactionMQProducer producer;
 
     @Resource
     private ThreadPoolTaskExecutor pool;
@@ -44,7 +42,7 @@ public class RocketProducer {
             try {
                 model.setTimestamp(System.currentTimeMillis());
                 byte[] body = JSON.toJSONString(model).getBytes(RemotingHelper.DEFAULT_CHARSET);
-                Message msg = new Message(topic, body);
+                Message msg = new Message(HtJmsConstant.ROCKET_R_TOPIC, body);
                 msg.setTags(model.getTag());
                 if (StringUtils.isNotEmpty(model.getKey())) {
                     msg.setKeys(model.getKey());
@@ -74,7 +72,7 @@ public class RocketProducer {
                 for (HtJmsRocketModel model : modelList) {
                     model.setTimestamp(timestamp);
                     byte[] body = JSON.toJSONString(model).getBytes(RemotingHelper.DEFAULT_CHARSET);
-                    Message msg = new Message(topic, body);
+                    Message msg = new Message(HtJmsConstant.ROCKET_R_TOPIC, body);
                     msg.setTags(model.getTag());
                     if (StringUtils.isNotEmpty(model.getKey())) {
                         msg.setKeys(model.getKey());
@@ -87,4 +85,22 @@ public class RocketProducer {
             }
         });
     }
+
+    public void sendTransaction(HtJmsRocketModel model) {
+        pool.execute(() -> {
+            try {
+                model.setTimestamp(System.currentTimeMillis());
+                byte[] body = JSON.toJSONString(model).getBytes(RemotingHelper.DEFAULT_CHARSET);
+                Message msg = new Message(HtJmsConstant.ROCKET_R_TOPIC, body);
+                msg.setTags(model.getTag());
+                if (StringUtils.isNotEmpty(model.getKey())) {
+                    msg.setKeys(model.getKey());
+                }
+                producer.sendMessageInTransaction(msg, model.getTimestamp());
+            } catch (Exception e) {
+                logger.error("rocket发送事务消息[{}]失败", model.getCode(), e);
+            }
+        });
+    }
+
 }

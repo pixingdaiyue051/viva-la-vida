@@ -1,7 +1,9 @@
 package com.tequeno.vivaboot.config.mq.rocketmq;
 
+import com.tequeno.constants.HtJmsConstant;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.producer.DefaultMQProducer;
+import org.apache.rocketmq.client.producer.TransactionMQProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -9,13 +11,14 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.Resource;
+import java.util.concurrent.Executors;
 
 /**
  * 设置环境变量 ROCKETMQ_HOME E:\rawsoft\rocketmq-5.1.2
  * 启动nameserver mqnamesrv
  * 启动broker并绑定到nameserver     mqbroker -n 127.0.0.1:9876
  * 查询topic列表    mqadmin topicList -n 192.168.3.173:9876
- * 创建topic      mqadmin updateTopic -b 127.0.0.1:10911 -t r_topic -a +message.type=DELAY
+ * 创建topic      mqadmin updateTopic -b 127.0.0.1:10911 -t r_topic -a +message.type=NORMAL
  */
 @Configuration
 public class RocketMqConfig {
@@ -25,13 +28,10 @@ public class RocketMqConfig {
     @Value("${rocketmq.adder}")
     private String adder;
 
-    @Value("${rocketmq.group}")
-    private String group;
+    @Value("${rocketmq.producer.group}")
+    private String producerGroup;
 
-    @Value("${rocketmq.topic}")
-    private String topic;
-
-    @Value("${rocketmq.producer.instanceName}")
+    @Value("${rocketmq.producer.instance}")
     private String producerInstanceName;
 
     @Value("${rocketmq.producer.retryTimesWhenSendFailed}")
@@ -49,11 +49,11 @@ public class RocketMqConfig {
     @Value("${rocketmq.producer.maxMessageSize}")
     private Integer maxMessageSize;
 
-    @Value("${rocketmq.consumer.instanceName}")
-    private String consumerInstanceName;
+    @Value("${rocketmq.consumer.group}")
+    private String consumerGroup;
 
-    @Value("${rocketmq.consumer.subExpression}")
-    private String subExpression;
+    @Value("${rocketmq.consumer.instance}")
+    private String consumerInstanceName;
 
     @Value("${rocketmq.consumer.consumeTimeout}")
     private Long consumeTimeout;
@@ -67,10 +67,16 @@ public class RocketMqConfig {
     @Value("${rocketmq.consumer.consumeMessageBatchMaxSize}")
     private Integer consumeMessageBatchMaxSize;
 
+    @Resource
+    private RocketProducerListener rocketProducerListener;
+
+    @Resource
+    private RocketConsumerListener rocketConsumerListener;
+
     @Bean(destroyMethod = "shutdown")
-    public DefaultMQProducer defaultMQProducer() {
+    public TransactionMQProducer transactionMQProducer() {
         try {
-            DefaultMQProducer producer = new DefaultMQProducer(group);
+            TransactionMQProducer producer = new TransactionMQProducer(producerGroup);
             producer.setNamesrvAddr(adder);
             producer.setRetryTimesWhenSendFailed(retryTimesWhenSendFailed);
             producer.setRetryTimesWhenSendAsyncFailed(retryTimesWhenSendAsyncFailed);
@@ -78,30 +84,31 @@ public class RocketMqConfig {
             producer.setInstanceName(producerInstanceName);
             producer.setSendMsgTimeout(sendMsgTimeout);
             producer.setMaxMessageSize(maxMessageSize);
+            producer.setExecutorService(Executors.newCachedThreadPool());
+            producer.setTransactionListener(rocketProducerListener);
 //            producer.start();
+//            logger.info("rocketmq transaction producer[{}]启动成功", producerInstanceName);
             return producer;
         } catch (Exception e) {
-            logger.error("rocketmq producer[{}]启动失败", producerInstanceName, e);
+            logger.error("rocketmq transaction producer[{}]启动失败", producerInstanceName, e);
             return null;
         }
     }
 
-    @Resource
-    private RocketConsumer rocketConsumer;
-
     @Bean(destroyMethod = "shutdown")
     public DefaultMQPushConsumer defaultMQPushConsumer() {
         try {
-            DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(group);
+            DefaultMQPushConsumer consumer = new DefaultMQPushConsumer(consumerGroup);
             consumer.setNamesrvAddr(adder);
             consumer.setInstanceName(consumerInstanceName);
-            consumer.subscribe(topic, subExpression);
+            consumer.subscribe(HtJmsConstant.ROCKET_R_TOPIC, HtJmsConstant.ROCKET_TAG_ALL);
             consumer.setConsumeThreadMin(consumeThreadMin);
             consumer.setConsumeThreadMax(consumeThreadMax);
             consumer.setConsumeTimeout(consumeTimeout);
             consumer.setConsumeMessageBatchMaxSize(consumeMessageBatchMaxSize);
-            consumer.registerMessageListener(rocketConsumer::consumeConcurrently);
+            consumer.registerMessageListener(rocketConsumerListener);
 //            consumer.start();
+//            logger.info("rocketmq consumer[{}]启动成功", consumerInstanceName);
             return consumer;
         } catch (Exception e) {
             logger.error("rocketmq consumer[{}]启动失败", consumerInstanceName, e);

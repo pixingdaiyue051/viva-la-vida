@@ -36,26 +36,24 @@ redis:
 # rocketmq
 rocketmq:
   adder: 127.0.0.1:9876
-  group: r_group
-  topic: r_topic
   producer:
-    instanceName: r_instance_p
+    group: r_group_p
+    instance: r_instance_p
     retryTimesWhenSendFailed: 2
     retryTimesWhenSendAsyncFailed: 2
     vipChannelEnabled: false
     sendMsgTimeout: 3000
     maxMessageSize: 4194304
   consumer:
-    instanceName:  r_instance_c
-    #   *表示订阅当前topic下所有的tag,配置特殊字符需要使用'(英文半角单引号)
-    #   || 表示同时订阅当前topic下多个tag 比如 r_tag_a || r_tag_b
-    subExpression: '*'
+    group: r_group_c
+    instance:  r_instance_c
+    #    最大重复消费次数
+    maxReconsumeTimes: 3
     #    消费者一次接收消息最大数量
     consumeMessageBatchMaxSize: 10
-    #    以上配置都是默认配置
-    consumeTimeout: 3000 #默认15
-    consumeThreadMin: 10 #默认20
-    consumeThreadMax: 30 #默认20
+    consumeTimeout: 3000
+    consumeThreadMin: 10
+    consumeThreadMax: 30
 file:
   upload: /data/upload/
   template: /data/template/
