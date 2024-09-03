@@ -1,0 +1,83 @@
+package com.tequeno.vivaboot.config.mq.rabbitmq;
+
+import com.rabbitmq.client.*;
+import com.tequeno.constants.HtJmsConstant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
+
+@Configuration
+public class RabbitMqConfig {
+
+    private final static Logger logger = LoggerFactory.getLogger(RabbitMqConfig.class);
+
+    @Value("${rabbitmq.username}")
+    private String username;
+
+    @Value("${rabbitmq.password}")
+    private String password;
+
+    @Value("${rabbitmq.host}")
+    private String host;
+
+    @Value("${rabbitmq.port}")
+    private Integer port;
+
+    @Value("${rabbitmq.virtualHost}")
+    private String virtualHost;
+
+    @Bean(destroyMethod = "close")
+    public Connection newConnection() {
+        try {
+            ConnectionFactory connectionFactory = new ConnectionFactory();
+            connectionFactory.setUsername(username);
+            connectionFactory.setPassword(password);
+            connectionFactory.setHost(host);
+            connectionFactory.setVirtualHost(virtualHost);
+            connectionFactory.setPort(port);
+
+            return connectionFactory.newConnection();
+        } catch (Exception e) {
+            logger.error("rabbitmq newConnection 启动失败", e);
+        }
+        return null;
+    }
+
+    @Bean(destroyMethod = "close")
+    public Channel createChannel() {
+        try {
+            Connection connection = this.newConnection();
+            Channel channel = connection.createChannel();
+
+            channel.exchangeDeclare(HtJmsConstant.EXCHANGE_NAME, HtJmsConstant.EXCHANGE_TYPE, true);
+            channel.queueDeclare(HtJmsConstant.QUEUE_NAME, true, true, false, null);
+            channel.queueBind(HtJmsConstant.QUEUE_NAME, HtJmsConstant.EXCHANGE_NAME, HtJmsConstant.ROUTING_KEY);
+
+            DefaultConsumer defaultConsumer = new DefaultConsumer(channel) {
+                @Override
+                public void handleDelivery(String consumerTag, Envelope envelope, AMQP.BasicProperties properties, byte[] body) throws IOException {
+                    try {
+                        String bodyExt = new String(body, StandardCharsets.UTF_8);
+//                        HtJmsRocketModel model = JSON.parseObject(bodyExt, HtJmsRocketModel.class);
+
+                        logger.info("rabbit consume tag[{}],[{}]", consumerTag, bodyExt);
+
+                    } catch (Exception e) {
+                        logger.error("", e);
+                    }
+                }
+            };
+
+            channel.basicConsume(HtJmsConstant.QUEUE_NAME, true, defaultConsumer);
+            return channel;
+        } catch (Exception e) {
+            logger.error("rabbitmq createChannel 启动失败", e);
+        }
+        return null;
+    }
+}

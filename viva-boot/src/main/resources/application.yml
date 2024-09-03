@@ -54,6 +54,13 @@ rocketmq:
     consumeTimeout: 3000
     consumeThreadMin: 10
     consumeThreadMax: 30
+# rabbitmq
+rabbitmq:
+  username: 391d93
+  password: e233e4
+  host: 127.0.0.1
+  port: 5672
+  virtualHost: v_host_1
 file:
   upload: /data/upload/
   template: /data/template/

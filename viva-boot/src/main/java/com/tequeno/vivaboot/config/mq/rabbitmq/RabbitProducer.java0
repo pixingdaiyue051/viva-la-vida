@@ -1,0 +1,46 @@
+package com.tequeno.vivaboot.config.mq.rabbitmq;
+
+import com.alibaba.fastjson.JSON;
+import com.rabbitmq.client.Channel;
+import com.rabbitmq.client.MessageProperties;
+import com.tequeno.constants.HtJmsConstant;
+import com.tequeno.dto.HtJmsRocketModel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
+import java.nio.charset.StandardCharsets;
+
+@Component
+public class RabbitProducer {
+
+    private final static Logger logger = LoggerFactory.getLogger(RabbitProducer.class);
+
+    @Resource
+    private Channel producer;
+
+    @Resource
+    private ThreadPoolTaskExecutor pool;
+
+    /**
+     * 发送单条消息
+     *
+     * @param model
+     */
+    public void send(HtJmsRocketModel model) {
+        pool.execute(() -> {
+            try {
+                long timestamp = System.currentTimeMillis();
+                model.setTimestamp(timestamp);
+                byte[] body = JSON.toJSONString(model).getBytes(StandardCharsets.UTF_8);
+                producer.basicPublish(HtJmsConstant.EXCHANGE_NAME, HtJmsConstant.ROUTING_KEY, MessageProperties.TEXT_PLAIN, body);
+
+            } catch (Exception e) {
+                logger.error("rabbit发送消息[{}]失败", model.getCode(), e);
+            }
+        });
+    }
+
+}
