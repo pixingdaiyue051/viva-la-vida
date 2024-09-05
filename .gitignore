@@ -11,5 +11,3 @@ out/
 .vscode/
 *.hprof
 java_pid*/
-
-doc/pic/cv*_*

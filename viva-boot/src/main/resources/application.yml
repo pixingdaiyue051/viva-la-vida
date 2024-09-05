@@ -8,13 +8,23 @@ spring:
   profiles:
     active: dev
   datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    #    url: jdbc:mysql://127.0.0.1:3306/viva-la-vida
-    #    username: a00c8f12
-    #    password: d0633c
-    url: jdbc:mysql://rm-bp1x1ty88kmp5ypp5go.mysql.rds.aliyuncs.com:3306/school_call_test
-    username: school_call_test
-    password: Aa123456#
+    type: com.zaxxer.hikari.HikariDataSource
+    hikari:
+      connection-timeout: 2000
+      maximum-pool-size: 15
+      max-lifetime: 12000
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://rm-bp1x1ty88kmp5ypp5go.mysql.rds.aliyuncs.com:3306/school_call_test
+#    username: school_call_test
+#    password: Aa123456#
+
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://127.0.0.1:3306/viva-la-vida
+#    username: a00c8f12
+#    password: d0633c
+
+    driver-class-name: org.sqlite.JDBC
+    url: jdbc:sqlite:/hexk/github/hey-jude/plugin/sqlite-x64/test.db
 # redis
 redis:
 #  host: 127.0.0.1
@@ -65,4 +75,4 @@ file:
   upload: /data/upload/
   template: /data/template/
 #启动参数
-#-Dspring.config.location=/hexk/github/hey-jude/deploy/viva-boot/
+#-Dspring.config.location=/hexk/github/hey-jude/plugin/viva-boot/

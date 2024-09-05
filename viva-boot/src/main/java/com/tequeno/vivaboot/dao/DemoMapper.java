@@ -15,7 +15,7 @@ public interface DemoMapper extends BaseMapper<Demo> {
     @Select({
         "<script>",
             "select count(1) from demo d ",
-            "<where><if test = 'name != null'>d.name = #{name}</if></where>",
+            "<where><if test = 'name != null'>d.name = #{name} </if></where>",
         "</script>"
     })
     long selectDemoCount(DemoQueryDto dto);
