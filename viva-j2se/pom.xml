@@ -146,11 +146,11 @@
                     <archive>
                         <manifest>
                             <!-- 指定入口函数 -->
-                            <mainClass>com.tequeno.netty.http.MyHttpServer</mainClass>
+                            <mainClass>com.tequeno.net.udp.UDPServerPlus</mainClass>
                             <!-- 是否添加依赖的jar路径配置 -->
                             <addClasspath>true</addClasspath>
                             <!-- 依赖的jar包存放位置 第三方jar可以跨项目通用 因此使用一个广义的文件包名字 -->
-                            <classpathPrefix>/data/lib/</classpathPrefix>
+                            <classpathPrefix>/hexk/github/hey-jude/plugin/deploy</classpathPrefix>
                         </manifest>
                         <manifestEntries>
                             <!--
@@ -158,27 +158,27 @@
                                 logback会使用该目录下缺省名文件logback.xml
                                 springboot会使用该目录下缺省名文件application.yml
                             -->
-                            <Class-Path>/data/viva-la-vida/</Class-Path>
+                            <Class-Path>/hexk/github/hey-jude/plugin/deploy/viva-la-vida/</Class-Path>
                         </manifestEntries>
                     </archive>
                     <!-- 打包包括的内容 -->
                     <includes>
-                        <include>com/tequeno/netty/*</include>
-                        <!--<include>com/tequeno/netty/http/*</include>-->
+                        <include>com/tequeno/net/*</include>
+                        <include>com/tequeno/net/udp/*</include>
                     </includes>
                     <!-- 打包排除的内容 -->
                     <excludes>
                         <exclude>com/tequeno/algorithm/*</exclude>
+                        <exclude>com/tequeno/async/*</exclude>
                         <exclude>com/tequeno/classload/*</exclude>
-                        <exclude>com/tequeno/conutil/*</exclude>
+                        <exclude>com/tequeno/desktop/*</exclude>
                         <exclude>com/tequeno/email/*</exclude>
                         <exclude>com/tequeno/file/*</exclude>
                         <exclude>com/tequeno/jdk8/*</exclude>
                         <exclude>com/tequeno/jvm/*</exclude>
-                        <exclude>com/tequeno/net/*</exclude>
-                        <!--<exclude>com/tequeno/netty/*</exclude>-->
+                        <!--<exclude>com/tequeno/net/*</exclude>-->
+                        <exclude>com/tequeno/netty/*</exclude>
                         <exclude>com/tequeno/pattern/*</exclude>
-                        <exclude>com/tequeno/thread/*</exclude>
                     </excludes>
                 </configuration>
             </plugin>

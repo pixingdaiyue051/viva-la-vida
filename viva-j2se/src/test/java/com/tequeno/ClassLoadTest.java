@@ -45,7 +45,7 @@ public class ClassLoadTest {
     @Test
     public void testReflect() throws Exception {
         try {
-            Employee employee = new Employee("e1","e2");
+            Employee employee = new Employee("e1", "e2");
             employee.seteArg1("e111");
             employee.setArg1("111");
 

@@ -51,11 +51,11 @@ public class FileTest {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
-        FileHandler fileTest = new FileHandler();
-        fileTest.recursiveListFile();
-//        fileTest.recursiveListFile(Paths.get("../viva-la-vida").normalize().toString());
-//        fileTest.readFile();
-//        fileTest.base64();
+
+        FileHandler fileHandler = new FileHandler();
+//        fileHandler.recursiveListFile("/hexk/github/ht-c");
+//        fileHandler.recursiveListFile("/hexk/github/ht-c", "/data/1/1.doc");
+        fileHandler.randomAccessFile("/data/1/1.doc", "/data/1/2.doc");
     }
 
     @Test
@@ -122,10 +122,12 @@ public class FileTest {
 //      1750371575276056577,濮阳市西湖中学
 //      1790644721651707905,南乐近德固中学
 //      1790922566457786369,濮阳市第一高级中学
+//      1833344060043726850,微山县第三实验中学
 
-//        handler.generateQrcode("https://jiansuotong.top:9002/h5?schoolId=1750371575276056577&schoolname=濮阳市西湖中学", "h5_xhzx", "濮阳市西湖中学");
+//        handler.generateQrcode("https://jiansuotong.top:9002/h5?schoolId=1750371575276056577&schoolname=濮阳市西湖中学", "h5_pysxhzx", "濮阳市西湖中学");
 //        handler.generateQrcode("https://jiansuotong.top:9002/h5?schoolId=1790644721651707905&schoolname=南乐近德固中学", "h5_nyjdgzx", "南乐近德固中学");
-//        handler.generateQrcode("https://jiansuotong.top:9002/h5?schoolId=1790922566457786369&schoolname=濮阳市第一高级中学", "h5_dygjzx", "濮阳市第一高级中学");
+//        handler.generateQrcode("https://jiansuotong.top:9002/h5?schoolId=1790922566457786369&schoolname=濮阳市第一高级中学", "h5_pysdygjzx", "濮阳市第一高级中学");
+//        handler.generateQrcode("https://jiansuotong.top:9002/h5?schoolId=1833344060043726850&schoolname=微山县第三实验中学", "h5_wsxdssyzx", "微山县第三实验中学");
 
 //        File logo = new File("/data/pic/logo.jpg");
 //        handler.generateQrcode("http://jiansuotong.top:8888/opt/xyks_app.apk", "xyks_app1", logo);
@@ -133,5 +135,14 @@ public class FileTest {
 //        String out = handler.decodeQrcode("/data/pic/xyks_app.jpg");
 //        System.out.println(out);
 
+    }
+
+    @Test
+    public void testNio() {
+        NioHandler handler = new NioHandler();
+//        handler.buffer();
+//        handler.fileOutChannel("/data/doc/1.txt");
+//        handler.fileInChannel("/data/doc/1.txt");
+        handler.fileTransfer("/data/doc/1.txt", "/data/doc/2.txt");
     }
 }

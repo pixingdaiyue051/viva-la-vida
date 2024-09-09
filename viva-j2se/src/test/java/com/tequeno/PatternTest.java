@@ -6,14 +6,15 @@ import com.tequeno.pattern.builder.Person;
 import com.tequeno.pattern.builder.PersonDirector;
 import com.tequeno.pattern.factory.*;
 import com.tequeno.pattern.observer.*;
-import com.tequeno.pattern.singleton.Singleton;
+import com.tequeno.pattern.singleton.LightHandler;
 import com.tequeno.pattern.strategy.Duck;
 import com.tequeno.pattern.strategy.MullardDuck;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.*;
-import java.util.stream.IntStream;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class PatternTest {
 
@@ -80,27 +81,21 @@ public class PatternTest {
     public void testSingleton() {
         ExecutorService pool = Executors.newCachedThreadPool();
 
-        int size = 1000;
-        CopyOnWriteArraySet<Singleton> set = new CopyOnWriteArraySet<>();
+        int size = 200;
 
         CountDownLatch cd = new CountDownLatch(size);
+        for (int i = 0; i < size; i++) {
+            pool.execute(() -> {
+                LightHandler.getInstance5();
+                cd.countDown();
+            });
+        }
 
-        IntStream.range(0, size).forEach(i -> pool.execute(() -> {
-            set.add(Singleton.getInstance5());
-            cd.countDown();
-        }));
-
+        pool.shutdown();
         try {
-            boolean await = cd.await(3L, TimeUnit.SECONDS);
-            if (await) {
-                System.out.println("set size ---" + set.size());
-            } else {
-                System.out.println("等到超时");
-            }
+            cd.await();
         } catch (InterruptedException e) {
             e.printStackTrace();
-        } finally {
-            pool.shutdown();
         }
     }
 

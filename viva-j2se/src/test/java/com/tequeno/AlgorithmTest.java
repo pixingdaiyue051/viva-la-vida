@@ -5,8 +5,6 @@ import com.tequeno.algorithm.EvaluateHandler;
 import com.tequeno.algorithm.IdHandler;
 import org.junit.Test;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.List;
 
 public class AlgorithmTest {
@@ -93,31 +91,6 @@ public class AlgorithmTest {
 
         List<String> randomList = IdHandler.randomList(10);
         randomList.forEach(System.out::println);
-    }
-
-
-    @Test
-    public void testIp() {
-        try {
-            InetAddress i = InetAddress.getLocalHost();
-            System.out.println(i.toString());
-
-            InetAddress ia = InetAddress.getLoopbackAddress();
-            System.out.println(ia.toString());
-
-            InetAddress iaa = InetAddress.getByName("LAPTOP-8KA88UT5");
-            System.out.println(iaa.toString());
-
-            InetAddress iaaa = InetAddress.getByName("www.baidu.com");
-            System.out.println(iaaa.toString());
-
-            InetAddress[] addrs = InetAddress.getAllByName("www.baidu.com");
-            for (InetAddress inetAddress : addrs) {
-                System.out.println(inetAddress.toString());
-            }
-        } catch (UnknownHostException e) {
-            e.printStackTrace();
-        }
     }
 
 }
