@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("jedis")
 public class JedisController {
 
-    private final static Logger logger = LoggerFactory.getLogger(JedisController.class);
+    private final static Logger log = LoggerFactory.getLogger(JedisController.class);
 
     @RequestMapping("seq")
     public HtResultModel seq() {
@@ -22,7 +22,7 @@ public class JedisController {
         JedisUtil jedisUtil = JedisUtil.getInstance();
         Object out = jedisUtil.luaGetSequenceNum(first);
 
-        logger.info("序列号 {}", out);
+        log.info("序列号 {}", out);
         return HtResultUtil.success(out);
     }
 
@@ -36,10 +36,10 @@ public class JedisController {
         boolean result = jedisUtil.luaTryLock(key, token, expire);
 
         if (result) {
-            logger.info("加锁成功");
+            log.info("加锁成功");
             return HtResultUtil.success(TimeUtil.now());
         } else {
-            logger.info("加锁失败");
+            log.info("加锁失败");
             return HtResultUtil.fail();
         }
     }

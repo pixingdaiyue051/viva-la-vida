@@ -2,7 +2,6 @@ package com.tequeno.vivaboot.config.mq.rocketmq;
 
 import com.tequeno.constants.HtJmsConstant;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
-import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.TransactionMQProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,7 +22,7 @@ import java.util.concurrent.Executors;
 @Configuration
 public class RocketMqConfig {
 
-    private final static Logger logger = LoggerFactory.getLogger(RocketMqConfig.class);
+    private final static Logger log = LoggerFactory.getLogger(RocketMqConfig.class);
 
     @Value("${rocketmq.adder}")
     private String adder;
@@ -87,10 +86,10 @@ public class RocketMqConfig {
             producer.setExecutorService(Executors.newCachedThreadPool());
             producer.setTransactionListener(rocketProducerListener);
 //            producer.start();
-//            logger.info("rocketmq transaction producer[{}]启动成功", producerInstanceName);
+//            log.info("rocketmq transaction producer[{}]启动成功", producerInstanceName);
             return producer;
         } catch (Exception e) {
-            logger.error("rocketmq transaction producer[{}]启动失败", producerInstanceName, e);
+            log.error("rocketmq transaction producer[{}]启动失败", producerInstanceName, e);
             return null;
         }
     }
@@ -108,10 +107,10 @@ public class RocketMqConfig {
             consumer.setConsumeMessageBatchMaxSize(consumeMessageBatchMaxSize);
             consumer.registerMessageListener(rocketConsumerListener);
 //            consumer.start();
-//            logger.info("rocketmq consumer[{}]启动成功", consumerInstanceName);
+//            log.info("rocketmq consumer[{}]启动成功", consumerInstanceName);
             return consumer;
         } catch (Exception e) {
-            logger.error("rocketmq consumer[{}]启动失败", consumerInstanceName, e);
+            log.error("rocketmq consumer[{}]启动失败", consumerInstanceName, e);
             return null;
         }
     }

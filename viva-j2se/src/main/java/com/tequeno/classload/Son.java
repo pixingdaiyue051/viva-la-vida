@@ -1,6 +1,7 @@
 package com.tequeno.classload;
 
 public class Son extends Father {
+
     static {
         System.out.println("Son - 静态代码块");
     }
@@ -13,7 +14,11 @@ public class Son extends Father {
         System.out.println("Son - 构造方法");
     }
 
-    public static void run() {
-        System.out.println("Son - 测试静态方法");
+    public void run() {
+        System.out.println("Son - 方法");
+    }
+
+    public static void staticRun() {
+        System.out.println("Son - 静态方法");
     }
 }

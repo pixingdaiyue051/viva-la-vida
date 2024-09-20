@@ -13,7 +13,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
@@ -23,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 @Component
 public class RedissonTask {
 
-    private final static Logger logger = LoggerFactory.getLogger(RedissonTask.class);
+    private final static Logger log = LoggerFactory.getLogger(RedissonTask.class);
 
     @Resource
     private RedissonClient redisson;
@@ -40,7 +39,7 @@ public class RedissonTask {
 
     private RTopic topic;
 
-//    @PostConstruct
+    //    @PostConstruct
     public void postConstruct() {
 
 //        // 注册服务
@@ -56,9 +55,9 @@ public class RedissonTask {
                 try {
                     HtJmsRedisModel take = blockingQueue.take();
                     long currentTimeMillis = System.currentTimeMillis();
-                    logger.info("redisson 当前时间[{}],发送时间[{}],相差[{}],预设延迟[{}]", currentTimeMillis, take.getTimestamp(), currentTimeMillis - take.getTimestamp(), take.getDelay());
+                    log.info("redisson 当前时间[{}],发送时间[{}],相差[{}],预设延迟[{}]", currentTimeMillis, take.getTimestamp(), currentTimeMillis - take.getTimestamp(), take.getDelay());
                 } catch (InterruptedException e) {
-                    logger.error("redisson 获取队列任务异常", e);
+                    log.error("redisson 获取队列任务异常", e);
                     break;
                 }
             }
@@ -70,16 +69,16 @@ public class RedissonTask {
             topic.addListener(new StatusListener() {
                 @Override
                 public void onSubscribe(String channel) {
-                    logger.info("redisson [{}] 订阅上线", channel);
+                    log.info("redisson [{}] 订阅上线", channel);
                 }
 
                 @Override
                 public void onUnsubscribe(String channel) {
-                    logger.info("redisson [{}] 订阅下线", channel);
+                    log.info("redisson [{}] 订阅下线", channel);
                 }
             });
 
-            topic.addListener(HtJmsRedisModel.class, (c, m) -> logger.info("redisson channel [{}] 收到 [{}]", c, m.getCode()));
+            topic.addListener(HtJmsRedisModel.class, (c, m) -> log.info("redisson channel [{}] 收到 [{}]", c, m.getCode()));
 
         });
     }

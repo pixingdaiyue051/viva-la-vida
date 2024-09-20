@@ -1,9 +1,9 @@
 package com.tequeno.enums;
 
-/**
- * @Desription:
- * @Author: hexk
- */
+
+import lombok.Getter;
+
+@Getter
 public enum JedisLockTimeEnum {
 
     /**
@@ -39,17 +39,4 @@ public enum JedisLockTimeEnum {
         this.retryEvictTime = retryEvictTime;
         this.evictTime = evictTime;
     }
-
-    public long getExpireTime() {
-        return expireTime;
-    }
-
-    public long getRetryEvictTime() {
-        return retryEvictTime;
-    }
-
-    public long getEvictTime() {
-        return evictTime;
-    }
-
 }

@@ -19,7 +19,7 @@ import java.util.Map;
 @Component
 public class FileUploader {
 
-    private final static Logger logger = LoggerFactory.getLogger(FileUploader.class);
+    private final static Logger log = LoggerFactory.getLogger(FileUploader.class);
 
     private final static String MAX = "10M";
 

@@ -27,7 +27,7 @@ import java.util.stream.Collectors;
  */
 public class JedisUtil {
 
-    private final static Logger logger = LoggerFactory.getLogger(JedisUtil.class);
+    private final static Logger log = LoggerFactory.getLogger(JedisUtil.class);
 
     private JedisPool jedisPool;
 
@@ -39,7 +39,7 @@ public class JedisUtil {
 
         static {
             INSTANCE = new JedisUtil();
-            logger.info("JedisUtilHolder start...");
+            log.info("JedisUtilHolder start...");
 
             ClassPathResource c = new ClassPathResource("application.yml");
 
@@ -98,7 +98,7 @@ public class JedisUtil {
                 }
                 INSTANCE.closeJedis(jedis);
             } catch (Exception e) {
-                logger.error("JedisUtilHolder异常:", e);
+                log.error("JedisUtilHolder异常:", e);
             }
         }
     }
@@ -145,7 +145,7 @@ public class JedisUtil {
             String result = jedis.set(key, value);
             return HtCommonConstant.OK.equals(result);
         } catch (Exception e) {
-            logger.info("stringSetPersist(String,String)异常:", e);
+            log.info("stringSetPersist(String,String)异常:", e);
             return false;
         } finally {
             closeJedis(jedis);
@@ -167,7 +167,7 @@ public class JedisUtil {
             String result = jedis.psetex(key, expiredTime, value);
             return HtCommonConstant.OK.equals(result);
         } catch (Exception e) {
-            logger.info("stringSet(String,String,long[{}])异常:", expiredTime, e);
+            log.info("stringSet(String,String,long[{}])异常:", expiredTime, e);
             return false;
         } finally {
             closeJedis(jedis);
@@ -201,7 +201,7 @@ public class JedisUtil {
             pipe.sync();
             return true;
         } catch (Exception e) {
-            logger.info("stringSetPersist(Map)异常:", e);
+            log.info("stringSetPersist(Map)异常:", e);
             return false;
         } finally {
             closeJedis(jedis);
@@ -226,7 +226,7 @@ public class JedisUtil {
             pipe.sync();
             return true;
         } catch (Exception e) {
-            logger.info("stringSet(Map,long[{}])异常:", expiredTime, e);
+            log.info("stringSet(Map,long[{}])异常:", expiredTime, e);
             return false;
         } finally {
             closeJedis(jedis);
@@ -245,7 +245,7 @@ public class JedisUtil {
             jedis = jedisPool.getResource();
             return jedis.get(key);
         } catch (Exception e) {
-            logger.info("stringGet(String)异常:", e);
+            log.info("stringGet(String)异常:", e);
             return null;
         } finally {
             closeJedis(jedis);
@@ -270,7 +270,7 @@ public class JedisUtil {
                     .map(Object::toString)
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            logger.info("stringGet(String)异常:", e);
+            log.info("stringGet(String)异常:", e);
             return null;
         } finally {
             closeJedis(jedis);
@@ -288,10 +288,10 @@ public class JedisUtil {
         try {
             jedis = jedisPool.getResource();
             Long result = jedis.del(keys);
-            logger.info("redis删除{}个key", result);
+            log.info("redis删除{}个key", result);
             return true;
         } catch (Exception e) {
-            logger.info("stringDel(String)异常:", e);
+            log.info("stringDel(String)异常:", e);
             return false;
         } finally {
             closeJedis(jedis);
@@ -314,10 +314,10 @@ public class JedisUtil {
             pipe.exec();
             List<Object> txResult = pipe.syncAndReturnAll();
             long result = ((ArrayList) txResult.get(txResult.size() - 1)).parallelStream().mapToLong(r -> Long.valueOf(r.toString())).sum();
-            logger.info("redis删除{}个key", result);
+            log.info("redis删除{}个key", result);
             return true;
         } catch (Exception e) {
-            logger.info("stringDel(List)异常:", e);
+            log.info("stringDel(List)异常:", e);
             return false;
         } finally {
             closeJedis(jedis);
@@ -353,7 +353,7 @@ public class JedisUtil {
             jedis.hset(key, field, value);
             return true;
         } catch (Exception e) {
-            logger.info("hashSetPersist(String,String,String)异常:", e);
+            log.info("hashSetPersist(String,String,String)异常:", e);
             return false;
         } finally {
             closeJedis(jedis);
@@ -379,7 +379,7 @@ public class JedisUtil {
             tx.exec();
             return true;
         } catch (Exception e) {
-            logger.info("hashSet(String,String,String,long[{}])异常:", expiredTime, e);
+            log.info("hashSet(String,String,String,long[{}])异常:", expiredTime, e);
             return false;
         } finally {
             closeJedis(jedis);
@@ -411,7 +411,7 @@ public class JedisUtil {
             jedis.hmset(key, fields);
             return true;
         } catch (Exception e) {
-            logger.info("hashMultiSetPersist(String,Map)异常:", e);
+            log.info("hashMultiSetPersist(String,Map)异常:", e);
             return false;
         } finally {
             closeJedis(jedis);
@@ -436,7 +436,7 @@ public class JedisUtil {
             tx.exec();
             return true;
         } catch (Exception e) {
-            logger.info("hashMultiSet(String,Map,long[{}])异常:", expiredTime, e);
+            log.info("hashMultiSet(String,Map,long[{}])异常:", expiredTime, e);
             return false;
         } finally {
             closeJedis(jedis);
@@ -456,7 +456,7 @@ public class JedisUtil {
             jedis = jedisPool.getResource();
             return jedis.hget(key, field);
         } catch (Exception e) {
-            logger.info("hashGet(String,String)异常:", e);
+            log.info("hashGet(String,String)异常:", e);
             return null;
         } finally {
             closeJedis(jedis);
@@ -482,7 +482,7 @@ public class JedisUtil {
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            logger.info("hashMultiGet(String,String)异常:", e);
+            log.info("hashMultiGet(String,String)异常:", e);
             return null;
         } finally {
             closeJedis(jedis);
@@ -508,7 +508,7 @@ public class JedisUtil {
                     .filter(Objects::nonNull)
                     .collect(Collectors.toList());
         } catch (Exception e) {
-            logger.info("hashMultiGet(String,List)异常:", e);
+            log.info("hashMultiGet(String,List)异常:", e);
             return null;
         } finally {
             closeJedis(jedis);
@@ -527,10 +527,10 @@ public class JedisUtil {
         try {
             jedis = jedisPool.getResource();
             Long result = jedis.hdel(key, fields);
-            logger.info("redis删除hashKey[{}]内{}个field", key, result);
+            log.info("redis删除hashKey[{}]内{}个field", key, result);
             return true;
         } catch (Exception e) {
-            logger.info("hashDel(String,String)异常:", e);
+            log.info("hashDel(String,String)异常:", e);
             return false;
         } finally {
             closeJedis(jedis);
@@ -554,10 +554,10 @@ public class JedisUtil {
             pipe.exec();
             List<Object> txResult = pipe.syncAndReturnAll();
             long result = ((ArrayList) txResult.get(txResult.size() - 1)).parallelStream().mapToLong(r -> Long.valueOf(r.toString())).sum();
-            logger.info("redis删除hashKey[{}]内{}个field", key, result);
+            log.info("redis删除hashKey[{}]内{}个field", key, result);
             return true;
         } catch (Exception e) {
-            logger.info("hashDel(String,List)异常:", e);
+            log.info("hashDel(String,List)异常:", e);
             return false;
         } finally {
             closeJedis(jedis);
@@ -574,7 +574,7 @@ public class JedisUtil {
             jedis = jedisPool.getResource();
             return jedis.time().get(0);
         } catch (Exception e) {
-            logger.info("time()异常:", e);
+            log.info("time()异常:", e);
             return null;
         } finally {
             closeJedis(jedis);
@@ -596,10 +596,10 @@ public class JedisUtil {
             String scriptSha = scriptMap.get(JedisLuaScriptEnum.DEL_KEYS_PATTERN.getScriptName());
             jedis = jedisPool.getResource();
             Long result = (Long) jedis.evalsha(scriptSha, Collections.singletonList(pattern), Collections.emptyList());
-            logger.info("redis删除{}个key", result);
+            log.info("redis删除{}个key", result);
             return true;
         } catch (Exception e) {
-            logger.info("luaDelKeysByPattern(String)异常:", e);
+            log.info("luaDelKeysByPattern(String)异常:", e);
             return false;
         } finally {
             closeJedis(jedis);
@@ -619,7 +619,7 @@ public class JedisUtil {
             jedis = jedisPool.getResource();
             return (ArrayList<String>) jedis.evalsha(scriptSha, Collections.singletonList(pattern), Collections.emptyList());
         } catch (Exception e) {
-            logger.info("luaKeysByPattern(String)异常:", e);
+            log.info("luaKeysByPattern(String)异常:", e);
             return null;
         } finally {
             closeJedis(jedis);
@@ -642,7 +642,7 @@ public class JedisUtil {
             jedis = jedisPool.getResource();
             return jedis.evalsha(scriptSha, Collections.singletonList(key), Arrays.asList(String.valueOf(value), String.valueOf(expireTime)));
         } catch (Exception e) {
-            logger.info("luaGetSequenceNum(String,long,long)异常:", e);
+            log.info("luaGetSequenceNum(String,long,long)异常:", e);
             return null;
         } finally {
             closeJedis(jedis);
@@ -677,7 +677,7 @@ public class JedisUtil {
             Object result = jedis.evalsha(scriptSha, Collections.singletonList(lockKey), Arrays.asList(token, String.valueOf(expireTime)));
             return HtZeroOneConstant.ONE_L.equals(result);
         } catch (Exception e) {
-            logger.info("luaTryLock(String,String,long)异常:", e);
+            log.info("luaTryLock(String,String,long)异常:", e);
             return false;
         } finally {
             closeJedis(jedis);
@@ -707,19 +707,19 @@ public class JedisUtil {
                 Object result = jedis.evalsha(scriptSha, Collections.singletonList(lockKey), Arrays.asList(token, String.valueOf(expireTime)));
                 isLocked = HtZeroOneConstant.ONE_L.equals(result);
                 if (isLocked) {
-                    logger.info("根据key[{}]获取锁成功", lockKey);
+                    log.info("根据key[{}]获取锁成功", lockKey);
                     return true;
                 }
-                logger.info("尝试根据key[{}]获取锁失败,{}ms后重试", lockKey, retryEvictTime);
+                log.info("尝试根据key[{}]获取锁失败,{}ms后重试", lockKey, retryEvictTime);
                 Thread.sleep(retryEvictTime);
                 if (System.currentTimeMillis() - startMillSecond > evictTime) {
-                    logger.info("尝试根据key[{}]获取锁失败,已超出最大等待时间{}ms", lockKey, evictTime);
+                    log.info("尝试根据key[{}]获取锁失败,已超出最大等待时间{}ms", lockKey, evictTime);
                     return false;
                 }
             } while (!isLocked);
             return false;
         } catch (Exception e) {
-            logger.info("luaTryLock(String,String,JedisLockTimeEnum)异常:", e);
+            log.info("luaTryLock(String,String,JedisLockTimeEnum)异常:", e);
             return false;
         } finally {
             closeJedis(jedis);
@@ -741,7 +741,7 @@ public class JedisUtil {
             jedis = jedisPool.getResource();
             jedis.evalsha(scriptSha, Collections.singletonList(lockKey), Collections.singletonList(token));
         } catch (Exception e) {
-            logger.info("luaTryLock(String,String)异常:", e);
+            log.info("luaTryLock(String,String)异常:", e);
         } finally {
             closeJedis(jedis);
         }

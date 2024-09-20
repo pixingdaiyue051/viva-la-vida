@@ -1,5 +1,8 @@
 package com.tequeno.async;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.concurrent.ArrayBlockingQueue;
@@ -11,6 +14,8 @@ import java.util.concurrent.LinkedBlockingQueue;
  * 如果队列的容量可以预先明确设定 使用中不存在超出队列问题时推荐使用offer入队 poll出队
  */
 public class QueueHandler {
+
+    private final static Logger log = LoggerFactory.getLogger(QueueHandler.class);
 
     /**
      * 阻塞队列 LinkedBlockingQueue
@@ -26,11 +31,9 @@ public class QueueHandler {
             final String poll = queue.poll(); // 推荐使用
             final String peek = queue.peek(); // 获得头指针数据但不出队
 
-            System.out.println(take);
-            System.out.println(poll);
-            System.out.println(peek);
+            log.info("{},{},{}", take, poll, peek);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error("异常", e);
         }
     }
 
@@ -48,11 +51,9 @@ public class QueueHandler {
             final String poll = queue.poll(); // 推荐使用
             final String peek = queue.peek(); // 获得头指针数据但不出队
 
-            System.out.println(take);
-            System.out.println(poll);
-            System.out.println(peek);
+            log.info("{},{},{}", take, poll, peek);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error("异常", e);
         }
     }
 

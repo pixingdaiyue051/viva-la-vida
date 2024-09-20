@@ -1,5 +1,8 @@
 package com.tequeno.async;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
@@ -8,6 +11,8 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.IntStream;
 
 public class LockHandler {
+
+    private final static Logger log = LoggerFactory.getLogger(LockHandler.class);
 
     final ReentrantLock lock = new ReentrantLock();
     final Condition condition = lock.newCondition();
@@ -28,10 +33,11 @@ public class LockHandler {
         }
         try {
             // 模拟执行任务需要的时间
-            System.out.println(Thread.currentThread().getName());
-            TimeUnit.SECONDS.sleep(1L);
+            long delay = 3L;
+            log.info("线程[{}]模拟等待{}s", Thread.currentThread().getName(), delay);
+            TimeUnit.SECONDS.sleep(delay);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("异常", e);
         } finally {
             lock.unlock();
         }
@@ -43,30 +49,32 @@ public class LockHandler {
 
     private void run1() {
         synchronized (locka) {
-            System.out.println("run1 locka");
+            log.info("run2 locka");
             try {
-                // 模拟再获取lockb之前的业务操作
-                TimeUnit.SECONDS.sleep(1L);
+                long delay = 3L;
+                log.info("线程[{}]模拟再获取lockb之前的业务操作等待{}s", Thread.currentThread().getName(), delay);
+                TimeUnit.SECONDS.sleep(delay);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error("异常", e);
             }
             synchronized (lockb) {
-                System.out.println("run1 lockb");
+                log.info("run2 lockb");
             }
         }
     }
 
     private void run2() {
         synchronized (lockb) {
-            System.out.println("run2 lockb");
+            log.info("run2 lockb");
             try {
-                // 模拟再获取locka之前的业务操作
-                TimeUnit.SECONDS.sleep(1L);
+                long delay = 3L;
+                log.info("线程[{}]模拟再获取locka之前的业务操作等待{}s", Thread.currentThread().getName(), delay);
+                TimeUnit.SECONDS.sleep(delay);
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error("异常", e);
             }
             synchronized (locka) {
-                System.out.println("run2 locka");
+                log.info("run2 locka");
             }
         }
     }

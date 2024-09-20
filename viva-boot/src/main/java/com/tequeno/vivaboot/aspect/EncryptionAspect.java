@@ -21,7 +21,7 @@ import java.util.Map;
 @Aspect
 public class EncryptionAspect {
 
-    private final static Logger logger = LoggerFactory.getLogger(EncryptionAspect.class);
+    private final static Logger log = LoggerFactory.getLogger(EncryptionAspect.class);
 
     @Pointcut("@annotation(com.tequeno.annos.EncryptionAnno)")
     public void aspect() {
@@ -58,7 +58,7 @@ public class EncryptionAspect {
         args[0] = o;
 
         long l2 = System.currentTimeMillis();
-        logger.info("解密时长[{}]", l2 - l1);
+        log.info("解密时长[{}]", l2 - l1);
         return args;
     }
 
@@ -80,7 +80,7 @@ public class EncryptionAspect {
         result.put("code", "0");
 
         long l2 = System.currentTimeMillis();
-        logger.info("加密时长[{}]", l2 - l1);
+        log.info("加密时长[{}]", l2 - l1);
         return result;
     }
 }

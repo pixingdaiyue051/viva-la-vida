@@ -1,7 +1,7 @@
 package com.tequeno.vivaboot.file;
 
-import com.tequeno.utils.HtResultUtil;
 import com.tequeno.dto.HtResultModel;
+import com.tequeno.utils.HtResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("file")
 public class FileController {
 
-    private final static Logger logger = LoggerFactory.getLogger(FileController.class);
+    private final static Logger log = LoggerFactory.getLogger(FileController.class);
 
     @Resource
     private FileUploader fileUploader;
@@ -32,7 +32,7 @@ public class FileController {
             String out = fileUploader.upload(file);
             return HtResultUtil.success(out);
         } catch (Exception e) {
-            logger.error("保存文件[{}]失败:", file.getOriginalFilename(), e);
+            log.error("保存文件[{}]失败:", file.getOriginalFilename(), e);
             return HtResultUtil.fail(e.getMessage());
         }
     }
@@ -43,7 +43,7 @@ public class FileController {
             List<String> out = fileUploader.upload(fileList);
             return HtResultUtil.success(out);
         } catch (Exception e) {
-            logger.error("保存文件失败:", e);
+            log.error("保存文件失败:", e);
             return HtResultUtil.fail(e.getMessage());
         }
     }
@@ -53,7 +53,7 @@ public class FileController {
         try {
             fileDownloader.export(fileName, request, response);
         } catch (Exception e) {
-            logger.error("导出失败", e);
+            log.error("导出失败", e);
             return HtResultUtil.fail(e.getMessage());
         }
         return HtResultUtil.success("导出成功");
@@ -64,7 +64,7 @@ public class FileController {
         try {
             fileDownloader.download(fileName, request, response);
         } catch (Exception e) {
-            logger.error("下载失败", e);
+            log.error("下载失败", e);
             return HtResultUtil.fail(e.getMessage());
         }
         return HtResultUtil.success("下载成功");

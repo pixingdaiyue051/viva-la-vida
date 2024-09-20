@@ -8,6 +8,7 @@
     <artifactId>viva-j2se</artifactId>
     <version>1.1.0</version>
     <packaging>jar</packaging>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.plugin>2.3.2</maven.compiler.plugin>
@@ -15,14 +16,21 @@
         <maven.jar.plugin>3.0.2</maven.jar.plugin>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <junit.version>4.11</junit.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.2.11</version>
         </dependency>
         <!-- apache email API-->
         <dependency>
@@ -77,12 +85,6 @@
             <artifactId>jfreechart</artifactId>
             <version>1.0.19</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.11</version>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
         <dependency>
             <groupId>commons-codec</groupId>
@@ -95,17 +97,23 @@
             <artifactId>cglib</artifactId>
             <version>2.2.2</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.google.zxing/core -->
-        <dependency>
-            <groupId>com.google.zxing</groupId>
-            <artifactId>core</artifactId>
-            <version>3.4.1</version>
-        </dependency>
         <!-- https://mvnrepository.com/artifact/com.google.zxing/javase -->
         <dependency>
             <groupId>com.google.zxing</groupId>
             <artifactId>javase</artifactId>
             <version>3.4.1</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>32.1.2-jre</version>
+        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.belerweb/pinyin4j -->
+        <dependency>
+            <groupId>com.belerweb</groupId>
+            <artifactId>pinyin4j</artifactId>
+            <version>2.5.1</version>
         </dependency>
     </dependencies>
 
@@ -115,7 +123,7 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-                <filtering>false</filtering>
+                <filtering>true</filtering>
             </resource>
         </resources>
         <plugins>
@@ -127,7 +135,6 @@
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
-                    <skip>true</skip>
                 </configuration>
             </plugin>
             <plugin>
@@ -146,11 +153,11 @@
                     <archive>
                         <manifest>
                             <!-- 指定入口函数 -->
-                            <mainClass>com.tequeno.net.udp.UDPServerPlus</mainClass>
+                            <mainClass>com.tequeno.lottery.LotteryApplication</mainClass>
                             <!-- 是否添加依赖的jar路径配置 -->
                             <addClasspath>true</addClasspath>
                             <!-- 依赖的jar包存放位置 第三方jar可以跨项目通用 因此使用一个广义的文件包名字 -->
-                            <classpathPrefix>/hexk/github/hey-jude/plugin/deploy</classpathPrefix>
+                            <classpathPrefix>/data/deploy/lib</classpathPrefix>
                         </manifest>
                         <manifestEntries>
                             <!--
@@ -158,25 +165,24 @@
                                 logback会使用该目录下缺省名文件logback.xml
                                 springboot会使用该目录下缺省名文件application.yml
                             -->
-                            <Class-Path>/hexk/github/hey-jude/plugin/deploy/viva-la-vida/</Class-Path>
+                            <Class-Path>/data/deploy/viva-j2se/</Class-Path>
                         </manifestEntries>
                     </archive>
                     <!-- 打包包括的内容 -->
                     <includes>
-                        <include>com/tequeno/net/*</include>
-                        <include>com/tequeno/net/udp/*</include>
+                        <include>com/tequeno/lottery/*</include>
                     </includes>
                     <!-- 打包排除的内容 -->
                     <excludes>
                         <exclude>com/tequeno/algorithm/*</exclude>
                         <exclude>com/tequeno/async/*</exclude>
                         <exclude>com/tequeno/classload/*</exclude>
-                        <exclude>com/tequeno/desktop/*</exclude>
                         <exclude>com/tequeno/email/*</exclude>
                         <exclude>com/tequeno/file/*</exclude>
                         <exclude>com/tequeno/jdk8/*</exclude>
                         <exclude>com/tequeno/jvm/*</exclude>
-                        <!--<exclude>com/tequeno/net/*</exclude>-->
+                        <!--<exclude>com/tequeno/lottery/*</exclude>-->
+                        <exclude>com/tequeno/net/*</exclude>
                         <exclude>com/tequeno/netty/*</exclude>
                         <exclude>com/tequeno/pattern/*</exclude>
                     </excludes>

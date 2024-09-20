@@ -9,11 +9,7 @@ import javax.activation.FileDataSource;
 import javax.mail.Address;
 import javax.mail.Session;
 import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeBodyPart;
-import javax.mail.internet.MimeMessage;
-import javax.mail.internet.MimeMultipart;
-import javax.mail.internet.MimeUtility;
+import javax.mail.internet.*;
 import java.io.File;
 import java.util.Arrays;
 import java.util.Date;
@@ -24,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class EmailUtil {
 
-    private static final Logger logger = LoggerFactory.getLogger(EmailUtil.class);
+    private final static Logger log = LoggerFactory.getLogger(EmailUtil.class);
 
     public static EmailResponse sendEmail(EmailRequest request) {
         EmailResponse response = new EmailResponse();
@@ -79,7 +75,7 @@ public class EmailUtil {
                         // 放入正文（有先后顺序,所以在正文后面）
                         mp.addBodyPart(filePart);
                     } catch (Exception e) {
-                        logger.info("添加附件失败!", e);
+                        log.error("添加附件失败!", e);
                         throw new EmailException("添加附件失败!");
                     }
                 });
@@ -103,7 +99,7 @@ public class EmailUtil {
             if (e instanceof EmailException) {
                 response.setMsg(e.getMessage());
             } else {
-                logger.info("邮件发送失败!", e);
+                log.error("邮件发送失败!", e);
                 response.setMsg("邮件发送失败!");
             }
         }

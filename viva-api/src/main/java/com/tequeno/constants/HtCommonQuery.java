@@ -1,5 +1,13 @@
 package com.tequeno.constants;
 
+
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
+
+@Getter
+@Setter
+@Accessors(chain = true)
 public class HtCommonQuery {
 
     private long pageNum;
@@ -13,21 +21,5 @@ public class HtCommonQuery {
 
     public long getOffset() {
         return (pageNum - 1) * pageSize;
-    }
-
-    public long getPageNum() {
-        return pageNum;
-    }
-
-    public void setPageNum(long pageNum) {
-        this.pageNum = pageNum;
-    }
-
-    public long getPageSize() {
-        return pageSize;
-    }
-
-    public void setPageSize(long pageSize) {
-        this.pageSize = pageSize;
     }
 }

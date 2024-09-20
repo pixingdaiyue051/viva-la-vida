@@ -8,7 +8,7 @@ import java.util.concurrent.CountDownLatch;
 
 public class DelayedTimerTaskEl extends TimerTask {
 
-    private final static Logger logger = LoggerFactory.getLogger(DelayedTimerTaskEl.class);
+    private final static Logger log = LoggerFactory.getLogger(DelayedTimerTaskEl.class);
     private final String name;
     private final CountDownLatch count;
 
@@ -24,6 +24,6 @@ public class DelayedTimerTaskEl extends TimerTask {
     @Override
     public void run() {
         count.countDown();
-        logger.info("{}执行任务{}", Thread.currentThread().getName(), name);
+        log.info("{}执行任务{}", Thread.currentThread().getName(), name);
     }
 }

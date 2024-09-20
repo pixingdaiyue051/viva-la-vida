@@ -14,7 +14,7 @@ import java.nio.charset.StandardCharsets;
 @Configuration
 public class RabbitMqConfig {
 
-    private final static Logger logger = LoggerFactory.getLogger(RabbitMqConfig.class);
+    private final static Logger log = LoggerFactory.getLogger(RabbitMqConfig.class);
 
     @Value("${rabbitmq.username}")
     private String username;
@@ -43,7 +43,7 @@ public class RabbitMqConfig {
 
             return connectionFactory.newConnection();
         } catch (Exception e) {
-            logger.error("rabbitmq newConnection 启动失败", e);
+            log.error("rabbitmq newConnection 启动失败", e);
         }
         return null;
     }
@@ -65,10 +65,10 @@ public class RabbitMqConfig {
                         String bodyExt = new String(body, StandardCharsets.UTF_8);
 //                        HtJmsRocketModel model = JSON.parseObject(bodyExt, HtJmsRocketModel.class);
 
-                        logger.info("rabbit consume tag[{}],[{}]", consumerTag, bodyExt);
+                        log.info("rabbit consume tag[{}],[{}]", consumerTag, bodyExt);
 
                     } catch (Exception e) {
-                        logger.error("", e);
+                        log.error("", e);
                     }
                 }
             };
@@ -76,7 +76,7 @@ public class RabbitMqConfig {
             channel.basicConsume(HtJmsConstant.QUEUE_NAME, true, defaultConsumer);
             return channel;
         } catch (Exception e) {
-            logger.error("rabbitmq createChannel 启动失败", e);
+            log.error("rabbitmq createChannel 启动失败", e);
         }
         return null;
     }

@@ -1,5 +1,10 @@
 package com.tequeno;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.ImmutableMap;
+import com.google.common.collect.ImmutableSet;
+import com.google.zxing.qrcode.decoder.QRCodeDecoderMetaData;
+import com.tequeno.algorithm.EvaluateHandler;
 import com.tequeno.file.*;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.StandardChartTheme;
@@ -7,10 +12,10 @@ import org.junit.Test;
 
 import java.awt.*;
 import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 import java.util.List;
-import java.util.Map;
 
 public class FileTest {
 
@@ -119,21 +124,27 @@ public class FileTest {
         QrcodeHandler handler = new QrcodeHandler();
 //        handler.generateQrcode("https://www.baidu.com", "测试二维码");
 
-//      1750371575276056577,濮阳市西湖中学
-//      1790644721651707905,南乐近德固中学
-//      1790922566457786369,濮阳市第一高级中学
-//      1833344060043726850,微山县第三实验中学
+//        1750371575276056577,内部测试
+        ImmutableMap<String, String> map = ImmutableMap.of(
+                "1750371575276056577", "濮阳市西湖中学",
+                "1790644721651707905", "南乐近德固中学",
+                "1790922566457786369", "微山县第三实验中学",
+                "1833344060043726850", "濮阳市第一高级中学",
+                "1850742894919045122", "微山县第三中学",
+                "1851943531652521985", "临泉县临化中学",
+                "1853984948801400834", "临泉县鹏飞中专学校"
+        );
+        String urlPattern = "https://qinqingkeshi.net:9002/h5/?schoolId=%s&schoolname=%s";
+        EvaluateHandler evaluateHandler = new EvaluateHandler();
 
-//        handler.generateQrcode("https://jiansuotong.top:9002/h5?schoolId=1750371575276056577&schoolname=濮阳市西湖中学", "h5_pysxhzx", "濮阳市西湖中学");
-//        handler.generateQrcode("https://jiansuotong.top:9002/h5?schoolId=1790644721651707905&schoolname=南乐近德固中学", "h5_nyjdgzx", "南乐近德固中学");
-//        handler.generateQrcode("https://jiansuotong.top:9002/h5?schoolId=1790922566457786369&schoolname=濮阳市第一高级中学", "h5_pysdygjzx", "濮阳市第一高级中学");
-//        handler.generateQrcode("https://jiansuotong.top:9002/h5?schoolId=1833344060043726850&schoolname=微山县第三实验中学", "h5_wsxdssyzx", "微山县第三实验中学");
-
-//        File logo = new File("/data/pic/logo.jpg");
-//        handler.generateQrcode("http://jiansuotong.top:8888/opt/xyks_app.apk", "xyks_app1", logo);
-
-//        String out = handler.decodeQrcode("/data/pic/xyks_app.jpg");
-//        System.out.println(out);
+        map.forEach((k,v) -> {
+            String tmpName = URLEncoder.encode(v, StandardCharsets.UTF_8);
+            String url = String.format(urlPattern, k, tmpName);
+            String qrcodeName = "h5_" + evaluateHandler.to1stPinyin(v);
+            System.out.printf("%s\t\thttp://jiansuotong.top:8888/opt/%s.jpg", v, qrcodeName);
+            System.out.println();
+            handler.generateQrcode(url, qrcodeName, v);
+        });
 
     }
 

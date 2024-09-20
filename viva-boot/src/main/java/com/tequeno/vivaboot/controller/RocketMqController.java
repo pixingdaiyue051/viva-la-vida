@@ -18,7 +18,7 @@ import java.util.List;
 @RequestMapping("rocket")
 public class RocketMqController {
 
-    private final static Logger logger = LoggerFactory.getLogger(RocketMqController.class);
+    private final static Logger log = LoggerFactory.getLogger(RocketMqController.class);
 
     @Resource
     private RocketProducer producer;

@@ -1,5 +1,9 @@
 package com.tequeno.enums;
 
+
+import lombok.Getter;
+
+@Getter
 public enum JedisKeyPrefixEnum {
     USER("user", "用户模块"),
 
@@ -38,11 +42,4 @@ public enum JedisKeyPrefixEnum {
         return String.format("%s:%s", prefix, key);
     }
 
-    public String getPrefix() {
-        return prefix;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
 }
