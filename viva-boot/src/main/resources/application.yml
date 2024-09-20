@@ -24,7 +24,7 @@ spring:
 #    password: d0633c
 
     driver-class-name: org.sqlite.JDBC
-    url: jdbc:sqlite:/hexk/github/hey-jude/plugin/sqlite-x64/test.db
+    url: jdbc:sqlite:/plugin/sqlite-x64/test.db
 # redis
 redis:
 #  host: 127.0.0.1
@@ -75,4 +75,4 @@ file:
   upload: /data/upload/
   template: /data/template/
 #启动参数
-#-Dspring.config.location=/hexk/github/hey-jude/plugin/viva-boot/
+#-Dspring.config.location=/data/deploy/viva-boot/

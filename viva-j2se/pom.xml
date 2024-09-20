@@ -8,6 +8,7 @@
     <artifactId>viva-j2se</artifactId>
     <version>1.1.0</version>
     <packaging>jar</packaging>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.plugin>2.3.2</maven.compiler.plugin>
@@ -15,13 +16,14 @@
         <maven.jar.plugin>3.0.2</maven.jar.plugin>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <junit.version>4.11</junit.version>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- apache email API-->
@@ -111,13 +113,6 @@
 
     <build>
         <finalName>viva-j2se</finalName>
-        <!-- 包含资源文件 -->
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>false</filtering>
-            </resource>
-        </resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -127,7 +122,6 @@
                     <source>${maven.compiler.source}</source>
                     <target>${maven.compiler.target}</target>
                     <encoding>${project.build.sourceEncoding}</encoding>
-                    <skip>true</skip>
                 </configuration>
             </plugin>
             <plugin>
@@ -148,9 +142,9 @@
                             <!-- 指定入口函数 -->
                             <mainClass>com.tequeno.net.udp.UDPServerPlus</mainClass>
                             <!-- 是否添加依赖的jar路径配置 -->
-                            <addClasspath>true</addClasspath>
+                            <addClasspath>false</addClasspath>
                             <!-- 依赖的jar包存放位置 第三方jar可以跨项目通用 因此使用一个广义的文件包名字 -->
-                            <classpathPrefix>/hexk/github/hey-jude/plugin/deploy</classpathPrefix>
+                            <classpathPrefix>/data/deploy/lib</classpathPrefix>
                         </manifest>
                         <manifestEntries>
                             <!--
@@ -158,7 +152,7 @@
                                 logback会使用该目录下缺省名文件logback.xml
                                 springboot会使用该目录下缺省名文件application.yml
                             -->
-                            <Class-Path>/hexk/github/hey-jude/plugin/deploy/viva-la-vida/</Class-Path>
+                            <Class-Path>/data/deploy/viva-j2se/</Class-Path>
                         </manifestEntries>
                     </archive>
                     <!-- 打包包括的内容 -->
@@ -171,7 +165,6 @@
                         <exclude>com/tequeno/algorithm/*</exclude>
                         <exclude>com/tequeno/async/*</exclude>
                         <exclude>com/tequeno/classload/*</exclude>
-                        <exclude>com/tequeno/desktop/*</exclude>
                         <exclude>com/tequeno/email/*</exclude>
                         <exclude>com/tequeno/file/*</exclude>
                         <exclude>com/tequeno/jdk8/*</exclude>
