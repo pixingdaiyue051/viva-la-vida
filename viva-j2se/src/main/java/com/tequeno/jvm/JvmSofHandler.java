@@ -17,6 +17,7 @@ public class JvmSofHandler {
     /**
      * 一个闭环不带自动退出的循环引用 以加深栈的调用深度
      * 模拟线程请求栈帧深度超出虚拟机允许最大深度
+     * VM args: -Xss256k
      */
     public void stackLengthSof() {
         stackLength++;
@@ -26,6 +27,7 @@ public class JvmSofHandler {
     /**
      * 方法调用内部定义大量无用变量 不断消耗栈内存
      * 模拟栈内存溢出
+     * VM args: -Xss256k
      */
     public void stackSizeSof() {
         double d1,
@@ -130,106 +132,6 @@ public class JvmSofHandler {
                 d100;
         stackLength++;
         stackSizeSof();
-        d1 = 0;
-        d2 = 0;
-        d3 = 0;
-        d4 = 0;
-        d5 = 0;
-        d6 = 0;
-        d7 = 0;
-        d8 = 0;
-        d9 = 0;
-        d10 = 0;
-        d11 = 0;
-        d12 = 0;
-        d13 = 0;
-        d14 = 0;
-        d15 = 0;
-        d16 = 0;
-        d17 = 0;
-        d18 = 0;
-        d19 = 0;
-        d20 = 0;
-        d21 = 0;
-        d22 = 0;
-        d23 = 0;
-        d24 = 0;
-        d25 = 0;
-        d26 = 0;
-        d27 = 0;
-        d28 = 0;
-        d29 = 0;
-        d30 = 0;
-        d31 = 0;
-        d32 = 0;
-        d33 = 0;
-        d34 = 0;
-        d35 = 0;
-        d36 = 0;
-        d37 = 0;
-        d38 = 0;
-        d39 = 0;
-        d40 = 0;
-        d41 = 0;
-        d42 = 0;
-        d43 = 0;
-        d44 = 0;
-        d45 = 0;
-        d46 = 0;
-        d47 = 0;
-        d48 = 0;
-        d49 = 0;
-        d50 = 0;
-        d51 = 0;
-        d52 = 0;
-        d53 = 0;
-        d54 = 0;
-        d55 = 0;
-        d56 = 0;
-        d57 = 0;
-        d58 = 0;
-        d59 = 0;
-        d60 = 0;
-        d61 = 0;
-        d62 = 0;
-        d63 = 0;
-        d64 = 0;
-        d65 = 0;
-        d66 = 0;
-        d67 = 0;
-        d68 = 0;
-        d69 = 0;
-        d70 = 0;
-        d71 = 0;
-        d72 = 0;
-        d73 = 0;
-        d74 = 0;
-        d75 = 0;
-        d76 = 0;
-        d77 = 0;
-        d78 = 0;
-        d79 = 0;
-        d80 = 0;
-        d81 = 0;
-        d82 = 0;
-        d83 = 0;
-        d84 = 0;
-        d85 = 0;
-        d86 = 0;
-        d87 = 0;
-        d88 = 0;
-        d89 = 0;
-        d90 = 0;
-        d91 = 0;
-        d92 = 0;
-        d93 = 0;
-        d94 = 0;
-        d95 = 0;
-        d96 = 0;
-        d97 = 0;
-        d98 = 0;
-        d99 = 0;
-        d100 = 0;
     }
 
     /**
@@ -240,8 +142,10 @@ public class JvmSofHandler {
      */
     @Deprecated
     public void stackLeakByThread() {
-        while(true) {
-            new Thread(() -> {while (true);}).start();
+        while (true) {
+            new Thread(() -> {
+                while (true) ;
+            }).start();
         }
     }
 }

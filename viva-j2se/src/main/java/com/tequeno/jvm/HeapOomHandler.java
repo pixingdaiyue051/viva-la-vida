@@ -17,12 +17,12 @@ public class HeapOomHandler {
      * VM args: -Xmx10m -Xms10m -XX:+HeapDumpOnOutOfMemoryError
      *
      */
-    public void obj() {
+    public void run() {
 
         List<OomObject> list = new ArrayList<>();
 
         while (true) {
-            list.add(new OomObject());
+            list.add(new OomObject(1));
         }
     }
 }

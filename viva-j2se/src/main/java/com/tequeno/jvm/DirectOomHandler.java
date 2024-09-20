@@ -17,9 +17,10 @@ public class DirectOomHandler {
 
     /**
      * VM args: -Xmx10m -XX:MaxDirectMemorySize=6m -XX:+HeapDumpOnOutOfMemoryError
+     *
      * @throws IllegalAccessException
      */
-    public void direct() throws IllegalAccessException {
+    public void run() throws IllegalAccessException {
         long size = 1024 * 1024L;
         Field f = Unsafe.class.getDeclaredFields()[0];
         f.setAccessible(true);
