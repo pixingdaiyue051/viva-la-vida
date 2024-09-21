@@ -13,7 +13,7 @@ import org.slf4j.LoggerFactory;
 
 public class MyHttpServer {
 
-    private final static Logger logger = LoggerFactory.getLogger(MyHttpServer.class);
+    private final static Logger log = LoggerFactory.getLogger(MyHttpServer.class);
 
     private int port;
 
@@ -33,14 +33,14 @@ public class MyHttpServer {
                     .childHandler(new MyHttpServerInitializer());
 
             ChannelFuture f = b.bind(port).sync();
-            logger.info("netty已启动");
+            log.info("netty已启动");
             f.channel().closeFuture().sync();
         } catch (Exception e) {
-            logger.error("netty启动失败", e);
+            log.error("netty启动失败", e);
         } finally {
             workerGroup.shutdownGracefully();
             bossGroup.shutdownGracefully();
-            logger.info("netty已关闭");
+            log.info("netty已关闭");
         }
     }
 

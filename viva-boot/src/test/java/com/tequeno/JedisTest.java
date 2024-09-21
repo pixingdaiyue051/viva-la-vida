@@ -8,7 +8,7 @@ import org.slf4j.LoggerFactory;
 public class JedisTest {
 
 
-    private final static Logger logger = LoggerFactory.getLogger(JedisTest.class);
+    private final static Logger log = LoggerFactory.getLogger(JedisTest.class);
 
 
     @Test
@@ -25,6 +25,6 @@ public class JedisTest {
 //        boolean result = jedisUtil.luaReleaseLock(lockKey, token);
 
         long l2 = System.currentTimeMillis();
-        logger.info("redis执行[{}]ms,[{}]", l2 - l1, result);
+        log.info("redis执行[{}]ms,[{}]", l2 - l1, result);
     }
 }

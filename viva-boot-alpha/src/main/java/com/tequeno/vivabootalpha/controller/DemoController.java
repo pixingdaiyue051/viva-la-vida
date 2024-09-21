@@ -2,7 +2,6 @@ package com.tequeno.vivabootalpha.controller;
 
 import com.tequeno.constants.HtCommonPage;
 import com.tequeno.dto.HtResultModel;
-import com.tequeno.dto.demo.DemoCrtDto;
 import com.tequeno.dto.demo.DemoDetailDto;
 import com.tequeno.dto.demo.DemoQueryDto;
 import com.tequeno.enums.JedisKeyPrefixEnum;
@@ -22,7 +21,7 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("demo")
 public class DemoController {
 
-    private final static Logger logger = LoggerFactory.getLogger(DemoController.class);
+    private final static Logger log = LoggerFactory.getLogger(DemoController.class);
 
     @Resource
     private RedissonClient redisson;
@@ -32,7 +31,7 @@ public class DemoController {
         RRemoteService remoteService = redisson.getRemoteService(JedisKeyPrefixEnum.REMOTE.getPrefix());
         IDemoService demoService = remoteService.get(IDemoService.class, 10000, TimeUnit.MILLISECONDS);
         String echo = demoService.echo();
-        logger.info("echo:{}", echo);
+        log.info("echo:{}", echo);
 
         DemoQueryDto query = new DemoQueryDto();
         HtCommonPage<DemoDetailDto> page = demoService.queryPage(query);

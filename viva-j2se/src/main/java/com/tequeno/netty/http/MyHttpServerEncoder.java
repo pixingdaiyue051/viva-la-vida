@@ -15,12 +15,12 @@ import java.util.List;
 
 public class MyHttpServerEncoder extends MessageToMessageEncoder<NettyResponse> {
 
-    private final static Logger logger = LoggerFactory.getLogger(MyHttpServerEncoder.class);
+    private final static Logger log = LoggerFactory.getLogger(MyHttpServerEncoder.class);
 
     @Override
     protected void encode(ChannelHandlerContext ctx, NettyResponse msg, List<Object> out) throws Exception {
 
-        logger.info("MyHttpServerEncoder");
+        log.info("MyHttpServerEncoder");
 
         ByteBuf content = Unpooled.copiedBuffer(JSON.toJSONString(msg), CharsetUtil.UTF_8);
         FullHttpResponse response = new DefaultFullHttpResponse(HttpVersion.HTTP_1_1, HttpResponseStatus.OK, content);

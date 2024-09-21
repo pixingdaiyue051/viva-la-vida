@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.tequeno.constants.HtJmsConstant;
 import com.tequeno.dto.HtJmsRocketModel;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.rocketmq.client.producer.DefaultMQProducer;
 import org.apache.rocketmq.client.producer.TransactionMQProducer;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.remoting.common.RemotingHelper;
@@ -20,7 +19,7 @@ import java.util.List;
 @Component
 public class RocketProducer {
 
-    private final static Logger logger = LoggerFactory.getLogger(RocketProducer.class);
+    private final static Logger log = LoggerFactory.getLogger(RocketProducer.class);
 
     @Resource
     private TransactionMQProducer producer;
@@ -53,7 +52,7 @@ public class RocketProducer {
                 }
                 producer.send(msg);
             } catch (Exception e) {
-                logger.error("rocket发送消息[{}]失败", model.getCode(), e);
+                log.error("rocket发送消息[{}]失败", model.getCode(), e);
             }
         });
     }
@@ -81,7 +80,7 @@ public class RocketProducer {
                 }
                 producer.send(msgList);
             } catch (Exception e) {
-                logger.error("rocket发送多条消息失败", e);
+                log.error("rocket发送多条消息失败", e);
             }
         });
     }
@@ -98,7 +97,7 @@ public class RocketProducer {
                 }
                 producer.sendMessageInTransaction(msg, model.getTimestamp());
             } catch (Exception e) {
-                logger.error("rocket发送事务消息[{}]失败", model.getCode(), e);
+                log.error("rocket发送事务消息[{}]失败", model.getCode(), e);
             }
         });
     }

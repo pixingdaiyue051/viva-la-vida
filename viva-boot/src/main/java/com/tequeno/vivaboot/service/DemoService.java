@@ -22,7 +22,7 @@ import java.util.List;
 @Service
 public class DemoService implements IDemoService {
 
-    private final static Logger logger = LoggerFactory.getLogger(DemoService.class);
+    private final static Logger log = LoggerFactory.getLogger(DemoService.class);
 
     private final static DemoConverter converter = Mappers.getMapper(DemoConverter.class);
 

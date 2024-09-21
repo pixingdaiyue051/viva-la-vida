@@ -16,7 +16,7 @@ import java.nio.charset.StandardCharsets;
 @Component
 public class RabbitProducer {
 
-    private final static Logger logger = LoggerFactory.getLogger(RabbitProducer.class);
+    private final static Logger log = LoggerFactory.getLogger(RabbitProducer.class);
 
     @Resource
     private Channel producer;
@@ -38,7 +38,7 @@ public class RabbitProducer {
                 producer.basicPublish(HtJmsConstant.EXCHANGE_NAME, HtJmsConstant.ROUTING_KEY, MessageProperties.TEXT_PLAIN, body);
 
             } catch (Exception e) {
-                logger.error("rabbit发送消息[{}]失败", model.getCode(), e);
+                log.error("rabbit发送消息[{}]失败", model.getCode(), e);
             }
         });
     }

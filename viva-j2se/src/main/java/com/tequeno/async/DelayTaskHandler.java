@@ -16,20 +16,20 @@ import java.util.concurrent.*;
  */
 public class DelayTaskHandler {
 
-    private final static Logger logger = LoggerFactory.getLogger(DelayTaskHandler.class);
+    private final static Logger log = LoggerFactory.getLogger(DelayTaskHandler.class);
 
     /**
      * 本地服务内存 重启后失效 不推荐
      * 无限循环 模拟定时任务
      */
     public void infiniteLoop() {
-        logger.info("infiniteLoop");
+        log.info("infiniteLoop");
         // 存放定时任务
         final Map<String, Long> taskMap = new HashMap<>();
 
         // 添加定时任务
         final Instant now = Instant.now();
-        logger.info("infiniteLoop 添加任务数据");
+        log.info("infiniteLoop 添加任务数据");
         taskMap.put("task-2", now.plusMillis(3000L).toEpochMilli());
         taskMap.put("task-4", now.plusMillis(1000L).toEpochMilli());
         taskMap.put("task-3", now.plusMillis(5000L).toEpochMilli());
@@ -46,10 +46,10 @@ public class DelayTaskHandler {
                 // 有任务需要执行
                 if (milli >= itemLong) {
                     // 延迟任务，业务逻辑执行
-                    logger.info("{}执行任务{}", Thread.currentThread().getName(), entry.getKey());
+                    log.info("{}执行任务{}", Thread.currentThread().getName(), entry.getKey());
                     // 删除任务
                     it.remove();
-                    logger.info("剩余任务数:{}", taskMap.size());
+                    log.info("剩余任务数:{}", taskMap.size());
                 }
             }
         } while (!taskMap.isEmpty());
@@ -60,9 +60,9 @@ public class DelayTaskHandler {
      * DelayQueue
      */
     public void delayedQueue() {
-        logger.info("delayedQueue");
+        log.info("delayedQueue");
         DelayQueue<DelayedQueueEl> dq = new DelayQueue<>();
-        logger.info("delayedQueue 添加任务数据");
+        log.info("delayedQueue 添加任务数据");
         dq.add(new DelayedQueueEl("task-2", 3000L));
         dq.add(new DelayedQueueEl("task-4", 1000L));
         dq.add(new DelayedQueueEl("task-3", 5000L));
@@ -72,10 +72,10 @@ public class DelayTaskHandler {
         while (!dq.isEmpty()) {
             try {
                 final DelayedQueueEl taken = dq.take();
-                logger.info("{}执行任务{}", Thread.currentThread().getName(), taken.getName());
-                logger.info("剩余任务数:{}", dq.size());
+                log.info("{}执行任务{}", Thread.currentThread().getName(), taken.getName());
+                log.info("剩余任务数:{}", dq.size());
             } catch (InterruptedException e) {
-                logger.error("delayedQueue 异常", e);
+                log.error("delayedQueue 异常", e);
             }
         }
     }
@@ -86,9 +86,9 @@ public class DelayTaskHandler {
      * timerTask Timer定时器
      */
     public void timerTask() {
-        logger.info("timerTask");
+        log.info("timerTask");
         Timer timer = new Timer();
-        logger.info("timerTask 添加任务数据");
+        log.info("timerTask 添加任务数据");
         CountDownLatch count = new CountDownLatch(5);
         timer.schedule(new DelayedTimerTaskEl("task-2", count), 3000L);
         timer.schedule(new DelayedTimerTaskEl("task-4", count), 1000L);
@@ -101,7 +101,7 @@ public class DelayTaskHandler {
             timer.cancel();
             timer.purge();
         } catch (InterruptedException e) {
-            logger.error("timerTask 异常", e);
+            log.error("timerTask 异常", e);
         }
     }
 
@@ -110,7 +110,7 @@ public class DelayTaskHandler {
      * ScheduledExecutorService
      */
     public void scheduledExecutor() {
-        logger.info("scheduledExecutor");
+        log.info("scheduledExecutor");
         final ScheduledExecutorService service = Executors.newScheduledThreadPool(10);
         CountDownLatch count = new CountDownLatch(5);
         service.schedule(new DelayedExecutorEl("task-2", count), 3000L, TimeUnit.MILLISECONDS);
@@ -123,7 +123,7 @@ public class DelayTaskHandler {
         try {
             count.await();
         } catch (InterruptedException e) {
-            logger.error("scheduledExecutor 异常", e);
+            log.error("scheduledExecutor 异常", e);
         }
 
 //        while (!service.isTerminated()) ;
@@ -147,9 +147,9 @@ public class DelayTaskHandler {
      * TODO 待改进验证
      */
     public void hashedWheelTimer() {
-        logger.info("hashedWheelTimer");
+        log.info("hashedWheelTimer");
         HashedWheelTimer timer = new HashedWheelTimer(1000, TimeUnit.MILLISECONDS, 8);
-        logger.info("hashedWheelTimer 添加任务数据");
+        log.info("hashedWheelTimer 添加任务数据");
         CountDownLatch count = new CountDownLatch(5);
         timer.newTimeout(new DelayedHashWheelEl("task-2", count), 3000L, TimeUnit.MILLISECONDS);
         timer.newTimeout(new DelayedHashWheelEl("task-4", count), 1000L, TimeUnit.MILLISECONDS);
@@ -161,7 +161,7 @@ public class DelayTaskHandler {
             count.await();
             timer.stop();
         } catch (InterruptedException e) {
-            logger.error("hashedWheelTimer 异常", e);
+            log.error("hashedWheelTimer 异常", e);
         }
 //        while (timer.pendingTimeouts() > 0) ;
     }

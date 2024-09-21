@@ -13,11 +13,11 @@ import org.slf4j.LoggerFactory;
  */
 public class MyHttpServerHandler extends SimpleChannelInboundHandler<Object> {
 
-    private final static Logger logger = LoggerFactory.getLogger(MyHttpServerHandler.class);
+    private final static Logger log = LoggerFactory.getLogger(MyHttpServerHandler.class);
 
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
-        logger.info("MyHttpServerHandler接收到消息:{}", msg);
+        log.info("MyHttpServerHandler接收到消息:{}", msg);
         MyHttpServer.send(ctx, NettyResponseHandler.success(msg));
     }
 }

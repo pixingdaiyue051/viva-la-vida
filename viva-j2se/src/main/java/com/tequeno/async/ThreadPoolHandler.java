@@ -1,10 +1,15 @@
 package com.tequeno.async;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.concurrent.*;
 
 public class ThreadPoolHandler {
+
+    private final static Logger log = LoggerFactory.getLogger(ThreadPoolHandler.class);
 
     /**
      * 使用future获得异步任务的返回值
@@ -51,7 +56,7 @@ public class ThreadPoolHandler {
             }
 //            Thread.currentThread().join();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("异常", e);
         } finally {
             pool.shutdown();
         }
@@ -98,7 +103,7 @@ public class ThreadPoolHandler {
             }
 //        Thread.currentThread().join();
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("异常", e);
         } finally {
             pool.shutdown();
         }
@@ -155,7 +160,7 @@ public class ThreadPoolHandler {
                 System.out.println("等待超时");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("异常", e);
         } finally {
             pool.shutdown();
         }
@@ -189,7 +194,7 @@ public class ThreadPoolHandler {
                 System.out.println("等待超时");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("异常", e);
         }
     }
 

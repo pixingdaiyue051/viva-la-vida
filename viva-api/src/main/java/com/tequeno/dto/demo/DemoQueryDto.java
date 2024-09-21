@@ -1,16 +1,16 @@
 package com.tequeno.dto.demo;
 
 import com.tequeno.constants.HtCommonQuery;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.experimental.Accessors;
 
+
+@Getter
+@Setter
+@Accessors(chain = true)
 public class DemoQueryDto extends HtCommonQuery {
 
     private String name;
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }

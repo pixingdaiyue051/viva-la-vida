@@ -20,7 +20,7 @@ import java.net.URLEncoder;
 @Component
 public class FileDownloader {
 
-    private final static Logger logger = LoggerFactory.getLogger(FileDownloader.class);
+    private final static Logger log = LoggerFactory.getLogger(FileDownloader.class);
 
     private final static String ENC = "UTF-8";
 

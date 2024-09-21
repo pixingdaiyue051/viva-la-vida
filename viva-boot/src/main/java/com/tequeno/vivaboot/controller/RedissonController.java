@@ -27,7 +27,7 @@ import java.util.stream.IntStream;
 @RequestMapping("redisson")
 public class RedissonController {
 
-    private final static Logger logger = LoggerFactory.getLogger(RedissonController.class);
+    private final static Logger log = LoggerFactory.getLogger(RedissonController.class);
 
     @Resource
     private RedissonClient redisson;
@@ -50,7 +50,7 @@ public class RedissonController {
 
         long nextId = idGenerator.nextId();
 
-        logger.info("序列号 {} {}", b, nextId);
+        log.info("序列号 {} {}", b, nextId);
         return HtResultUtil.success(nextId);
     }
 
@@ -63,12 +63,12 @@ public class RedissonController {
             RLock lock = redisson.getLock(JedisKeyPrefixEnum.LOCK.assemblyKey(key));
             boolean result = lock.tryLock(0, expire, TimeUnit.MILLISECONDS);
             if (result) {
-                logger.info("加锁成功");
+                log.info("加锁成功");
             } else {
-                logger.info("加锁失败");
+                log.info("加锁失败");
             }
         } catch (Exception e) {
-            logger.error("加锁失败", e);
+            log.error("加锁失败", e);
         }
         return HtResultUtil.success(TimeUtil.now());
     }
@@ -100,7 +100,7 @@ public class RedissonController {
         }
 
         boolean contained = bloomFilter.contains("123r");
-        logger.info("包含:{}", contained);
+        log.info("包含:{}", contained);
 
         return HtResultUtil.success(TimeUtil.now());
     }

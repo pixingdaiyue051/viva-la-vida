@@ -16,7 +16,7 @@ import java.util.List;
 @Component
 public class RocketConsumerListener implements MessageListenerConcurrently {
 
-    private final static Logger logger = LoggerFactory.getLogger(RocketConsumerListener.class);
+    private final static Logger log = LoggerFactory.getLogger(RocketConsumerListener.class);
 
 
     /**
@@ -39,15 +39,15 @@ public class RocketConsumerListener implements MessageListenerConcurrently {
                 String topic = messageExt.getTopic();
                 String tags = messageExt.getTags();
 
-                logger.info("topic:[{}],tag:[{}],body:[{}]", topic, tags, body);
-                logger.info("storeTimestamp:[{}],bornTimestamp:[{}],delay:[{}]", storeTimestamp, bornTimestamp, storeTimestamp - bornTimestamp);
+                log.info("topic:[{}],tag:[{}],body:[{}]", topic, tags, body);
+                log.info("storeTimestamp:[{}],bornTimestamp:[{}],delay:[{}]", storeTimestamp, bornTimestamp, storeTimestamp - bornTimestamp);
 
                 if (null != model.getDelay()) {
                     long currentTimeMillis = System.currentTimeMillis();
-                    logger.info("rocket 当前时间[{}],发送时间[{}],相差[{}],预设延迟[{}]", currentTimeMillis, model.getTimestamp(), currentTimeMillis - model.getTimestamp(), model.getDelay());
+                    log.info("rocket 当前时间[{}],发送时间[{}],相差[{}],预设延迟[{}]", currentTimeMillis, model.getTimestamp(), currentTimeMillis - model.getTimestamp(), model.getDelay());
                 }
             } catch (Exception e) {
-                logger.error("rocket 消息处理异常, msgId:[{}]", messageExt.getMsgId(), e);
+                log.error("rocket 消息处理异常, msgId:[{}]", messageExt.getMsgId(), e);
                 failed++;
             }
         }

@@ -1,13 +1,20 @@
-###main entry ignore###
+## dir ignore
 target/
-.classpath
-.project
-.settings
+.classpath/
+.project/
+.settings/
 .idea/
+out/
+.vscode/
+java_pid*/
+## file ignore
+*.hprof
 *.iws
 *.iml
 *.ipr
-out/
-.vscode/
-*.hprof
-java_pid*/
+*.class
+*.out
+*.exe
+*.cmd
+*.bat
+*.msi

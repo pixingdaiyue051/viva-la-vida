@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class AntiRepeatAspect {
 
-    private final static Logger logger = LoggerFactory.getLogger(AntiRepeatAspect.class);
+    private final static Logger log = LoggerFactory.getLogger(AntiRepeatAspect.class);
 
 
     @Pointcut("@annotation(com.tequeno.annos.AntiRepeatAnno)")
@@ -32,7 +32,7 @@ public class AntiRepeatAspect {
         String key = joinPoint.getSignature().getDeclaringTypeName() + joinPoint.getSignature().getName();
         String token = String.valueOf(System.currentTimeMillis());
         long expireTime = anno.expireTime();
-        logger.info("key:[{}],token[{}], expireTime:[{}]", key, token, expireTime);
+        log.info("key:[{}],token[{}], expireTime:[{}]", key, token, expireTime);
 
         JedisUtil jedisUtil = JedisUtil.getInstance();
         boolean locked = jedisUtil.luaTryLock(key, token, expireTime);

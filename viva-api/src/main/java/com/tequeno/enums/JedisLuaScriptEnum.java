@@ -1,5 +1,9 @@
 package com.tequeno.enums;
 
+
+import lombok.Getter;
+
+@Getter
 public enum JedisLuaScriptEnum {
     TRY_LOCK("luaTryLock", "/hexk/github/hey-jude/doc/lua/try_lock.lua"),
     RELEASE_LOCK("luaReleaseLock", "/hexk/github/hey-jude/doc/lua/release_lock.lua"),
@@ -13,13 +17,5 @@ public enum JedisLuaScriptEnum {
     JedisLuaScriptEnum(String scriptName, String luaFilePath) {
         this.scriptName = scriptName;
         this.luaFilePath = luaFilePath;
-    }
-
-    public String getScriptName() {
-        return scriptName;
-    }
-
-    public String getLuaFilePath() {
-        return luaFilePath;
     }
 }

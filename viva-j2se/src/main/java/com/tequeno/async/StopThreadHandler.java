@@ -1,5 +1,8 @@
 package com.tequeno.async;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Condition;
 import java.util.concurrent.locks.ReentrantLock;
@@ -8,6 +11,8 @@ import java.util.concurrent.locks.ReentrantLock;
  * t1 t2 main 按顺序先后执行完毕
  */
 public class StopThreadHandler {
+
+    private final static Logger log = LoggerFactory.getLogger(StopThreadHandler.class);
 
     /**
      * 不推荐
@@ -21,7 +26,7 @@ public class StopThreadHandler {
             try {
                 TimeUnit.MILLISECONDS.sleep(500L); // t2休眠500ms
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error("异常", e);
             }
             System.out.println("t2----");
         });
@@ -31,7 +36,7 @@ public class StopThreadHandler {
         try {
             TimeUnit.SECONDS.sleep(1L); // 主线休眠1s
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error("异常", e);
         }
         System.out.println("main----");
     }
@@ -48,7 +53,7 @@ public class StopThreadHandler {
                 try {
                     lock.wait(); // t2进入等待状态 当interrupt方法被触发时 线程被唤醒 程序会进入到catch代码块中
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    log.error("异常", e);
                 }
                 System.out.println("t2----");
                 lock.notify(); // 最后唤醒main
@@ -76,7 +81,7 @@ public class StopThreadHandler {
             try {
                 lock.wait(); // main进入等待状态 当其他线程调用了notify时被唤醒 程序不会进入catch代码块中
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error("异常", e);
             }
             System.out.println("main----");
         }
@@ -126,7 +131,7 @@ public class StopThreadHandler {
             condition.await(); // 主线程进入等待
             System.out.println("main----");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("异常", e);
         } finally {
             lock.unlock();
         }
@@ -152,7 +157,7 @@ public class StopThreadHandler {
         try {
             t2.join(); // 主线程会等t2执行完再执行
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            log.error("异常", e);
         }
         System.out.println("main----");
     }

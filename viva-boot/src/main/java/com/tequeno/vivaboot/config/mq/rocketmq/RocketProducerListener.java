@@ -11,14 +11,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class RocketProducerListener implements TransactionListener {
 
-    private final static Logger logger = LoggerFactory.getLogger(RocketProducerListener.class);
+    private final static Logger log = LoggerFactory.getLogger(RocketProducerListener.class);
 
     @Override
     public LocalTransactionState executeLocalTransaction(Message msg, Object arg) {
         try {
-            logger.info("executeLocalTransaction transactionId:[{}],[{}]", msg.getTransactionId(), arg);
+            log.info("executeLocalTransaction transactionId:[{}],[{}]", msg.getTransactionId(), arg);
         } catch (Exception e) {
-            logger.error("", e);
+            log.error("", e);
             return LocalTransactionState.ROLLBACK_MESSAGE;
         }
         return LocalTransactionState.UNKNOW;
@@ -27,9 +27,9 @@ public class RocketProducerListener implements TransactionListener {
     @Override
     public LocalTransactionState checkLocalTransaction(MessageExt msg) {
         try {
-            logger.info("checkLocalTransaction transactionId:[{}]", msg.getTransactionId());
+            log.info("checkLocalTransaction transactionId:[{}]", msg.getTransactionId());
         } catch (Exception e) {
-            logger.error("", e);
+            log.error("", e);
             return LocalTransactionState.ROLLBACK_MESSAGE;
         }
         return LocalTransactionState.COMMIT_MESSAGE;
