@@ -1,78 +1,100 @@
 package com.tequeno;
 
-import com.tequeno.classload.Employee;
-import com.tequeno.classload.TestClass;
-import com.tequeno.classload.TestEnum;
+import com.tequeno.classload.EnumHandler;
+import com.tequeno.classload.KlassHandler;
+import com.tequeno.classload.Son;
 import org.junit.Test;
-
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
 
 public class ClassLoadTest {
 
+    /**
+     * Grandpa - 静态代码块
+     * Father - 静态代码块
+     * Son - 静态代码块
+     * Son - 静态方法
+     */
     @Test
-    public void testInnerClass() throws Exception {
-//        System.out.println("爸爸的岁数:" + Son.factor);
+    public void testStaticRun() {
+        Son.staticRun();
+    }
 
-//        Book.staticFunction();
-//        Book.staticFunction();
-//        Book b = new Book();
-//        b.casualFunction();
+    /**
+     * Grandpa - 静态代码块
+     * Father - 静态代码块
+     * Son - 静态代码块
+     * Grandpa - 普通代码块
+     * Grandpa - 构造方法
+     * Father - 普通代码块
+     * Father - 构造方法
+     * Son - 普通代码块
+     * Son - 构造方法
+     * Son - 方法
+     */
+    @Test
+    public void testMethodRun() {
+        Son son = new Son();
+        son.run();
+    }
 
-//        Son son = new Son();
-//        Son.run();
+    /**
+     * KlassHandler run
+     * InnerClass run
+     * InnerStaticClass run
+     */
+    @Test
+    public void testInnerClass() {
 
-        TestClass testClass = new TestClass();
-        testClass.run();
+        KlassHandler handler = new KlassHandler();
+        handler.run();
 
-        TestClass.InnerClass ic = testClass.new InnerClass();
-        ic.run();
+        KlassHandler.InnerClass ki = handler.new InnerClass();
+        ki.run();
 
-        TestClass.InnerStaticClass c = new TestClass.InnerStaticClass();
-        c.run();
+        KlassHandler.InnerStaticClass kis = new KlassHandler.InnerStaticClass();
+        kis.run();
+    }
+
+    /**
+     * EnumHandler 普通代码块
+     * EnumHandler 构造方法
+     * EnumHandler 普通代码块
+     * EnumHandler 构造方法
+     * EnumHandler 普通代码块
+     * EnumHandler 构造方法
+     * EnumHandler 普通代码块
+     * EnumHandler 构造方法     有多少成员就会调用多少次构造方法
+     * EnumHandler 静态代码块    不论有多少成员静态方法只调用一次
+     * 01
+     * 02
+     * 03
+     * 04
+     * EnumInnerHolder 静态代码块    静态私有内部类-静态代码块有且只会调用一次 适合单例模式
+     * 壹
+     * 贰
+     * 叁
+     * 肆
+     */
+    @Test
+    public void testEnum() {
+        System.out.println(EnumHandler.ONE.getCode());
+        System.out.println(EnumHandler.TWO.getCode());
+        System.out.println(EnumHandler.THREE.getCode());
+        System.out.println(EnumHandler.FOUR.getCode());
+        System.out.println(EnumHandler.getNameByCode(EnumHandler.ONE.getCode()));
+        System.out.println(EnumHandler.getNameByCode(EnumHandler.TWO.getCode()));
+        System.out.println(EnumHandler.getNameByCode(EnumHandler.THREE.getCode()));
+        System.out.println(EnumHandler.getNameByCode(EnumHandler.FOUR.getCode()));
     }
 
     @Test
-    public void testEnum() throws Exception {
-        System.out.println(TestEnum.ONE.name());
-        System.out.println(TestEnum.ONE.ordinal());
-        System.out.println(TestEnum.fetchPrisonId("01"));
-        System.out.println(TestEnum.fetchPrisonId("02"));
-        System.out.println(TestEnum.fetchPrisonId("03"));
-        System.out.println(TestEnum.fetchPrisonId("04"));
+    public void testReflect() {
+        KlassHandler handler = new KlassHandler();
+        handler.reflect();
     }
 
     @Test
-    public void testReflect() throws Exception {
-        try {
-            Employee employee = new Employee("e1", "e2");
-            employee.seteArg1("e111");
-            employee.setArg1("111");
-
-            // 反射获取方法
-            Class<?> superclass = employee.getClass().getSuperclass();
-            Object o = superclass.newInstance();
-            Method method = superclass.getDeclaredMethod("getArg1");
-            Object invoke = method.invoke(employee);
-            System.out.println(invoke);
-            // 反射获得字段
-            Field field = superclass.getDeclaredField("arg1");
-            field.setAccessible(true);
-            Object o2 = field.get(employee);
-            System.out.println(o2);
-
-            Class<? extends Employee> aClass = employee.getClass();
-            Employee o1 = aClass.newInstance();
-            Method method1 = aClass.getDeclaredMethod("geteArg1");
-            Object invoke1 = method1.invoke(employee);
-            System.out.println(invoke1);
-
-            Field field1 = aClass.getDeclaredField("eArg1");
-            field1.setAccessible(true);
-            Object o3 = field1.get(employee);
-            System.out.println(o3);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+    public void testPath() {
+        KlassHandler handler = new KlassHandler();
+        handler.resourcePath();
     }
 }

@@ -1,6 +1,7 @@
 package com.tequeno.classload;
 
 public class Grandpa {
+
     static {
         System.out.println("Grandpa - 静态代码块");
     }

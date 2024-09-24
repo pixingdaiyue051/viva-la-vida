@@ -2,7 +2,7 @@
 <configuration scan="true" scanPeriod="60000" debug="true">
     <!-- 定义日志文件 输出位置以下是API内的默认位置 -->
     <!-- <property name="log_dir" value="/home/hadmin/data/logs/src" /> -->
-    <property name="log_dir" value="/data/logs/viva-boot" />
+    <property name="log_dir" value="/data/logs/viva-j2se" />
     <!-- 日志最大的历史 30天 -->
     <property name="maxHistory" value="30" />
     <!-- 异步输出日志最大缓冲默认256 -->
@@ -122,11 +122,6 @@
 
     <logger name="com.tequeno"/>
     <logger name="java"/>
-    <logger name="org.springframework"/>
-    <logger name="org.mybatis"/>
-    <logger name="org.apache.ibatis"/>
-    <logger name="org.apache.activemq" level="INFO"/>
-    <logger name="org.apache.rocketmq" level="INFO"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />

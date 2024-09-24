@@ -10,8 +10,17 @@
     <!-- 默认值为queueSize/5的即如果队列的80%已满,则会丢弃TRACT、DEBUG、INFO级别的日志 -->
     <!-- 为了保留所有的events，可以将这个值设置为0 -->
     <property name="discardingThreshold" value="10" />
-    <!-- 自定义日志输出格式 -->
-    <property name="pattern" value="%d{yyyy-MM-dd HH:mm:ss} %level %caller{1} - %msg%n"/>
+    <!--
+    自定义日志输出格式
+    %C  类全路径
+    %M  调用的方法
+    %L  日志输出所在行数(输出行号比较费时 不建议使用)
+    %F  类名
+    %caller 完整的调用者信息(包括了以上类型) %caller{1}读取实际调用的类信息(不建议使用)
+    %msg    日志信息
+    %n  换行
+    -->
+    <property name="pattern" value="%d{yyyy-MM-dd HH:mm:ss} %C[%M] %msg%n"/>
     <!-- 字符集编码格式 -->
     <property name="charset" value="UTF-8" />
 
@@ -22,7 +31,8 @@
             <charset>${charset}</charset>
         </encoder>
     </appender>
-    <appender name="RollingDebugFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+    <!--<appender name="RollingDebugFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${log_dir}/%d{yyyy-MM-dd}/debug-file.log</fileNamePattern>
             <maxHistory>${maxHistory}</maxHistory>
@@ -40,9 +50,10 @@
     <appender name ="AsyncDebug" class="ch.qos.logback.classic.AsyncAppender">
         <discardingThreshold>${discardingThreshold}</discardingThreshold>
         <queueSize>${queueSize}</queueSize>
-        <!-- 添加附加的appender,最多只能添加一个 -->
+        &lt;!&ndash; 添加附加的appender,最多只能添加一个 &ndash;&gt;
         <appender-ref ref ="RollingDebugFile"/>
-    </appender>
+    </appender>-->
+
     <appender name="RollingInfoFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${log_dir}/%d{yyyy-MM-dd}/info-file.log</fileNamePattern>
@@ -64,7 +75,8 @@
         <!-- 添加附加的appender,最多只能添加一个 -->
         <appender-ref ref ="RollingInfoFile"/>
     </appender>
-    <appender name="RollingWarnFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
+
+    <!--<appender name="RollingWarnFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${log_dir}/%d{yyyy-MM-dd}/warn-file.log</fileNamePattern>
             <maxHistory>${maxHistory}</maxHistory>
@@ -82,9 +94,10 @@
     <appender name ="AsyncWarn" class="ch.qos.logback.classic.AsyncAppender">
         <discardingThreshold>${discardingThreshold}</discardingThreshold>
         <queueSize>${queueSize}</queueSize>
-        <!-- 添加附加的appender,最多只能添加一个 -->
+        &lt;!&ndash; 添加附加的appender,最多只能添加一个 &ndash;&gt;
         <appender-ref ref ="RollingWarnFile"/>
-    </appender>
+    </appender>-->
+
     <appender name="RollingErrorFile" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <fileNamePattern>${log_dir}/%d{yyyy-MM-dd}/error-file.log</fileNamePattern>
@@ -107,20 +120,15 @@
         <appender-ref ref ="RollingErrorFile"/>
     </appender>
 
-
     <logger name="com.tequeno"/>
     <logger name="java"/>
     <logger name="org.springframework"/>
     <logger name="org.mybatis"/>
     <logger name="org.apache.ibatis"/>
-    <logger name="org.apache.activemq" level="INFO"/>
-    <logger name="org.apache.rocketmq" level="INFO"/>
 
     <root level="INFO">
         <appender-ref ref="STDOUT" />
-        <appender-ref ref="AsyncDebug" />
         <appender-ref ref="AsyncInfo" />
-        <appender-ref ref="AsyncWarn" />
         <appender-ref ref="AsyncError" />
     </root>
 

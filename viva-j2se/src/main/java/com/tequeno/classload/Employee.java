@@ -1,37 +1,40 @@
 package com.tequeno.classload;
 
-public class Employee extends Person {
-    private String eArg1;
-    private String eArg2;
+public class Employee {
 
-    public String geteArg1() {
-        return eArg1;
-    }
+    private String code;
 
-    public void seteArg1(String eArg1) {
-        this.eArg1 = eArg1;
-    }
+    private String name;
 
-    public String geteArg2() {
-        return eArg2;
-    }
-
-    public void seteArg2(String eArg2) {
-        this.eArg2 = eArg2;
+    public Employee(String code, String name) {
+        this.code = code;
+        this.name = name;
     }
 
     public Employee() {
     }
 
-    public Employee(String eArg1, String eArg2) {
-        super();
-        this.eArg1 = eArg1;
-        this.eArg2 = eArg2;
+    public String getCode() {
+        return code;
     }
 
-    public Employee(String arg1, String arg2, String eArg1, String eArg2) {
-        super(arg1, arg2);
-        this.eArg1 = eArg1;
-        this.eArg2 = eArg2;
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "code='" + code + '\'' +
+                ", name='" + name + '\'' +
+                '}';
     }
 }
