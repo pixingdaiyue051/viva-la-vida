@@ -123,13 +123,16 @@ public class FileTest {
 //        1790644721651707905,南乐近德固中学
 //        1790922566457786369,微山县第三实验中学
 //        1833344060043726850,濮阳市第一高级中学
+//        1850742894919045122,微山县第三中学
+
 //        1750371575276056577,内部测试
 
 
-//        handler.generateQrcode("https://jiansuotong.top:9002/h5/?schoolId=1750371575276056577&schoolname=%E6%BF%AE%E9%98%B3%E5%B8%82%E8%A5%BF%E6%B9%96%E4%B8%AD%E5%AD%A6", "h5_pysxhzx", "濮阳市西湖中学");
-//        handler.generateQrcode("https://jiansuotong.top:9002/h5?schoolId=1790644721651707905&schoolname=%E5%8D%97%E4%B9%90%E8%BF%91%E5%BE%B7%E5%9B%BA%E4%B8%AD%E5%AD%A6", "h5_nyjdgzx", "南乐近德固中学");
-//        handler.generateQrcode("https://jiansuotong.top:9002/h5/?schoolId=1790922566457786369&schoolname=%E5%BE%AE%E5%B1%B1%E5%8E%BF%E7%AC%AC%E4%B8%89%E5%AE%9E%E9%AA%8C%E4%B8%AD%E5%AD%A6", "h5_wsxdssyzx", "微山县第三实验中学");
-//        handler.generateQrcode("https://jiansuotong.top:9002/h5/?schoolId=1833344060043726850&schoolname=%E6%BF%AE%E9%98%B3%E5%B8%82%E7%AC%AC%E4%B8%80%E9%AB%98%E7%BA%A7%E4%B8%AD%E5%AD%A6", "h5_pysdygjzx", "濮阳市第一高级中学");
+        handler.generateQrcode("https://qinqingkeshi.net:9002/h5/?schoolId=1750371575276056577&schoolname=%E6%BF%AE%E9%98%B3%E5%B8%82%E8%A5%BF%E6%B9%96%E4%B8%AD%E5%AD%A6", "h5_pysxhzx", "濮阳市西湖中学");
+        handler.generateQrcode("https://qinqingkeshi.net:9002/h5?schoolId=1790644721651707905&schoolname=%E5%8D%97%E4%B9%90%E8%BF%91%E5%BE%B7%E5%9B%BA%E4%B8%AD%E5%AD%A6", "h5_nyjdgzx", "南乐近德固中学");
+        handler.generateQrcode("https://qinqingkeshi.net:9002/h5/?schoolId=1790922566457786369&schoolname=%E5%BE%AE%E5%B1%B1%E5%8E%BF%E7%AC%AC%E4%B8%89%E5%AE%9E%E9%AA%8C%E4%B8%AD%E5%AD%A6", "h5_wsxdssyzx", "微山县第三实验中学");
+        handler.generateQrcode("https://qinqingkeshi.net:9002/h5/?schoolId=1833344060043726850&schoolname=%E6%BF%AE%E9%98%B3%E5%B8%82%E7%AC%AC%E4%B8%80%E9%AB%98%E7%BA%A7%E4%B8%AD%E5%AD%A6", "h5_pysdygjzx", "濮阳市第一高级中学");
+        handler.generateQrcode("https://qinqingkeshi.net:9002/h5/?schoolId=1850742894919045122&schoolname=%E5%BE%AE%E5%B1%B1%E5%8E%BF%E7%AC%AC%E4%B8%89%E4%B8%AD%E5%AD%A6", "h5_wsxdszx", "微山县第三中学");
 
 //        handler.generateQrcode("https://jiansuotong.top:9001/h5/?schoolId=1750371575276056577&schoolname=%E5%86%85%E9%83%A8%E6%B5%8B%E8%AF%95", "h5_nbcs", "内部测试");
 

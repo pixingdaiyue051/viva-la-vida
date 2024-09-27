@@ -83,4 +83,18 @@ public class KlassHandler {
             log.error("异常", e);
         }
     }
+
+    public static void main(String[] args) {
+        String o1 = args[0];
+        if (null == o1 || o1.isEmpty()) {
+            log.info("parameter 1 is null");
+            return;
+        }
+        String o2 = args[1];
+        if (null == o2 || o2.isEmpty()) {
+            log.info("parameter 2 is null");
+            return;
+        }
+        log.info("com.tequeno.classload.KlassHandler finished");
+    }
 }
