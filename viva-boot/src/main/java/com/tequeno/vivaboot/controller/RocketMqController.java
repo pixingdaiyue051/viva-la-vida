@@ -5,8 +5,6 @@ import com.tequeno.dto.HtResultModel;
 import com.tequeno.utils.HtResultUtil;
 import com.tequeno.utils.TimeUtil;
 import com.tequeno.vivaboot.config.mq.rocketmq.RocketProducer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,8 +15,6 @@ import java.util.List;
 @RestController
 @RequestMapping("rocket")
 public class RocketMqController {
-
-    private final static Logger log = LoggerFactory.getLogger(RocketMqController.class);
 
     @Resource
     private RocketProducer producer;

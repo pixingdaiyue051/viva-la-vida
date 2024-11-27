@@ -39,7 +39,7 @@ public class NioFileSocketHandler {
 
     public void doClient(String fileName) {
         try (FileChannel fileChannel = FileChannel.open(Paths.get(fileName), StandardOpenOption.READ);
-             SocketChannel socketChannel = SocketChannel.open(new InetSocketAddress(InetConst.HOSTNAME, InetConst.NIO_SERVER_PORT))) {
+             SocketChannel socketChannel = SocketChannel.open(new InetSocketAddress(InetConst.HOST, InetConst.NIO_SERVER_PORT))) {
             ByteBuffer byteBuffer = ByteBuffer.allocate(1024);
             long read, total = 0;
             long l1 = System.currentTimeMillis();
@@ -90,7 +90,7 @@ public class NioFileSocketHandler {
      */
     public void zeroCpClient(String fileName) {
         try (FileChannel fileChannel = FileChannel.open(Paths.get(fileName), StandardOpenOption.READ);
-             SocketChannel socketChannel = SocketChannel.open(new InetSocketAddress(InetConst.HOSTNAME, InetConst.NIO_SERVER_PORT))) {
+             SocketChannel socketChannel = SocketChannel.open(new InetSocketAddress(InetConst.HOST, InetConst.NIO_SERVER_PORT))) {
             long read, total = 0;
             long l1 = System.currentTimeMillis();
 

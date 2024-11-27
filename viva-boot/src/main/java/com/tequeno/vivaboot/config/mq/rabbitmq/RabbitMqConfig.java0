@@ -2,6 +2,7 @@ package com.tequeno.vivaboot.config.mq.rabbitmq;
 
 import com.rabbitmq.client.*;
 import com.tequeno.constants.HtJmsConstant;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,9 +13,8 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 @Configuration
+@Slf4j
 public class RabbitMqConfig {
-
-    private final static Logger log = LoggerFactory.getLogger(RabbitMqConfig.class);
 
     @Value("${rabbitmq.username}")
     private String username;

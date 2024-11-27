@@ -2,22 +2,19 @@ package com.tequeno.vivaboot.config.mq.rocketmq;
 
 import com.alibaba.fastjson.JSON;
 import com.tequeno.dto.HtJmsRocketModel;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyContext;
 import org.apache.rocketmq.client.consumer.listener.ConsumeConcurrentlyStatus;
 import org.apache.rocketmq.client.consumer.listener.MessageListenerConcurrently;
 import org.apache.rocketmq.common.message.MessageExt;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @Component
+@Slf4j
 public class RocketConsumerListener implements MessageListenerConcurrently {
-
-    private final static Logger log = LoggerFactory.getLogger(RocketConsumerListener.class);
-
 
     /**
      * 并发获得队列中的消息

@@ -19,21 +19,16 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 /**
- * 服务 链接 管理
+ * ws服务 链接 管理
  */
 public class WebSocketServer {
 
-    private static WebSocketServer singleInstance = null;
+    private static final class SingletonHolder {
+        private static final WebSocketServer INSTANCE = new WebSocketServer();
+    }
 
     private static WebSocketServer getInstance() {
-        if (singleInstance == null) {
-            synchronized (WebSocketServer.class) {
-                if (singleInstance == null) {
-                    singleInstance = new WebSocketServer();
-                }
-            }
-        }
-        return singleInstance;
+        return SingletonHolder.INSTANCE;
     }
 
 

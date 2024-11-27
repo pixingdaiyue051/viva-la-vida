@@ -10,7 +10,7 @@ public final class InetConst {
 
     public final static int NIO_SERVER_PORT = 7210;
 
-    public final static String HOSTNAME = "127.0.0.1";
+    public final static String HOST = "127.0.0.1";
 
     public final static String BREAK_OUT = "110";
 

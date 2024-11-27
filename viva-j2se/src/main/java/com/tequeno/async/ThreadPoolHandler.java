@@ -208,12 +208,12 @@ public class ThreadPoolHandler {
 
         service.execute(() -> {
             System.out.print(Thread.currentThread().getName() + "----");
-            System.out.println(LocalDateTime.now().toString());
+            System.out.println(LocalDateTime.now());
         });
 
         service.schedule(() -> {
             System.out.print(Thread.currentThread().getName() + "----");
-            System.out.println(LocalDateTime.now().toString());
+            System.out.println(LocalDateTime.now());
         }, 3, TimeUnit.SECONDS);
 //
 //        service.scheduleAtFixedRate(() -> {

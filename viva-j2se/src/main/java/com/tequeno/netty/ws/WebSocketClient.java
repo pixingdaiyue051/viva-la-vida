@@ -15,19 +15,17 @@ import io.netty.handler.codec.http.websocketx.WebSocketVersion;
 
 import java.net.URI;
 
+/**
+ * ws客户端
+ */
 public class WebSocketClient {
 
-    private static WebSocketClient singleInstance = null;
+    private static final class SingletonHolder {
+        private static final WebSocketClient INSTANCE = new WebSocketClient();
+    }
 
     private static WebSocketClient getInstance() {
-        if (singleInstance == null) {
-            synchronized (WebSocketServer.class) {
-                if (singleInstance == null) {
-                    singleInstance = new WebSocketClient();
-                }
-            }
-        }
-        return singleInstance;
+        return SingletonHolder.INSTANCE;
     }
 
     /**
@@ -58,7 +56,8 @@ public class WebSocketClient {
     public void run(String host, int port) {
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
-            URI uri = new URI(String.format("ws://%s:%d/ws", host, port));
+            String wsPath = String.format("ws://%s:%d", host, port);
+            URI uri = URI.create(wsPath);
             WebSocketClientHandshaker handshaker = WebSocketClientHandshakerFactory.newHandshaker(uri, WebSocketVersion.V13, null, false, new DefaultHttpHeaders());
             WebSocketClientHandler handler = new WebSocketClientHandler(handshaker);
             WebSocketClientInitializer initializer = new WebSocketClientInitializer(handler);
@@ -89,6 +88,6 @@ public class WebSocketClient {
     }
 
     public static void main(String[] args) {
-        start("127.0.0.1", NettyConstant.PORT);
+        start(NettyConstant.HOST, NettyConstant.PORT);
     }
 }

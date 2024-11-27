@@ -4,7 +4,7 @@ public enum HtCommonErrorEnum implements HtErrorInterface {
     SUCCESS("0000", "成功"),
     FAIL("0001", "失败"),
     SYSTEM_ERROR("0003", "系统异常"),
-    COMBINE_ERROR("0004", null),
+    CUSTOM_ERROR("0009", ""),
 
     PARAMETER_NOT_EMPTY("0100", "未接收到请求参数"),
     PARAMETER_NOT_MATCHED("0101", "参数类型不匹配"),
@@ -16,7 +16,6 @@ public enum HtCommonErrorEnum implements HtErrorInterface {
     LATER_TO_RETRY("0107", "请稍候再试"),
     SIGN_NOT_FOUND("0108", "签名不存在"),
 
-    JMS_ERROR("0200", null),
     ;
     private final String code;
     private final String msg;

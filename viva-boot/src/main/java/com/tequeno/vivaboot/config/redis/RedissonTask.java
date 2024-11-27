@@ -3,16 +3,17 @@ package com.tequeno.vivaboot.config.redis;
 import com.tequeno.dto.HtJmsRedisModel;
 import com.tequeno.enums.JedisKeyPrefixEnum;
 import com.tequeno.service.IDemoService;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBlockingQueue;
 import org.redisson.api.RDelayedQueue;
 import org.redisson.api.RTopic;
 import org.redisson.api.RedissonClient;
 import org.redisson.api.listener.StatusListener;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.stereotype.Component;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import javax.annotation.Resource;
 import java.util.concurrent.TimeUnit;
 
@@ -20,9 +21,8 @@ import java.util.concurrent.TimeUnit;
  * 不依赖spring的jedis服务，单例模式 使用jedisPool支持多线程
  */
 @Component
+@Slf4j
 public class RedissonTask {
-
-    private final static Logger log = LoggerFactory.getLogger(RedissonTask.class);
 
     @Resource
     private RedissonClient redisson;
@@ -39,7 +39,9 @@ public class RedissonTask {
 
     private RTopic topic;
 
-    //    @PostConstruct
+    private boolean running;
+
+//    @PostConstruct
     public void postConstruct() {
 
 //        // 注册服务
@@ -51,21 +53,22 @@ public class RedissonTask {
         // redis延迟队列,实现消息延迟投递
         pool.execute(() -> {
             blockingQueue = redisson.getBlockingQueue(JedisKeyPrefixEnum.QUEUE.getPrefix());
-            while (true) {
+            delayedQueue = redisson.getDelayedQueue(blockingQueue);
+            running = true;
+            while (running) {
                 try {
                     HtJmsRedisModel take = blockingQueue.take();
                     long currentTimeMillis = System.currentTimeMillis();
                     log.info("redisson 当前时间[{}],发送时间[{}],相差[{}],预设延迟[{}]", currentTimeMillis, take.getTimestamp(), currentTimeMillis - take.getTimestamp(), take.getDelay());
                 } catch (InterruptedException e) {
                     log.error("redisson 获取队列任务异常", e);
-                    break;
                 }
             }
         });
 
         // redis订阅发布机制,实现消息转发分流
         pool.execute(() -> {
-            RTopic topic = redisson.getTopic(JedisKeyPrefixEnum.TOPIC.getPrefix());
+            topic = redisson.getTopic(JedisKeyPrefixEnum.TOPIC.getPrefix());
             topic.addListener(new StatusListener() {
                 @Override
                 public void onSubscribe(String channel) {
@@ -89,9 +92,6 @@ public class RedissonTask {
      * @param model
      */
     public void sendRedisDelayMsg(HtJmsRedisModel model) {
-        if (null == delayedQueue) {
-            delayedQueue = redisson.getDelayedQueue(blockingQueue);
-        }
         pool.execute(() -> {
             model.setTimestamp(System.currentTimeMillis());
             delayedQueue.offer(model, model.getDelay(), TimeUnit.MILLISECONDS);
@@ -104,12 +104,14 @@ public class RedissonTask {
      * @param model
      */
     public void publishRedisMsg(HtJmsRedisModel model) {
-        if (null == topic) {
-            topic = redisson.getTopic(JedisKeyPrefixEnum.TOPIC.getPrefix());
-        }
         pool.execute(() -> {
             model.setTimestamp(System.currentTimeMillis());
             topic.publish(model);
         });
+    }
+
+//    @PreDestroy
+    public void preDestroy() {
+        running = false;
     }
 }

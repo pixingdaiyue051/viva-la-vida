@@ -1,10 +1,9 @@
 package com.tequeno.vivaboot.config.mq.rocketmq;
 
 import com.tequeno.constants.HtJmsConstant;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.client.producer.TransactionMQProducer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,9 +19,8 @@ import java.util.concurrent.Executors;
  * 创建topic      mqadmin updateTopic -b 127.0.0.1:10911 -t r_topic -a +message.type=NORMAL
  */
 @Configuration
+@Slf4j
 public class RocketMqConfig {
-
-    private final static Logger log = LoggerFactory.getLogger(RocketMqConfig.class);
 
     @Value("${rocketmq.adder}")
     private String adder;

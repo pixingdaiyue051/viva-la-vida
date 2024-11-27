@@ -20,6 +20,9 @@ public class HtCommonQuery {
     }
 
     public long getOffset() {
+        if (pageNum < 2) {
+            return 0;
+        }
         return (pageNum - 1) * pageSize;
     }
 }

@@ -19,7 +19,7 @@ public class TCPFileSocketHandler {
      */
     public void doClient(String path) {
         File file = new File(path);
-        try (Socket socket = new Socket(InetConst.HOSTNAME, InetConst.SERVER_PORT);
+        try (Socket socket = new Socket(InetConst.HOST, InetConst.SERVER_PORT);
              FileInputStream fis = new FileInputStream(file);
              // 输出流传输文件名
              DataOutputStream dos = new DataOutputStream(socket.getOutputStream());

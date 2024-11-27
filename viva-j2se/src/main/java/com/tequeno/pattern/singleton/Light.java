@@ -2,44 +2,18 @@ package com.tequeno.pattern.singleton;
 
 public class Light {
 
-    private final long C = 299792458L;
-
-    private long length;
-
-    private long frequency;
-
-    public long getLength() {
-        return length;
-    }
-
-    public void setLength(long length) {
-        this.length = length;
-    }
-
-    public long getFrequency() {
-        return frequency;
-    }
-
-    public void setFrequency(long frequency) {
-        this.frequency = frequency;
-    }
+    public final static long C = 299792458L; // 光速常量
 
     public Light() {
         System.out.println("Light");
     }
 
-    public static Light getInstance() {
-        return LightHolder.INSTANCE;
+    public double length(long frequency) {
+        return C * 1.0 / frequency;
     }
 
-    private static class LightHolder {
-
-        private static final Light INSTANCE;
-
-        static {
-            System.out.println("LightHolder static");
-            INSTANCE = new Light();
-        }
+    public double frequency(long length) {
+        return C * 1.0 / length;
     }
 
 }

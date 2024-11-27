@@ -1,32 +1,29 @@
 package com.tequeno.pattern.singleton;
 
-/**
- * 适合非懒加载模式下
- */
 public class LightHandler {
 
-    private final static Light INSTANCE = new Light();
-
-    /**
-     * 方案一
-     * 饿汉式 需要先声明一个静态对象
-     * 可以防止多线程数据共享问题
-     * 但 INSTANCE 未被使用而先创建
-     *
-     * @return
-     */
-    @Deprecated
-    public static Light getInstance1() {
-        System.out.println("getInstance1");
-        return INSTANCE;
-    }
+//    private final static Light INSTANCE = new Light();
+//
+//    /**
+//     * 方案一
+//     * 需要先声明一个静态对象
+//     * 可以防止多线程数据共享问题
+//     * 但 INSTANCE 未被使用而先创建
+//     *
+//     * @return
+//     */
+//    @Deprecated
+//    public static Light getInstance1() {
+//        System.out.println("getInstance1");
+//        return INSTANCE;
+//    }
 
 
     private static Light s;
 
     /**
      * 方案二
-     * 懒汉式  先声明一个空对象
+     * 先声明一个空对象
      * 存在线程共享数据出错问题
      *
      * @return
@@ -56,8 +53,7 @@ public class LightHandler {
     }
 
     /**
-     * 方案四
-     * 在方案二基础上加上同步锁
+     * 方案四 同方案三
      *
      * @return
      */
@@ -74,7 +70,6 @@ public class LightHandler {
 
     /**
      * 方案五
-     * 懒汉式 推荐使用
      * 使用双重校验锁(DCL)解决多线程下同步锁耗资源问题
      * 实际测试当线程量过多时并不一定能防止并发(几率很小)
      *
@@ -95,7 +90,6 @@ public class LightHandler {
         return s;
     }
 
-
     /**
      * 方案六
      * 懒汉式 推荐使用
@@ -105,6 +99,10 @@ public class LightHandler {
      * @return
      */
     public static Light getInstance6() {
-        return Light.getInstance();
+        return LightInnerHandler.INSTANCE;
+    }
+
+    private static class LightInnerHandler {
+        private static final Light INSTANCE = new Light();
     }
 }

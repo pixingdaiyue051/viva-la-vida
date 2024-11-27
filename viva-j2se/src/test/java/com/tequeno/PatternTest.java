@@ -12,7 +12,6 @@ import com.tequeno.pattern.strategy.MullardDuck;
 import org.junit.Test;
 
 import java.time.LocalDateTime;
-import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -81,22 +80,17 @@ public class PatternTest {
     public void testSingleton() {
         ExecutorService pool = Executors.newCachedThreadPool();
 
-        int size = 200;
+        int size = 1000;
 
-        CountDownLatch cd = new CountDownLatch(size);
         for (int i = 0; i < size; i++) {
-            pool.execute(() -> {
-                LightHandler.getInstance5();
-                cd.countDown();
-            });
+//            pool.execute(LightHandler::getInstance2);
+//            pool.execute(LightHandler::getInstance3);
+//            pool.execute(LightHandler::getInstance4);
+            pool.execute(LightHandler::getInstance5);
+//            pool.execute(LightHandler::getInstance6);
         }
 
         pool.shutdown();
-        try {
-            cd.await();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     @Test

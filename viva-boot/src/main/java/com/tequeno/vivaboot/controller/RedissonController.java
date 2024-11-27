@@ -7,12 +7,11 @@ import com.tequeno.utils.HtCommonMethodUtil;
 import com.tequeno.utils.HtResultUtil;
 import com.tequeno.utils.TimeUtil;
 import com.tequeno.vivaboot.config.redis.RedissonTask;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RBloomFilter;
 import org.redisson.api.RIdGenerator;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,9 +24,8 @@ import java.util.stream.IntStream;
 
 @RestController
 @RequestMapping("redisson")
+@Slf4j
 public class RedissonController {
-
-    private final static Logger log = LoggerFactory.getLogger(RedissonController.class);
 
     @Resource
     private RedissonClient redisson;

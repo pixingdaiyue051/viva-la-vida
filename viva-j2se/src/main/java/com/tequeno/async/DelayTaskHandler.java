@@ -49,7 +49,6 @@ public class DelayTaskHandler {
                     log.info("{}执行任务{}", Thread.currentThread().getName(), entry.getKey());
                     // 删除任务
                     it.remove();
-                    log.info("剩余任务数:{}", taskMap.size());
                 }
             }
         } while (!taskMap.isEmpty());
@@ -73,7 +72,6 @@ public class DelayTaskHandler {
             try {
                 final DelayedQueueEl taken = dq.take();
                 log.info("{}执行任务{}", Thread.currentThread().getName(), taken.getName());
-                log.info("剩余任务数:{}", dq.size());
             } catch (InterruptedException e) {
                 log.error("delayedQueue 异常", e);
             }

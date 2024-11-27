@@ -4,16 +4,14 @@ import com.tequeno.dto.HtResultModel;
 import com.tequeno.utils.HtResultUtil;
 import com.tequeno.utils.TimeUtil;
 import com.tequeno.vivaboot.config.redis.JedisUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("jedis")
+@Slf4j
 public class JedisController {
-
-    private final static Logger log = LoggerFactory.getLogger(JedisController.class);
 
     @RequestMapping("seq")
     public HtResultModel seq() {

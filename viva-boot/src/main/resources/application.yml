@@ -27,10 +27,8 @@ spring:
     url: jdbc:sqlite:/plugin/sqlite-x64/test.db
 # redis
 redis:
-#  host: 127.0.0.1
-#  password: d40df8
-  host: temp-out.redis.rds.aliyuncs.com
-  password: u1f3%yuaUSlbwICLz6Is
+  host: 127.0.0.1
+  password: d40df8
   port: 6379
   database: 0
   timeout: 10000
@@ -71,8 +69,5 @@ rabbitmq:
   host: 127.0.0.1
   port: 5672
   virtualHost: v_host_1
-file:
-  upload: /data/upload/
-  template: /data/template/
 #启动参数
 #-Dspring.config.location=/data/deploy/viva-boot/

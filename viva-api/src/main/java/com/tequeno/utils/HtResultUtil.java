@@ -6,34 +6,32 @@ import com.tequeno.enums.HtErrorInterface;
 
 public class HtResultUtil {
 
-    public static HtResultModel success(HtErrorInterface errorImpl, Object data) {
-        return success(errorImpl).setData(data);
-    }
-
-    public static HtResultModel success(HtErrorInterface errorImpl) {
+    public static HtResultModel success(String msg, Object data) {
         return new HtResultModel()
                 .setSuccess(true)
-                .setCode(errorImpl.getCode())
-                .setMsg(errorImpl.getMsg());
+                .setCode(HtCommonErrorEnum.SUCCESS.getCode())
+                .setMsg(msg)
+                .setData(data);
     }
 
     public static HtResultModel success(Object data) {
-        return success(HtCommonErrorEnum.SUCCESS, data);
+        return success(HtCommonErrorEnum.SUCCESS.getMsg(), data);
     }
 
     public static HtResultModel success() {
-        return success(HtCommonErrorEnum.SUCCESS);
+        return success(true);
     }
 
     public static HtResultModel fail(HtErrorInterface errorImpl) {
         return new HtResultModel()
                 .setSuccess(false)
                 .setCode(errorImpl.getCode())
-                .setMsg(errorImpl.getMsg());
+                .setMsg(errorImpl.getMsg())
+                .setData(false);
     }
 
     public static HtResultModel fail(String errorMsg) {
-        return fail().setMsg(errorMsg);
+        return fail(HtCommonErrorEnum.CUSTOM_ERROR).setMsg(errorMsg);
     }
 
     public static HtResultModel fail() {

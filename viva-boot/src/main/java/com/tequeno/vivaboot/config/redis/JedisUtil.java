@@ -7,8 +7,7 @@ import com.tequeno.enums.JedisKeyPrefixEnum;
 import com.tequeno.enums.JedisLockTimeEnum;
 import com.tequeno.enums.JedisLuaScriptEnum;
 import com.tequeno.utils.TimeUtil;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
@@ -25,9 +24,8 @@ import java.util.stream.Collectors;
 /**
  * 不依赖spring的jedis服务，单例模式 使用jedisPool支持多线程
  */
+@Slf4j
 public class JedisUtil {
-
-    private final static Logger log = LoggerFactory.getLogger(JedisUtil.class);
 
     private JedisPool jedisPool;
 
@@ -104,7 +102,7 @@ public class JedisUtil {
     }
 
     public static JedisUtil getInstance() {
-        return JedisUtil.JedisUtilHolder.INSTANCE;
+        return JedisUtilHolder.INSTANCE;
     }
 
     public Jedis getJedis() {

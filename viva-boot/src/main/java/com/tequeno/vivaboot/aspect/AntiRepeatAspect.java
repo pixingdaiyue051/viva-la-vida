@@ -4,12 +4,11 @@ import com.tequeno.annos.AntiRepeatAnno;
 import com.tequeno.dto.HtCommonException;
 import com.tequeno.enums.HtCommonErrorEnum;
 import com.tequeno.vivaboot.config.redis.JedisUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 /**
@@ -17,10 +16,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Aspect
+@Slf4j
 public class AntiRepeatAspect {
-
-    private final static Logger log = LoggerFactory.getLogger(AntiRepeatAspect.class);
-
 
     @Pointcut("@annotation(com.tequeno.annos.AntiRepeatAnno)")
     public void aspect() {

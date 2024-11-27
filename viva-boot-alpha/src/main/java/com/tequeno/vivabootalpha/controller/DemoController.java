@@ -7,10 +7,9 @@ import com.tequeno.dto.demo.DemoQueryDto;
 import com.tequeno.enums.JedisKeyPrefixEnum;
 import com.tequeno.service.IDemoService;
 import com.tequeno.utils.HtResultUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RRemoteService;
 import org.redisson.api.RedissonClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -19,9 +18,8 @@ import java.util.concurrent.TimeUnit;
 
 @RestController
 @RequestMapping("demo")
+@Slf4j
 public class DemoController {
-
-    private final static Logger log = LoggerFactory.getLogger(DemoController.class);
 
     @Resource
     private RedissonClient redisson;

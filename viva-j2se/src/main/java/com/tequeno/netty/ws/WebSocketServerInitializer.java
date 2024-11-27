@@ -20,7 +20,7 @@ public class WebSocketServerInitializer extends ChannelInitializer<SocketChannel
         // http数据是分段传输的 所以需要使用整个数据聚合器 2<<17=(2^8)*(2^1024)=128K 表示消息聚合时每片分段最大的字节数
         pipeline.addLast(new HttpObjectAggregator(2 << 17));
         // websocket数据以数据帧(frame)形式传输 2<<24=2^25=(2^5)*(2^10)*(2^10)=32M 表示一次传输过程最大可接收的字节数
-        pipeline.addLast(new WebSocketServerProtocolHandler("/ws", null, false, 2 << 24));
+        pipeline.addLast(new WebSocketServerProtocolHandler("/", null, false, 2 << 24));
         pipeline.addLast(new WebSocketServerEncoder());
         pipeline.addLast(new WebSocketServerDecoder());
         // 空闲状态处理器 会将空闲状态传输到pipeline中的下一个handler交由其userEventTrigger方法处理

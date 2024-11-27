@@ -1,17 +1,15 @@
 package com.tequeno.vivaboot.config.mq.rocketmq;
 
+import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.LocalTransactionState;
 import org.apache.rocketmq.client.producer.TransactionListener;
 import org.apache.rocketmq.common.message.Message;
 import org.apache.rocketmq.common.message.MessageExt;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class RocketProducerListener implements TransactionListener {
-
-    private final static Logger log = LoggerFactory.getLogger(RocketProducerListener.class);
 
     @Override
     public LocalTransactionState executeLocalTransaction(Message msg, Object arg) {

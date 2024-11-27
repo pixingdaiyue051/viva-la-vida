@@ -118,7 +118,7 @@ public class NioSocketHandler {
         try (SocketChannel channel = SocketChannel.open();
              Scanner in = new Scanner(System.in)) {
             // 连接到服务器
-            boolean connected = channel.connect(new InetSocketAddress(InetConst.HOSTNAME, InetConst.NIO_SERVER_PORT));
+            boolean connected = channel.connect(new InetSocketAddress(InetConst.HOST, InetConst.NIO_SERVER_PORT));
             // 设置为非阻塞
             channel.configureBlocking(false);
             // 没有连接上服务器

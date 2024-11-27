@@ -12,8 +12,6 @@ import com.tequeno.vivaboot.dao.DemoMapper;
 import com.tequeno.vivaboot.entity.Demo;
 import org.apache.commons.lang3.StringUtils;
 import org.mapstruct.factory.Mappers;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -21,8 +19,6 @@ import java.util.List;
 
 @Service
 public class DemoService implements IDemoService {
-
-    private final static Logger log = LoggerFactory.getLogger(DemoService.class);
 
     private final static DemoConverter converter = Mappers.getMapper(DemoConverter.class);
 

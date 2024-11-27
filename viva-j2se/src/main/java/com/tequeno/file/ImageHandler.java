@@ -74,24 +74,21 @@ public class ImageHandler {
     }
 
     public String urlToBase64(String urlPath) {
-        URLConnection connection = null;
         try {
             URL url = new URL(urlPath);
-            connection = url.openConnection();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+            URLConnection connection = url.openConnection();
 
-        try (InputStream is = connection.getInputStream();
+            try (InputStream is = connection.getInputStream();
 //             FileOutputStream fos = new FileOutputStream(DIR + System.currentTimeMillis() + "." + SUFFIX);
-             ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
-            byte[] bytes = new byte[1024];
-            int len;
-            while ((len = is.read(bytes)) > 0) {
+                 ByteArrayOutputStream bos = new ByteArrayOutputStream()) {
+                byte[] bytes = new byte[1024];
+                int len;
+                while ((len = is.read(bytes)) > 0) {
 //                fos.write(bytes, 0, len);
-                bos.write(bytes, 0, len);
+                    bos.write(bytes, 0, len);
+                }
+                return Base64.getEncoder().encodeToString(bos.toByteArray());
             }
-            return Base64.getEncoder().encodeToString(bos.toByteArray());
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -150,7 +147,7 @@ public class ImageHandler {
             output.close();
             writer.dispose();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 }

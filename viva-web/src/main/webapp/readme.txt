@@ -1,0 +1,2 @@
+servlet3.0开始web.xml不再是servlet配置必须项
+但是webapp文件夹必须有 可以没有任何文件
