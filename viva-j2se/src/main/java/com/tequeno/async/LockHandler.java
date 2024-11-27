@@ -18,24 +18,25 @@ public class LockHandler {
     final Condition condition = lock.newCondition();
 
     /**
-     * 模拟多线程竞争进入同一个方法
+     * 防重复提交
      */
-    public void multiAct() {
+    public void repeatedACt() {
         final ExecutorService pool = Executors.newCachedThreadPool();
-        IntStream.range(0, 10)
-                .forEach(i -> pool.execute(this::mockAcquire));
+        IntStream.range(0, 100).forEach(i -> pool.execute(this::run0));
         pool.shutdown();
     }
 
-    private void mockAcquire() {
+    private void run0() {
         if (!lock.tryLock()) {
+            log.info("线程[{}]加锁失败", Thread.currentThread().getName());
             return;
         }
         try {
-            // 模拟执行任务需要的时间
-            long delay = 3L;
-            log.info("线程[{}]模拟等待{}s", Thread.currentThread().getName(), delay);
-            TimeUnit.SECONDS.sleep(delay);
+            log.info("线程[{}]获得锁", Thread.currentThread().getName());
+//            // 模拟执行任务需要的时间
+//            long delay = 3L;
+//            log.info("线程[{}]模拟等待{}s", Thread.currentThread().getName(), delay);
+//            TimeUnit.SECONDS.sleep(delay);
         } catch (Exception e) {
             log.error("异常", e);
         } finally {

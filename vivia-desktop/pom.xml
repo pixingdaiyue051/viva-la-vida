@@ -16,6 +16,7 @@
         <maven.jar.plugin>3.0.2</maven.jar.plugin>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <junit.version>4.11</junit.version>
         <openjfx.version>17.0.12</openjfx.version>
     </properties>
 
@@ -23,7 +24,7 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.11</version>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
@@ -42,6 +43,7 @@
 
     <build>
         <finalName>vivia-desktop</finalName>
+
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

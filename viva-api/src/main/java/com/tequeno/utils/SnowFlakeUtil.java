@@ -4,15 +4,11 @@ package com.tequeno.utils;
 public class SnowFlakeUtil {
 
     private final static class SnowFlakeHolder {
-        private final static SnowFlakeUtil INSTANCE;
-
-        static {
-            INSTANCE = new SnowFlakeUtil(1, 1);
-        }
+        private final static SnowFlakeUtil INSTANCE = new SnowFlakeUtil(1, 1);
     }
 
     public static long nextId() {
-        return SnowFlakeHolder.INSTANCE.nextId1();
+        return SnowFlakeHolder.INSTANCE.nextId0();
     }
 
     /**
@@ -62,7 +58,7 @@ public class SnowFlakeUtil {
      *
      * @return
      */
-    private synchronized long nextId1() {
+    private synchronized long nextId0() {
         long currStmp = getCurrentTime();
         if (currStmp < last) {
             throw new RuntimeException("Clock moved backwards.  Refusing to generate id");
