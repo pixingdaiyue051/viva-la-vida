@@ -23,14 +23,14 @@ public class FileTest {
     public void testBigfile() {
         BigfileWriter bigfileWriter = new BigfileWriter();
 
-        String filePath = "/data/1/bigfile.dat";
+        String filePath = "/data/doc/bigfile.dat";
         File file = bigfileWriter.prepareFile(filePath);
-//        bigfileWriter.generateData(file);
+        bigfileWriter.generateData(file);
 
-        BigfileReader reader = new BigfileReader();
+//        BigfileReader reader = new BigfileReader();
 //        reader.singleRead(file);
 //        reader.threadRead(file);
-        reader.threadReadPlus(file);
+//        reader.threadReadPlus(file);
     }
 
     @Test
@@ -112,11 +112,16 @@ public class FileTest {
 
     @Test
     public void testZip() {
-        List<File> fileList = new ArrayList<>();
-        fileList.add(new File("/data/pic/5639395138950405.jpg"));
-        fileList.add(new File("/data/pic/6668538023345750.jpg"));
-        fileList.add(new File("/data/pic/16575137789103803.jpg"));
-        new ZipHandler().toZip(fileList, "/data/pic/pink_floyd2.zip");
+        ZipHandler zipHandler = new ZipHandler();
+
+        List<File> fileList = List.of(
+                new File("/data/pic/1732678837581.jpg"),
+                new File("/data/pic/h5_lqxpfzzxx.jpg"),
+                new File("/data/pic/icon-moon.png")
+        );
+        zipHandler.toZip(fileList, "/data/doc/test.zip");
+
+        zipHandler.unzip("/data/doc/test.zip", "/data/doc");
     }
 
     @Test
