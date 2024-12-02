@@ -182,10 +182,13 @@ public class QrcodeHandler {
      * @param text       底部文字
      */
     public void generateQrcode(String content, String qrcodeName, String text) {
-        try (FileOutputStream output = new FileOutputStream(DIR + qrcodeName + "." + SUFFIX)) {
+        try (FileOutputStream output = new FileOutputStream(DIR + qrcodeName + "." + SUFFIX);
+//             ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        ) {
             BufferedImage image = this.generate(content);
             insertText(image, text);
             ImageIO.write(image, SUFFIX, output);
+//            ImageIO.write(image, SUFFIX, bos);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -229,6 +232,6 @@ public class QrcodeHandler {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return null;
+        return "";
     }
 }

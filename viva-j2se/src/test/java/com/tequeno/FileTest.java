@@ -1,9 +1,6 @@
 package com.tequeno;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.zxing.qrcode.decoder.QRCodeDecoderMetaData;
 import com.tequeno.algorithm.EvaluateHandler;
 import com.tequeno.file.*;
 import org.jfree.chart.ChartFactory;
@@ -14,8 +11,9 @@ import java.awt.*;
 import java.io.File;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FileTest {
 
@@ -23,14 +21,14 @@ public class FileTest {
     public void testBigfile() {
         BigfileWriter bigfileWriter = new BigfileWriter();
 
-        String filePath = "/data/1/bigfile.dat";
+        String filePath = "/data/doc/bigfile.dat";
         File file = bigfileWriter.prepareFile(filePath);
-//        bigfileWriter.generateData(file);
+        bigfileWriter.generateData(file);
 
-        BigfileReader reader = new BigfileReader();
+//        BigfileReader reader = new BigfileReader();
 //        reader.singleRead(file);
 //        reader.threadRead(file);
-        reader.threadReadPlus(file);
+//        reader.threadReadPlus(file);
     }
 
     @Test
@@ -112,11 +110,16 @@ public class FileTest {
 
     @Test
     public void testZip() {
-        List<File> fileList = new ArrayList<>();
-        fileList.add(new File("/data/pic/5639395138950405.jpg"));
-        fileList.add(new File("/data/pic/6668538023345750.jpg"));
-        fileList.add(new File("/data/pic/16575137789103803.jpg"));
-        new ZipHandler().toZip(fileList, "/data/pic/pink_floyd2.zip");
+        ZipHandler zipHandler = new ZipHandler();
+
+        List<File> fileList = List.of(
+                new File("/data/pic/1732678837581.jpg"),
+                new File("/data/pic/h5_lqxpfzzxx.jpg"),
+                new File("/data/pic/icon-moon.png")
+        );
+        zipHandler.toZip(fileList, "/data/doc/test.zip");
+
+        zipHandler.unzip("/data/doc/test.zip", "/data/doc");
     }
 
     @Test
@@ -132,12 +135,13 @@ public class FileTest {
                 "1833344060043726850", "濮阳市第一高级中学",
                 "1850742894919045122", "微山县第三中学",
                 "1851943531652521985", "临泉县临化中学",
-                "1853984948801400834", "临泉县鹏飞中专学校"
+                "1853984948801400834", "临泉县鹏飞中专学校",
+                "1864602619888758786", "微县山第二实验中学"
         );
         String urlPattern = "https://qinqingkeshi.net:9002/h5/?schoolId=%s&schoolname=%s";
         EvaluateHandler evaluateHandler = new EvaluateHandler();
 
-        map.forEach((k,v) -> {
+        map.forEach((k, v) -> {
             String tmpName = URLEncoder.encode(v, StandardCharsets.UTF_8);
             String url = String.format(urlPattern, k, tmpName);
             String qrcodeName = "h5_" + evaluateHandler.to1stPinyin(v);
@@ -155,5 +159,13 @@ public class FileTest {
 //        handler.fileOutChannel("/data/doc/1.txt");
 //        handler.fileInChannel("/data/doc/1.txt");
         handler.fileTransfer("/data/doc/1.txt", "/data/doc/2.txt");
+    }
+
+    @Test
+    public void testSerialize() {
+        SerializeHandler handler = new SerializeHandler();
+//        handler.load();
+
+        handler.read();
     }
 }

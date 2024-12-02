@@ -19,9 +19,7 @@ public class StopThreadHandler {
      */
     public void sleepTest() {
 
-        Thread t1 = new Thread(() -> {
-            System.out.println("t1----"); // t1立刻执行
-        });
+        Thread t1 = new Thread(() -> System.out.println("t1----")); // t1立刻执行
         Thread t2 = new Thread(() -> {
             try {
                 TimeUnit.MILLISECONDS.sleep(500L); // t2休眠500ms
@@ -65,7 +63,7 @@ public class StopThreadHandler {
                 try {
                     lock.wait(); // t1进入等待状态 当interrupt方法被触发时 线程被唤醒 程序会进入到catch代码块中
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    log.error("异常", e);
                 }
                 System.out.println("t1----");
                 t2.interrupt(); // 最后唤醒t2
@@ -102,9 +100,8 @@ public class StopThreadHandler {
                 condition.await();
                 System.out.println("t2----");
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("异常", e);
             } finally {
-                condition.signal();
                 lock.unlock();
             }
         });
@@ -112,19 +109,18 @@ public class StopThreadHandler {
         Thread t1 = new Thread(() -> {
             lock.lock();
             try {
-                condition.await();
                 System.out.println("t1----");
+                condition.await();
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("异常", e);
             } finally {
-                condition.signal();
                 lock.unlock();
             }
         });
         t1.start();
         t2.start();
 
-        condition.signal();
+
 
         lock.lock();
         try {
@@ -147,7 +143,7 @@ public class StopThreadHandler {
             try {
                 t1.join(); // 当前线程t2会等到t1执行完再执行
             } catch (InterruptedException e) {
-                e.printStackTrace();
+                log.error("异常", e);
             }
             System.out.println("t2----");
         });

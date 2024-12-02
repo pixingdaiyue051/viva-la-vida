@@ -8,16 +8,26 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.experimental.Accessors;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Setter
 @Accessors(chain = true)
-@TableName("demo")
-public class Demo {
+@TableName("dept")
+public class Dept {
 
     @TableId(value = "id", type = IdType.ASSIGN_ID)
     private Long id;
 
+    @TableField("no")
+    private String no;
+
     @TableField("name")
     private String name;
 
+    @TableField("status")
+    private Integer status;
+
+    @TableField("create_time")
+    private LocalDateTime createTime;
 }

@@ -13,9 +13,9 @@ public class AsyncTest {
     public void testDelay() {
         DelayTaskHandler test = new DelayTaskHandler();
 //        test.infiniteLoop();
-        test.delayedQueue();
+//        test.delayedQueue();
 //        test.timerTask();
-//        test.scheduledExecutor();
+        test.scheduledExecutor();
 //        test.hashedWheelTimer();
     }
 
@@ -36,9 +36,19 @@ public class AsyncTest {
     }
 
     @Test
+    public void testTurn() {
+        TakeTurnHandler f = new TakeTurnHandler();
+//        f.foobar(5);
+        f.alphaNum();
+    }
+
+    @Test
     public void testThread() {
         StopThreadHandler stopThreadHandler = new StopThreadHandler();
-        stopThreadHandler.joinTest();
+//        stopThreadHandler.sleepTest();
+//        stopThreadHandler.waitTest();
+        stopThreadHandler.signalTest();
+//        stopThreadHandler.joinTest();
     }
 
     @Test

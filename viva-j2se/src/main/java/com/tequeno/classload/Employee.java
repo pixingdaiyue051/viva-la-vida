@@ -1,6 +1,10 @@
 package com.tequeno.classload;
 
-public class Employee implements Cloneable {
+import java.io.Serializable;
+
+public class Employee implements Cloneable, Serializable {
+
+    private static final long serialVersionUID = -964006772992763963L;
 
     private int param1;
 
