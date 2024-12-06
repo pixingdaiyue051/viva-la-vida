@@ -1,9 +1,6 @@
 package com.tequeno;
 
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.ImmutableSet;
-import com.google.zxing.qrcode.decoder.QRCodeDecoderMetaData;
 import com.tequeno.algorithm.EvaluateHandler;
 import com.tequeno.file.*;
 import org.jfree.chart.ChartFactory;
@@ -14,8 +11,9 @@ import java.awt.*;
 import java.io.File;
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class FileTest {
 
@@ -142,7 +140,7 @@ public class FileTest {
         String urlPattern = "https://qinqingkeshi.net:9002/h5/?schoolId=%s&schoolname=%s";
         EvaluateHandler evaluateHandler = new EvaluateHandler();
 
-        map.forEach((k,v) -> {
+        map.forEach((k, v) -> {
             String tmpName = URLEncoder.encode(v, StandardCharsets.UTF_8);
             String url = String.format(urlPattern, k, tmpName);
             String qrcodeName = "h5_" + evaluateHandler.to1stPinyin(v);
@@ -160,5 +158,13 @@ public class FileTest {
 //        handler.fileOutChannel("/data/doc/1.txt");
 //        handler.fileInChannel("/data/doc/1.txt");
         handler.fileTransfer("/data/doc/1.txt", "/data/doc/2.txt");
+    }
+
+    @Test
+    public void testSerialize() {
+        SerializeHandler handler = new SerializeHandler();
+//        handler.load();
+
+        handler.read();
     }
 }
