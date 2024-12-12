@@ -23,19 +23,4 @@ public class EmpController {
         HtCommonPage<EmpDetailDto> page = empService.queryPage(dto);
         return HtResultUtil.success(page);
     }
-
-    @RequestMapping("queryPage")
-    public HtResultModel page(int start, int size) {
-        EmpQueryDto query = new EmpQueryDto();
-        query.setPageNum(start);
-        query.setPageSize(size);
-        HtCommonPage<EmpDetailDto> page = empService.queryPage(query);
-        return HtResultUtil.success(page);
-    }
-
-//    @RequestMapping("generate")
-//    public HtResultModel generate(int start) {
-//        empService.generate(start);
-//        return HtResultUtil.success();
-//    }
 }

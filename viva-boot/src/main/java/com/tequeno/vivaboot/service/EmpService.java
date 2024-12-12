@@ -57,13 +57,4 @@ public class EmpService {
         return page;
     }
 
-    public void generate(int start) {
-        EmpGenerator eg = new EmpGenerator(start);
-        for (int i = 0; i < 1000; i++) {
-            Emp next = eg.next();
-            System.out.println(next);
-            empMapper.insert(next);
-        }
-    }
-
 }
