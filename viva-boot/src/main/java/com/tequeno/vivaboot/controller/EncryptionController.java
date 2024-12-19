@@ -6,7 +6,6 @@ import com.tequeno.utils.HtResultUtil;
 import com.tequeno.utils.RsaUtil;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.HashMap;
@@ -46,7 +45,7 @@ public class EncryptionController {
     }
 
     @RequestMapping("exchange")
-    public HtResultModel exchange(@RequestParam String publicKey) {
+    public HtResultModel exchange(String publicKey) {
         Map<String, String> keyMap = RsaUtil.genKeyPair();
         keyMap.put(RsaUtil.JS_PUBLIC_KEY, publicKey);
         return HtResultUtil.success(keyMap.get(RsaUtil.PUBLIC_KEY));

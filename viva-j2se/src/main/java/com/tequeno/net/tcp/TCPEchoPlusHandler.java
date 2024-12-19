@@ -20,7 +20,7 @@ public class TCPEchoPlusHandler {
      * 建立socket客户端同时会创建输入输出流 使用输出流向服务端发送数据 使用输入流获取服务端传输的数据
      */
     public void doClient() {
-        try (Socket socket = new Socket(InetConst.HOSTNAME, InetConst.SERVER_PORT);
+        try (Socket socket = new Socket(InetConst.HOST, InetConst.SERVER_PORT);
              // 1.获得键盘输入流
              Scanner scan = new Scanner(System.in);
              // 2.获得socket输出流，向服务端发送数据

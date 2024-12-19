@@ -5,9 +5,8 @@ import com.tequeno.utils.HtResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.commons.CommonsMultipartFile;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -27,7 +26,7 @@ public class FileController {
     private FileDownloader fileDownloader;
 
     @RequestMapping("upload/single")
-    public HtResultModel uploadSingle(@RequestParam("file") CommonsMultipartFile file) {
+    public HtResultModel uploadSingle(MultipartFile file) {
         try {
             String out = fileUploader.upload(file);
             return HtResultUtil.success(out);
@@ -38,7 +37,7 @@ public class FileController {
     }
 
     @RequestMapping("upload/multi")
-    public HtResultModel uploadMulti(@RequestParam("fileList") List<CommonsMultipartFile> fileList) {
+    public HtResultModel uploadMulti(List<MultipartFile> fileList) {
         try {
             List<String> out = fileUploader.upload(fileList);
             return HtResultUtil.success(out);
@@ -49,7 +48,7 @@ public class FileController {
     }
 
     @RequestMapping("export")
-    public HtResultModel export(@RequestParam("fileName") String fileName, HttpServletRequest request, HttpServletResponse response) {
+    public HtResultModel export(String fileName, HttpServletRequest request, HttpServletResponse response) {
         try {
             fileDownloader.export(fileName, request, response);
         } catch (Exception e) {
@@ -60,7 +59,7 @@ public class FileController {
     }
 
     @RequestMapping("download")
-    public HtResultModel download(@RequestParam("fileName") String fileName, HttpServletRequest request, HttpServletResponse response) {
+    public HtResultModel download(String fileName, HttpServletRequest request, HttpServletResponse response) {
         try {
             fileDownloader.download(fileName, request, response);
         } catch (Exception e) {

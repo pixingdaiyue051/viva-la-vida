@@ -1,8 +1,6 @@
 package com.tequeno.vivaboot.file;
 
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -19,8 +17,6 @@ import java.net.URLEncoder;
  */
 @Component
 public class FileDownloader {
-
-    private final static Logger log = LoggerFactory.getLogger(FileDownloader.class);
 
     private final static String ENC = "UTF-8";
 
@@ -43,17 +39,18 @@ public class FileDownloader {
         }
         fileName = file.getName();
 
-        ServletOutputStream outputStream = response.getOutputStream();
         int pointIdx = fileName.lastIndexOf(".");
         String suffix = fileName.substring(pointIdx + 1);
-        fileName = URLEncoder.encode(fileName.substring(0, pointIdx), ENC);
-        response.setHeader("Content-disposition", String.format("attachment; filename=%s%d.%s", fileName, System.currentTimeMillis(), suffix));
-        response.setContentType(request.getServletContext().getMimeType(filePath));
 
-        XSSFWorkbook workbook = new XSSFWorkbook(filePath);
-        workbook.write(outputStream);
-        outputStream.flush();
-        outputStream.close();
+        try (ServletOutputStream outputStream = response.getOutputStream();
+             XSSFWorkbook workbook = new XSSFWorkbook(filePath)) {
+
+            fileName = URLEncoder.encode(fileName.substring(0, pointIdx), ENC);
+            response.setHeader("Content-disposition", String.format("attachment; filename=%s_%d.%s", fileName, System.currentTimeMillis(), suffix));
+            response.setContentType(request.getServletContext().getMimeType(filePath));
+            workbook.write(outputStream);
+            outputStream.flush();
+        }
     }
 
     public void download(String fileName, HttpServletRequest request, HttpServletResponse response) throws IOException {
@@ -67,21 +64,23 @@ public class FileDownloader {
         }
         fileName = file.getName();
 
-        ServletOutputStream outputStream = response.getOutputStream();
         int pointIdx = fileName.lastIndexOf(".");
         String suffix = fileName.substring(pointIdx + 1);
-        fileName = URLEncoder.encode(fileName.substring(0, pointIdx), ENC);
-        response.setHeader("Content-disposition", String.format("attachment; filename=%s%d.%s", fileName, System.currentTimeMillis(), suffix));
-        response.setContentType(request.getServletContext().getMimeType(filePath));
 
-        FileInputStream fis = new FileInputStream(filePath);
-        byte[] b = new byte[BYTE_LEN];
-        while (fis.read(b) != -1) {
-            outputStream.write(b);
+        try (ServletOutputStream os = response.getOutputStream();
+             FileInputStream fis = new FileInputStream(filePath)) {
+
+            fileName = URLEncoder.encode(fileName.substring(0, pointIdx), ENC);
+            response.setHeader("Content-disposition", String.format("attachment; filename=%s_%d.%s", fileName, System.currentTimeMillis(), suffix));
+            response.setContentType(request.getServletContext().getMimeType(filePath));
+
+            byte[] b = new byte[BYTE_LEN];
+            int len;
+            while ((len = fis.read(b)) > 0) {
+                os.write(b, 0, len);
+            }
+            os.flush();
         }
-        fis.close();
-        outputStream.flush();
-        outputStream.close();
     }
 
 }

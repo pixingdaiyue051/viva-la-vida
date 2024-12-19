@@ -7,6 +7,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
+import java.util.stream.IntStream;
 
 /**
  * 阻塞队列推荐使用 LinkedBlockingQueue 虽然设置了容量 但不会预先开辟对应的内存
@@ -57,14 +58,23 @@ public class QueueHandler {
         }
     }
 
-    public void stack() {
-        Deque<Integer> stack = new ArrayDeque<>();
-        stack.push(2);
-        stack.push(5);
-        System.out.println(stack.pop());
-        System.out.println(stack.pop());
-        System.out.println(stack.peek());
-        System.out.println(stack.pop());
+    /**
+     * 双端队列
+     * 可用作栈和队列
+     */
+    public void deque() {
+        Deque<Integer> deque = new ArrayDeque<>();
 
+//        IntStream.range(0, 100).forEach(deque::push); // 入栈
+//        deque.forEach(System.out::println);
+
+//        Integer pop = deque.pop(); // 出栈
+//        System.out.println(pop);
+
+        IntStream.range(0, 100).forEach(deque::add); // 队尾入队
+//        deque.forEach(System.out::println);
+
+        Integer poll = deque.poll(); // 队首出队
+        System.out.println(poll);
     }
 }

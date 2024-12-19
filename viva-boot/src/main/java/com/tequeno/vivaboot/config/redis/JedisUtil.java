@@ -104,7 +104,7 @@ public class JedisUtil {
     }
 
     public static JedisUtil getInstance() {
-        return JedisUtil.JedisUtilHolder.INSTANCE;
+        return JedisUtilHolder.INSTANCE;
     }
 
     public Jedis getJedis() {

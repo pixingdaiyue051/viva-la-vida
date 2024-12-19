@@ -1,9 +1,5 @@
 package com.tequeno.jvm;
 
-import sun.misc.Unsafe;
-
-import java.lang.reflect.Field;
-
 /**
  * 直接内存溢出测试
  * <p>
@@ -21,12 +17,12 @@ public class DirectOomHandler {
      * @throws IllegalAccessException
      */
     public void run() throws IllegalAccessException {
-        long size = 1024 * 1024L;
-        Field f = Unsafe.class.getDeclaredFields()[0];
-        f.setAccessible(true);
-        Unsafe s = (Unsafe) f.get(null);
-        while (true) {
-            s.allocateMemory(size);
-        }
+//        long size = 1024 * 1024L;
+//        Field f = Unsafe.class.getDeclaredFields()[0];
+//        f.setAccessible(true);
+//        Unsafe s = (Unsafe) f.get(null);
+//        while (true) {
+//            s.allocateMemory(size);
+//        }
     }
 }

@@ -24,7 +24,7 @@ public class NioImClientHandler {
     public NioImClientHandler() {
         try {
             selector = Selector.open();
-            channel = SocketChannel.open(new InetSocketAddress(InetConst.HOSTNAME, InetConst.NIO_SERVER_PORT));
+            channel = SocketChannel.open(new InetSocketAddress(InetConst.HOST, InetConst.NIO_SERVER_PORT));
             channel.configureBlocking(false);
             channel.register(selector, SelectionKey.OP_READ);
             localAddress = channel.getLocalAddress().toString();
