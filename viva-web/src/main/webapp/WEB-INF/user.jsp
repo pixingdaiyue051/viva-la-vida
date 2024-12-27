@@ -1,27 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="com.tequeno.dto.HtResultModel"%>
-<%@ page import="java.time.LocalDateTime"%>
+<%@ page import="java.io.File"%>
+<%@ page import="java.util.List"%>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>user</title>
+    <%
+        Object result = request.getAttribute("result");
+        HtResultModel model = (HtResultModel) result;
+        List<File> fileList = (List<File>) request.getAttribute("fileList");
+    %>
 </head>
 <body>
-    <h2><%= LocalDateTime.now()%></h2>
-    <p>
-        <%
-            Object result = request.getAttribute("result");
-            HtResultModel model = (HtResultModel) result;
-            Object idx = request.getAttribute("idx");
-        %>
-        <%= model.isSuccess() %> </br>
-        <%= model.getCode() %> </br>
-        <%= model.getMsg() %> </br>
-        <%= model.getData() %> </br>
-        <%= idx %> </br>
-    </p>
-    <div>-------------------------------------------</div>
+    <div>
+        <p><%= model.isSuccess() %></p>
+        <p><%= model.getCode() %></p>
+        <p><%= model.getMsg() %></p>
+        <p><%= model.getData() %></p>
+        --------------------------------------
+    </div>
     <form action="/user/add" method="post" enctype="multipart/form-data">
         <div><input name="name" placeholder="姓名"/></div>
         <div>
@@ -31,6 +30,15 @@
         <div><input type="file" name="avatar" placeholder="头像"/></div>
         <div><input type="submit" value="提交"/><input type="reset" value="重置"/></div>
     </form>
+    <div>-------------------------------------------</div>    
+    <table>
+        <% for(File f : fileList) { %>
+        <tr>
+            <td><%= f.getName() %></td>
+            <td><a href="/download?file=<%=f.getName()%>"/>下载</td>
+        </tr>
+        <% } %>
+    </table>
     <div>-------------------------------------------</div>
     <form action="/upload" method="post" enctype="multipart/form-data">
         <div><input type="file" name="file"/></div>

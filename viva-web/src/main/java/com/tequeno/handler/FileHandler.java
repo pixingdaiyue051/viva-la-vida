@@ -6,6 +6,7 @@ import jakarta.servlet.http.Part;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -15,6 +16,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class FileHandler {
 
@@ -32,6 +36,16 @@ public class FileHandler {
             } catch (IOException e) {
                 log.error("创建上传目录失败", e);
             }
+        }
+    }
+
+    public List<File> query() {
+        try {
+            Stream<Path> pathStream = Files.list(Paths.get(PATH));
+            return pathStream.map(Path::toFile).limit(10).collect(Collectors.toList());
+        } catch (IOException e) {
+            log.error("读文件列表失败", e);
+            return List.of();
         }
     }
 

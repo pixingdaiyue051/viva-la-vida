@@ -5,6 +5,7 @@ import com.tequeno.handler.FileHandler;
 import com.tequeno.utils.HtResultUtil;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletContext;
+import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -16,12 +17,23 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 public class UserServlet extends HttpServlet {
 
     private static final long serialVersionUID = -5225236372647086695L;
 
     private final static Logger log = LoggerFactory.getLogger(IndexServlet.class);
+
+    private DateTimeFormatter formatter;
+
+    @Override
+    public void init() throws ServletException {
+        log.info("UserServlet init");
+        formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    }
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws IOException {
@@ -41,8 +53,10 @@ public class UserServlet extends HttpServlet {
 
             if ("/user".equals(uri)) {
                 String path = Paths.get(contextPath, "WEB-INF", "user.jsp").toString();
-                req.setAttribute("result", HtResultUtil.success());
-                req.setAttribute("idx", "2841各国纷纷苦瓜纯粹的斯坦福火箭航天发仿佛已经扣除当天");
+                req.setAttribute("result", HtResultUtil.success(LocalDateTime.now().format(formatter)));
+                req.setAttribute("fileList", FileHandler.getInstance().query());
+
+                List<String> idx = (List<String>) req.getAttribute("fileList");
 
                 RequestDispatcher dispatcher = req.getRequestDispatcher(path);
                 dispatcher.forward(req, resp);
