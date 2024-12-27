@@ -1,4 +1,4 @@
-package com.tequeno;
+package com.tequeno.servlet;
 
 import jakarta.servlet.GenericServlet;
 import jakarta.servlet.ServletException;
@@ -18,7 +18,7 @@ public class FrontServlet extends GenericServlet {
 
     @Override
     public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
-        log.info("front service");
+        log.info("FrontServlet service");
 
         PrintWriter writer = res.getWriter();
         writer.write("front");
