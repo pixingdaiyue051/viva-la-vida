@@ -19,7 +19,6 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.List;
 
 public class UserServlet extends HttpServlet {
 
@@ -55,8 +54,6 @@ public class UserServlet extends HttpServlet {
                 String path = Paths.get(contextPath, "WEB-INF", "user.jsp").toString();
                 req.setAttribute("result", HtResultUtil.success(LocalDateTime.now().format(formatter)));
                 req.setAttribute("fileList", FileHandler.getInstance().query());
-
-                List<String> idx = (List<String>) req.getAttribute("fileList");
 
                 RequestDispatcher dispatcher = req.getRequestDispatcher(path);
                 dispatcher.forward(req, resp);
