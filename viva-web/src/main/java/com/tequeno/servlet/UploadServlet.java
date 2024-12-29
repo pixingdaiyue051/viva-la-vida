@@ -46,7 +46,7 @@ public class UploadServlet extends HttpServlet {
             writer.write(res);
             writer.flush();
         } catch (Exception e) {
-            log.error("下载异常", e);
+            log.error("上传异常", e);
             String res = JSON.toJSONString(HtResultUtil.fail("上传失败"));
             PrintWriter writer = resp.getWriter();
             writer.write(res);
