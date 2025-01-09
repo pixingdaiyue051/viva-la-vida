@@ -10,6 +10,8 @@ import com.tequeno.utils.HtResultUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RRemoteService;
 import org.redisson.api.RedissonClient;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,5 +36,12 @@ public class DemoController {
         DemoQueryDto query = new DemoQueryDto();
         HtCommonPage<DemoDetailDto> page = demoService.queryPage(query);
         return HtResultUtil.success(page);
+    }
+
+    @RequestMapping("face")
+    public String face(Model model) {
+        model.addAttribute("text", "波动幅度和巍峨s");
+        model.addAttribute("utext", "<a href='https://www.baidu.com'>vga服务尴尬事</a>");
+        return "face";
     }
 }

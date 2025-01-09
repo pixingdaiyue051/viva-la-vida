@@ -5,12 +5,18 @@ server:
 spring:
   application:
     name: viva-boot-alpha
+  thymeleaf:
+#    prefix: classpath:/templates
+#    suffix: .html
+#    check-template-location: true
+#    encoding: UTF-8
+#    content-type: text/html
+    mode: HTML5
+    cache: true
 # redis
 redis:
-  #  host: 127.0.0.1
-  #  password: d40df8
-  host: temp-out.redis.rds.aliyuncs.com
-  password: u1f3%yuaUSlbwICLz6Is
+  host: 127.0.0.1
+  password: d40df8
   port: 6379
   database: 0
   timeout: 10000
