@@ -22,14 +22,14 @@ public class RedisConfig {
     @Value("${redis.password}")
     private String password;
 
-    @Bean
-    public RedissonClient redissonConfig() {
-        String address = String.format("redis://%s:%d", host, port);
-        Config config = new Config();
-        config.useSingleServer()
-                .setAddress(address)
-                .setPassword(password)
-                .setDatabase(database);
-        return Redisson.create(config);
-    }
+//    @Bean
+//    public RedissonClient redissonConfig() {
+//        String address = String.format("redis://%s:%d", host, port);
+//        Config config = new Config();
+//        config.useSingleServer()
+//                .setAddress(address)
+//                .setPassword(password)
+//                .setDatabase(database);
+//        return Redisson.create(config);
+//    }
 }

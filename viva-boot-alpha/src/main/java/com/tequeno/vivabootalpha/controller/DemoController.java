@@ -23,25 +23,18 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class DemoController {
 
-    @Resource
-    private RedissonClient redisson;
-
-    @RequestMapping("echo")
-    public HtResultModel echo() {
-        RRemoteService remoteService = redisson.getRemoteService(JedisKeyPrefixEnum.REMOTE.getPrefix());
-        IDemoService demoService = remoteService.get(IDemoService.class, 10000, TimeUnit.MILLISECONDS);
-        String echo = demoService.echo();
-        log.info("echo:{}", echo);
-
-        DemoQueryDto query = new DemoQueryDto();
-        HtCommonPage<DemoDetailDto> page = demoService.queryPage(query);
-        return HtResultUtil.success(page);
-    }
-
-    @RequestMapping("face")
-    public String face(Model model) {
-        model.addAttribute("text", "波动幅度和巍峨s");
-        model.addAttribute("utext", "<a href='https://www.baidu.com'>vga服务尴尬事</a>");
-        return "face";
-    }
+//    @Resource
+//    private RedissonClient redisson;
+//
+//    @RequestMapping("echo")
+//    public HtResultModel echo() {
+//        RRemoteService remoteService = redisson.getRemoteService(JedisKeyPrefixEnum.REMOTE.getPrefix());
+//        IDemoService demoService = remoteService.get(IDemoService.class, 10000, TimeUnit.MILLISECONDS);
+//        String echo = demoService.echo();
+//        log.info("echo:{}", echo);
+//
+//        DemoQueryDto query = new DemoQueryDto();
+//        HtCommonPage<DemoDetailDto> page = demoService.queryPage(query);
+//        return HtResultUtil.success(page);
+//    }
 }

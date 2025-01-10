@@ -11,8 +11,8 @@ spring:
 #    check-template-location: true
 #    encoding: UTF-8
 #    content-type: text/html
-    mode: HTML5
-    cache: true
+#    mode: HTML
+    cache: false
 # redis
 redis:
   host: 127.0.0.1
@@ -29,3 +29,7 @@ redis:
   max-idle: 8
   max-active: 256
   max-wait: 5000
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

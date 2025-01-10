@@ -5,24 +5,18 @@ server:
 spring:
   application:
     name: viva-boot
-  profiles:
-    active: dev
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     hikari:
       connection-timeout: 2000
       maximum-pool-size: 15
       max-lifetime: 12000
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://rm-bp1x1ty88kmp5ypp5go.mysql.rds.aliyuncs.com:3306/school_call_test
-#    username: school_call_test
-#    password: Aa123456#
-
+      #mysql
 #    driver-class-name: com.mysql.cj.jdbc.Driver
 #    url: jdbc:mysql://127.0.0.1:3306/viva-la-vida
 #    username: a00c8f12
 #    password: d0633c
-
+    #sqlite
     driver-class-name: org.sqlite.JDBC
     url: jdbc:sqlite:/plugin/sqlite-x64/test.db
 # redis
@@ -69,5 +63,9 @@ rabbitmq:
   host: 127.0.0.1
   port: 5672
   virtualHost: v_host_1
+
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
 #启动参数
 #-Dspring.config.location=/data/deploy/viva-boot/
