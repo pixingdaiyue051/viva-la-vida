@@ -4,10 +4,7 @@ import com.tequeno.dto.hero.HeroDetailDto;
 import lombok.extern.slf4j.Slf4j;
 import org.sqlite.SQLiteDataSource;
 
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,11 +42,12 @@ public class SqliteHandler {
             Connection conn = getConnection();
             Statement statement = conn.createStatement();
 
-            ResultSet resultSet1 = statement.executeQuery("select * from hero where type = 3 limit 10");
+            String sql = "select * from hero where type = %d limit %d";
+            ResultSet resultSet1 = statement.executeQuery(String.format(sql, 3, 30));
             List<HeroDetailDto> list1 = this.set2detail(resultSet1);
             list1.forEach(System.out::println);
 
-            boolean executed = statement.execute("select * from hero where type = 2 limit 10");
+            boolean executed = statement.execute(String.format(sql, 2, 50));
             if (executed) {
                 ResultSet resultSet2 = statement.getResultSet();
                 List<HeroDetailDto> list2 = this.set2detail(resultSet2);
@@ -62,6 +60,24 @@ public class SqliteHandler {
             System.out.println(1 / 0);
             int ok = statement.executeUpdate("delete from hero where id > 108");
             log.info("deleted[{}]", ok);
+
+        } catch (Exception e) {
+            log.error("", e);
+        }
+    }
+
+    public void preStatement() {
+        try {
+            Connection conn = getConnection();
+            String sql = "select * from hero where type = ? limit ?";
+            PreparedStatement statement = conn.prepareStatement(sql);
+            statement.setInt(1, 2);
+            statement.setInt(2, 30);
+
+            ResultSet resultSet1 = statement.executeQuery();
+            List<HeroDetailDto> list1 = this.set2detail(resultSet1);
+            list1.forEach(System.out::println);
+
 
         } catch (Exception e) {
             log.error("", e);
