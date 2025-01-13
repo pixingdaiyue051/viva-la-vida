@@ -50,7 +50,7 @@ public class UDPHandler {
                 byte[] b = dp.getData();
                 String address = dp.getAddress().getHostAddress();
                 int port = dp.getPort();
-                String data = new String(b, 0, dp.getLength(), StandardCharsets.UTF_8);
+                String data = new String(b, StandardCharsets.UTF_8);
                 System.out.println(address + ":" + port + ":" + data);
             }
         } catch (IOException e) {

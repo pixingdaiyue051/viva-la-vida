@@ -1,7 +1,5 @@
 package com.tequeno.netty.mine;
 
-import com.tequeno.netty.protobuf.NettyMsgWrapper;
-import com.tequeno.netty.protobuf.Wrapper;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 

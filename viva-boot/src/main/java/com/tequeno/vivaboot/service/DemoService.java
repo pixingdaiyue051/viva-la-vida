@@ -11,7 +11,6 @@ import com.tequeno.vivaboot.converter.DemoConverter;
 import com.tequeno.vivaboot.dao.DemoMapper;
 import com.tequeno.vivaboot.entity.Demo;
 import org.apache.commons.lang3.StringUtils;
-import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,10 +19,8 @@ import java.util.List;
 @Service
 public class DemoService implements IDemoService {
 
-    private final static DemoConverter converter = Mappers.getMapper(DemoConverter.class);
-
     @Resource
-    private DemoMapper demoMapper;
+    private DemoMapper baseMapper;
 
     @Override
     public String echo() {
@@ -39,35 +36,35 @@ public class DemoService implements IDemoService {
 
         HtCommonPage<DemoDetailDto> page = new HtCommonPage<>();
 
-//        Page<Demo> selectedPage = demoMapper.selectPage(new Page<>(dto.getPageNum(), dto.getPageSize()), query);
+//        Page<Demo> selectedPage = baseMapper.selectPage(new Page<>(dto.getPageNum(), dto.getPageSize()), query);
 //        if (selectedPage.getTotal() > 0) {
 //            page.setTotal(selectedPage.getTotal());
-//            page.setRecords(selectedPage.getRecords().stream().map(converter::entity2Detail).collect(Collectors.toList()));
+//            page.setRecords(selectedPage.getRecords().stream().map(DemoConverter.INSTANCE::entity2Detail).collect(Collectors.toList()));
 //        }
 
-        long total = demoMapper.selectDemoCount(dto);
+        long total = baseMapper.selectDemoCount(dto);
         if (total > 0) {
             page.setTotal(total);
-            List<DemoDetailDto> records = demoMapper.selectDemoPage(dto);
+            List<DemoDetailDto> records = baseMapper.selectDemoPage(dto);
             page.setRecords(records);
         }
         return page;
     }
 
     public boolean add(DemoCrtDto dto) {
-        Demo entity = converter.crt2Entity(dto);
-        int inserted = demoMapper.insert(entity);
+        Demo entity = DemoConverter.INSTANCE.crt2Entity(dto);
+        int inserted = baseMapper.insert(entity);
         return inserted > 0;
     }
 
     public boolean upt(DemoUptDto dto) {
-        Demo entity = converter.upt2Entity(dto);
-        demoMapper.updateById(entity);
+        Demo entity = DemoConverter.INSTANCE.upt2Entity(dto);
+        baseMapper.updateById(entity);
         return true;
     }
 
     public boolean del(DemoUptDto dto) {
-        demoMapper.deleteById(dto.getId());
+        baseMapper.deleteById(dto.getId());
         return true;
     }
 }

@@ -19,7 +19,7 @@ public class TCPFileSocketHandler {
      */
     public void doClient(String path) {
         File file = new File(path);
-        try (Socket socket = new Socket(InetConst.HOST, InetConst.SERVER_PORT);
+        try (Socket socket = new Socket(InetConst.HOST, InetConst.TCP_SERVER_PORT);
              FileInputStream fis = new FileInputStream(file);
              // 输出流传输文件名
              DataOutputStream dos = new DataOutputStream(socket.getOutputStream());
@@ -45,7 +45,7 @@ public class TCPFileSocketHandler {
         if (!file.isDirectory()) {
             file.mkdirs();
         }
-        try (ServerSocket serverSocket = new ServerSocket(InetConst.SERVER_PORT);
+        try (ServerSocket serverSocket = new ServerSocket(InetConst.TCP_SERVER_PORT);
              Socket socket = serverSocket.accept();
              // 输入流获取为文件名
              DataInputStream dis = new DataInputStream(socket.getInputStream());

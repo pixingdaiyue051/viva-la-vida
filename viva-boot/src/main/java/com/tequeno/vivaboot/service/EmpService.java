@@ -12,7 +12,6 @@ import com.tequeno.vivaboot.converter.EmpConverter;
 import com.tequeno.vivaboot.dao.DeptMapper;
 import com.tequeno.vivaboot.dao.EmpMapper;
 import com.tequeno.vivaboot.entity.Emp;
-import org.mapstruct.factory.Mappers;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -22,12 +21,8 @@ import java.util.stream.Collectors;
 @Service
 public class EmpService {
 
-    private final static EmpConverter converter = Mappers.getMapper(EmpConverter.class);
-
-    private final static DeptConverter deptConverter = Mappers.getMapper(DeptConverter.class);
-
     @Resource
-    private EmpMapper empMapper;
+    private EmpMapper baseMapper;
 
     @Resource
     private DeptMapper deptMapper;
@@ -36,7 +31,7 @@ public class EmpService {
         QueryWrapper<Emp> query = new QueryWrapper<>();
 
         HtCommonPage<EmpDetailDto> page = new HtCommonPage<>();
-        Page<Emp> selectedPage = empMapper.selectPage(new Page<>(empQueryDto.getPageNum(), empQueryDto.getPageSize()), query);
+        Page<Emp> selectedPage = baseMapper.selectPage(new Page<>(empQueryDto.getPageNum(), empQueryDto.getPageSize()), query);
         if (selectedPage.getTotal() < 1) {
             return page;
         }
@@ -44,8 +39,8 @@ public class EmpService {
         page.setSize(selectedPage.getRecords().size());
         List<EmpDetailDto> list = selectedPage.getRecords().stream()
                 .map(item -> {
-                    EmpDetailDto detail = converter.entity2Detail(item);
-                    DeptDetailDto dept = deptConverter.entity2Detail(deptMapper.selectById(item.getDeptId()));
+                    EmpDetailDto detail = EmpConverter.INSTANCE.entity2Detail(item);
+                    DeptDetailDto dept = DeptConverter.INSTANCE.entity2Detail(deptMapper.selectById(item.getDeptId()));
                     detail.setDept(dept);
                     return detail;
                 })
@@ -58,8 +53,8 @@ public class EmpService {
         if (null == dto.getId()) {
             return;
         }
-        Emp entity = converter.upt2Entity(dto);
-        empMapper.updateById(entity);
+        Emp entity = EmpConverter.INSTANCE.upt2Entity(dto);
+        baseMapper.updateById(entity);
 
     }
 }

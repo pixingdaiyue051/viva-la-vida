@@ -43,8 +43,7 @@ public class TimeClient {
 
             Scanner in = new Scanner(System.in);
             while (true) {
-//                Object line = in.nextLine();
-                Object line = in.nextInt();
+                String line = in.nextLine();
                 System.out.println("[发送]" + line);
                 if (NettyConstant.BREAK_OUT.equals(line)) {
                     channel.close();
