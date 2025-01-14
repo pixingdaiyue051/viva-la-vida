@@ -12,10 +12,18 @@ import java.io.File;
 @Accessors(chain = true)
 public class EmpQueryDto extends HtCommonQuery {
 
+    private String no;
+
     private String noLike;
+
+    private String name;
 
     private String nameLike;
 
-    private String statusEq;
+    private String status;
+
+    private String statusGt;
+
+    private String statusLt;
 
 }

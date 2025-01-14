@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.tequeno.mapper.HeroMapper">
+    <resultMap id="baseResultMap" type="com.tequeno.dto.hero.HeroDetailDto" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="name" property="name" jdbcType="VARCHAR" />
+        <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+        <result column="constellation" property="constellation" jdbcType="VARCHAR" />
+        <result column="short_constellation" property="shortConstellation" jdbcType="VARCHAR" />
+        <result column="weaponry" property="weaponry" jdbcType="INTEGER" />
+        <result column="position" property="position" jdbcType="VARCHAR"/>
+        <result column="finale" property="finale" jdbcType="VARCHAR"/>
+        <result column="type" property="type" jdbcType="INTEGER"/>
+        <result column="rank" property="rank" jdbcType="INTEGER"/>
+        <result column="full_rank" property="fullRank" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <select id="selectById" resultMap="baseResultMap">
+        select * from hero where id = #{id}
+    </select>
+    <select id="select" resultMap="baseResultMap" parameterType="com.tequeno.dto.hero.HeroQueryDto">
+        select * from hero
+        <where>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="nameLike != null and nameLike != ''">
+                and name like concat('%',#{nameLike},'%')
+            </if>
+            <if test="nickName != null and nickName != ''">
+                and nick_name = #{nickName}
+            </if>
+            <if test="nickNameLike != null and nickNameLike != ''">
+                and nick_name like concat('%',#{nickNameLike},'%')
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="rankGt != null">
+                and rank &gt; #{rankGt}
+            </if>
+            <if test="rankLt != null">
+                and rank &lt; #{rankLt}
+            </if>
+        </where>
+        limit #{offset},#{pageSize}
+    </select>
+    <insert id="insert" parameterType="com.tequeno.dto.hero.HeroUpsertDto">
+        insert into hero
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                name,
+            </if>
+            <if test="nickName != null and nickName != ''">
+                nick_name,
+            </if>
+            <if test="constellation != null and constellation != ''">
+                constellation,
+            </if>
+            <if test="shortConstellation != null and shortConstellation != ''">
+                short_constellation,
+            </if>
+            <if test="weaponry != null and weaponry != ''">
+                weaponry,
+            </if>
+            <if test="position != null and position != ''">
+                position,
+            </if>
+            <if test="finale != null and finale != ''">
+                finale,
+            </if>
+            <if test="type != null ">
+                type,
+            </if>
+            <if test="rank != null ">
+                rank,
+            </if>
+            <if test="fullRank != null ">
+                full_rank,
+            </if>
+        </trim>
+        <trim prefix="values(" suffix=")" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                #{name},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                #{nickName},
+            </if>
+            <if test="constellation != null and constellation != ''">
+                #{constellation},
+            </if>
+            <if test="shortConstellation != null and shortConstellation != ''">
+                #{shortConstellation},
+            </if>
+            <if test="weaponry != null and weaponry != ''">
+                #{weaponry},
+            </if>
+            <if test="position != null and position != ''">
+                #{position},
+            </if>
+            <if test="finale != null and finale != ''">
+                #{finale},
+            </if>
+            <if test="type != null ">
+                #{type},
+            </if>
+            <if test="rank != null ">
+                #{rank},
+            </if>
+            <if test="fullRank != null ">
+                #{fullRank},
+            </if>
+        </trim>
+    </insert>
+    <update id="update" parameterType="com.tequeno.dto.hero.HeroUpsertDto">
+        update hero
+        <trim prefix="set" suffixOverrides=",">
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="nickName != null and nickName != ''">
+                nick_name = #{nickName},
+            </if>
+            <if test="constellation != null and constellation != ''">
+                constellation = #{constellation},
+            </if>
+            <if test="shortConstellation != null and shortConstellation != ''">
+                short_constellation = #{shortConstellation},
+            </if>
+            <if test="weaponry != null and weaponry != ''">
+                weaponry = #{weaponry},
+            </if>
+            <if test="position != null and position != ''">
+                position = #{position},
+            </if>
+            <if test="finale != null and finale != ''">
+                finale = #{finale},
+            </if>
+            <if test="type != null ">
+                type = #{type},
+            </if>
+            <if test="rank != null ">
+                rank = #{rank},
+            </if>
+            <if test="fullRank != null ">
+                full_rank = #{fullRank},
+            </if>
+        </trim>
+        where id = #{id}
+    </update>
+</mapper>

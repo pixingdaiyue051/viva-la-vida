@@ -1,4 +1,4 @@
-package com.tequeno.dto.emp;
+package com.tequeno.entity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,12 +7,9 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class EmpUptDto {
+public class Jdbc {
 
-    private Long id;
+    private Mysql mysql;
 
-    private String no;
-
-    private String name;
-
+    private Sqlite sqlite;
 }

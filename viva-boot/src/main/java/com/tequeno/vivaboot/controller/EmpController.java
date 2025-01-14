@@ -4,7 +4,7 @@ import com.tequeno.constants.HtCommonPage;
 import com.tequeno.dto.HtResultModel;
 import com.tequeno.dto.emp.EmpDetailDto;
 import com.tequeno.dto.emp.EmpQueryDto;
-import com.tequeno.dto.emp.EmpUptDto;
+import com.tequeno.dto.emp.EmpUpsertDto;
 import com.tequeno.utils.HtResultUtil;
 import com.tequeno.vivaboot.service.EmpService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -26,7 +26,7 @@ public class EmpController {
     }
 
     @RequestMapping("upt")
-    public HtResultModel upt(EmpUptDto dto) {
+    public HtResultModel upt(EmpUpsertDto dto) {
         empService.updateEmp(dto);
         return HtResultUtil.success();
     }

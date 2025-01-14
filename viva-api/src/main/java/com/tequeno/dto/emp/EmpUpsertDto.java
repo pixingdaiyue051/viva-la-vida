@@ -1,21 +1,22 @@
-package com.tequeno.dto.user;
+package com.tequeno.dto.emp;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import lombok.experimental.Accessors;
 
 @Getter
 @Setter
 @Accessors(chain = true)
-@ToString
-public class UserDetailDto {
+public class EmpUpsertDto {
 
     private Long id;
 
+    private String no;
+
     private String name;
 
-    private String gender;
+    private Integer status;
 
-    private String avatar;
+    private Long deptId;
+
 }

@@ -2,10 +2,9 @@ package com.tequeno.vivaboot.controller;
 
 import com.tequeno.constants.HtCommonPage;
 import com.tequeno.dto.HtResultModel;
-import com.tequeno.dto.demo.DemoCrtDto;
+import com.tequeno.dto.demo.DemoUpsertDto;
 import com.tequeno.dto.demo.DemoDetailDto;
 import com.tequeno.dto.demo.DemoQueryDto;
-import com.tequeno.dto.demo.DemoUptDto;
 import com.tequeno.utils.HtResultUtil;
 import com.tequeno.vivaboot.service.DemoService;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,17 +26,17 @@ public class DemoController {
     }
 
     @RequestMapping("add")
-    public HtResultModel add(DemoCrtDto dto) {
+    public HtResultModel add(DemoUpsertDto dto) {
         return HtResultUtil.success(demoService.add(dto));
     }
 
     @RequestMapping("upt")
-    public HtResultModel upt(DemoUptDto dto) {
+    public HtResultModel upt(DemoUpsertDto dto) {
         return HtResultUtil.success(demoService.upt(dto));
     }
 
     @RequestMapping("del")
-    public HtResultModel del(DemoUptDto dto) {
+    public HtResultModel del(DemoUpsertDto dto) {
         return HtResultUtil.success(demoService.del(dto));
     }
 }

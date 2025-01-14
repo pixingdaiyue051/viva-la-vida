@@ -10,6 +10,8 @@ import lombok.experimental.Accessors;
 @Accessors(chain = true)
 public class HtCommonQuery {
 
+    private long id;
+
     private long pageNum;
 
     private long pageSize;

@@ -2,13 +2,12 @@ package com.tequeno.vivaboot.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.tequeno.constants.HtCommonPage;
-import com.tequeno.dto.demo.DemoCrtDto;
+import com.tequeno.dto.demo.DemoUpsertDto;
 import com.tequeno.dto.demo.DemoDetailDto;
 import com.tequeno.dto.demo.DemoQueryDto;
-import com.tequeno.dto.demo.DemoUptDto;
 import com.tequeno.service.IDemoService;
 import com.tequeno.vivaboot.converter.DemoConverter;
-import com.tequeno.vivaboot.dao.DemoMapper;
+import com.tequeno.vivaboot.mapper.DemoMapper;
 import com.tequeno.vivaboot.entity.Demo;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
@@ -51,19 +50,19 @@ public class DemoService implements IDemoService {
         return page;
     }
 
-    public boolean add(DemoCrtDto dto) {
+    public boolean add(DemoUpsertDto dto) {
         Demo entity = DemoConverter.INSTANCE.crt2Entity(dto);
         int inserted = baseMapper.insert(entity);
         return inserted > 0;
     }
 
-    public boolean upt(DemoUptDto dto) {
+    public boolean upt(DemoUpsertDto dto) {
         Demo entity = DemoConverter.INSTANCE.upt2Entity(dto);
         baseMapper.updateById(entity);
         return true;
     }
 
-    public boolean del(DemoUptDto dto) {
+    public boolean del(DemoUpsertDto dto) {
         baseMapper.deleteById(dto.getId());
         return true;
     }

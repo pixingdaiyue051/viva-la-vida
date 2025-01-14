@@ -3,39 +3,39 @@ package com.tequeno.jdbc;
 import com.mysql.cj.jdbc.MysqlDataSource;
 import lombok.extern.slf4j.Slf4j;
 
-import java.awt.dnd.DropTarget;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Properties;
 
 @Slf4j
 public class MysqlHandler {
 
-    private final String url = "";
-    private final String user = "";
-    private final String password = "";
-
-    private MysqlDataSource dataSource;
-
     private Connection connection;
 
-    private MysqlDataSource getDataSource() {
-        if (null == dataSource) {
-            dataSource = new MysqlDataSource();
+    private Connection getConnection() throws IOException, ClassNotFoundException, SQLException {
+        if (null == connection) {
+            InputStream is = this.getClass().getResourceAsStream("/application.properties");
+            Properties p = new Properties();
+            p.load(is);
+            String driver = p.getProperty("mysql.driver");
+            String url = p.getProperty("mysql.url");
+            String user = p.getProperty("mysql.user");
+            String password = p.getProperty("mysql.password");
+
+            // 1
+            MysqlDataSource dataSource = new MysqlDataSource();
             dataSource.setUrl(url);
             dataSource.setUser(user);
             dataSource.setPassword(password);
-        }
 
-        return dataSource;
-    }
-
-    private Connection getConnection() throws SQLException {
-        if (null == connection) {
-            // 1
-//            connection = DriverManager.getConnection(url, user, password);
+            connection = dataSource.getConnection();
             // 2
-            connection = getDataSource().getConnection();
+            Class.forName(driver);
+            connection = DriverManager.getConnection(url);
+
             connection.setAutoCommit(false);
         }
         return connection;

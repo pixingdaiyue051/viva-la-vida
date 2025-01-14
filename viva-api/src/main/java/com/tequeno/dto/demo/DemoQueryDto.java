@@ -13,4 +13,10 @@ public class DemoQueryDto extends HtCommonQuery {
 
     private String name;
 
+    private String nameLike;
+
+    private String desc;
+
+    private String descLike;
+
 }

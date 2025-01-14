@@ -6,11 +6,11 @@ import com.tequeno.constants.HtCommonPage;
 import com.tequeno.dto.dept.DeptDetailDto;
 import com.tequeno.dto.emp.EmpDetailDto;
 import com.tequeno.dto.emp.EmpQueryDto;
-import com.tequeno.dto.emp.EmpUptDto;
+import com.tequeno.dto.emp.EmpUpsertDto;
 import com.tequeno.vivaboot.converter.DeptConverter;
 import com.tequeno.vivaboot.converter.EmpConverter;
-import com.tequeno.vivaboot.dao.DeptMapper;
-import com.tequeno.vivaboot.dao.EmpMapper;
+import com.tequeno.vivaboot.mapper.DeptMapper;
+import com.tequeno.vivaboot.mapper.EmpMapper;
 import com.tequeno.vivaboot.entity.Emp;
 import org.springframework.stereotype.Service;
 
@@ -49,7 +49,7 @@ public class EmpService {
         return page;
     }
 
-    public void updateEmp(EmpUptDto dto) {
+    public void updateEmp(EmpUpsertDto dto) {
         if (null == dto.getId()) {
             return;
         }

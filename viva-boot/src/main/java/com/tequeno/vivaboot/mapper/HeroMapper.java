@@ -1,4 +1,4 @@
-package com.tequeno.vivaboot.dao;
+package com.tequeno.vivaboot.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.tequeno.vivaboot.entity.Hero;

@@ -6,7 +6,7 @@ import com.tequeno.constants.HtCommonPage;
 import com.tequeno.dto.hero.HeroDetailDto;
 import com.tequeno.dto.hero.HeroQueryDto;
 import com.tequeno.vivaboot.converter.HeroConverter;
-import com.tequeno.vivaboot.dao.HeroMapper;
+import com.tequeno.vivaboot.mapper.HeroMapper;
 import com.tequeno.vivaboot.entity.Hero;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;

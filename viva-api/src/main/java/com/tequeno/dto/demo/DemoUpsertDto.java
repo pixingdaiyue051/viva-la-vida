@@ -1,4 +1,4 @@
-package com.tequeno.dto.user;
+package com.tequeno.dto.demo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -7,11 +7,12 @@ import lombok.experimental.Accessors;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class UserCrtDto {
+public class DemoUpsertDto {
+
+    private Long id;
 
     private String name;
 
-    private String gender;
+    private String desc;
 
-    private String avatar;
 }

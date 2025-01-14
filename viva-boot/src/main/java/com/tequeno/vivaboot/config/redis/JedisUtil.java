@@ -11,6 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.config.YamlPropertiesFactoryBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
+import org.yaml.snakeyaml.Yaml;
 import redis.clients.jedis.*;
 
 import java.io.InputStream;
@@ -42,22 +43,6 @@ public class JedisUtil {
             ClassPathResource c = new ClassPathResource("application.yml");
 
             try (InputStream inputStream = c.getInputStream()) {
-//                Yaml yaml = new Yaml();
-//                HashMap map = yaml.loadAs(inputStream, HashMap.class);
-//                HashMap fileMap = (HashMap) (map.get("file"));
-//
-//                map = (HashMap) (map.get("spring"));
-//                map = (HashMap) (map.get("redis"));
-//                String host = map.get("host").toString();
-//                int port = (int) map.get("port");
-//                String password = map.get("password").toString();
-//                int timeout = (int) map.get("timeout");
-//                int database = (int) map.get("database");
-//                INSTANCE.jedisPool = new JedisPool(new JedisPoolConfig(), host, port, timeout, password, database);
-//                INSTANCE.scriptMap = new HashMap<>();
-//
-//                INSTANCE.luaPath = fileMap.get("lua").toString();
-
 
                 YamlPropertiesFactoryBean bean = new YamlPropertiesFactoryBean();
                 bean.setResources(new InputStreamResource(inputStream));

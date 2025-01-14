@@ -6,14 +6,14 @@ import org.junit.Test;
 public class SqliteTest {
 
     @Test
-    public void statement() {
+    public void query() {
         SqliteHandler handler = new SqliteHandler();
-        handler.statement();
+        handler.query();
     }
 
     @Test
-    public void preStatement() {
+    public void update() {
         SqliteHandler handler = new SqliteHandler();
-        handler.preStatement();
+        handler.update();
     }
 }
