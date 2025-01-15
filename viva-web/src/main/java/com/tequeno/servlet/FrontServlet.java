@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 
-@WebServlet(name = "FrontServlet", urlPatterns = {"/front", "/front/*"})
 @Slf4j
 public class FrontServlet extends GenericServlet {
 

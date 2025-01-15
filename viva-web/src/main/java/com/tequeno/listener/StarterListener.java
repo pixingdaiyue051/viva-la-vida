@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @WebListener
 @Slf4j
-public class SimpleListener implements ServletContextListener {
+public class StarterListener implements ServletContextListener {
 
     @Override
     public void contextInitialized(ServletContextEvent sce) {

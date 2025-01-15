@@ -11,8 +11,14 @@ import java.util.List;
 @Accessors(chain = true)
 public class HtCommonPage<T> {
 
+    /**
+     * 总数据量
+     */
     private long total;
 
+    /**
+     * 当前页数据量
+     */
     private int size;
 
     private List<T> records;

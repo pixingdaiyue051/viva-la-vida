@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import java.io.IOException;
 import java.util.Enumeration;
 
-@WebServlet(name = "DemoServlet", urlPatterns = {"/demo", "/demo/*"})
 @Slf4j
 public class DemoServlet implements Servlet {
 

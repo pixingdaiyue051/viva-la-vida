@@ -1,8 +1,6 @@
 package com.tequeno.netty.mine;
 
 import com.tequeno.netty.NettyConstant;
-import com.tequeno.netty.im.ImServer;
-import com.tequeno.netty.im.ImServerInitializer;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelOption;

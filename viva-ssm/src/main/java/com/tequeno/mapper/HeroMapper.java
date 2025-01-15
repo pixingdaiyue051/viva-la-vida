@@ -10,6 +10,8 @@ public interface HeroMapper {
 
     HeroDetailDto selectById(Long id);
 
+    long count(HeroQueryDto dto);
+
     List<HeroDetailDto> select(HeroQueryDto dto);
 
     int insert(HeroUpsertDto dto);

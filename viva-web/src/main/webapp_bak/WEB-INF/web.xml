@@ -42,24 +42,11 @@
 
     <servlet>
         <servlet-name>IndexServlet</servlet-name>
-        <servlet-class>com.tequeno.servlet.IndexServlet</servlet-class>
+        <servlet-class>com.tequeno.servlet.HeroServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>IndexServlet</servlet-name>
         <url-pattern>/</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>EmpServlet</servlet-name>
-        <servlet-class>com.tequeno.servlet.EmpServlet</servlet-class>
-        <multipart-config>
-            <max-file-size>10485760</max-file-size>
-            <max-request-size>10485760</max-request-size>
-        </multipart-config>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>EmpServlet</servlet-name>
-        <url-pattern>/emp/*</url-pattern>
     </servlet-mapping>
 
     <servlet>

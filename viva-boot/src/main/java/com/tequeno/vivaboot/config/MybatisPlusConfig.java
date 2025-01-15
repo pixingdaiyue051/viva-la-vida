@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-//@MapperScan("com.tequeno.vivaboot.dao")
+//@MapperScan("com.tequeno.vivaboot.mapper")
 public class MybatisPlusConfig {
 
     /**
